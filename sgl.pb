@@ -930,7 +930,7 @@ Procedure.s GetSglVersion()
 ;> Returns a string representing the SGL version.
  Protected s$
  
- s$ = "SGL " + Str(#SGL_MAJOR) + "." + Str(#SGL_MINOR)  
+ s$ = "SGL " + Str(#SGL_MAJOR) + "." + Str(#SGL_MINOR) + "." + Str(#SGL_REVISION)
  
  CompilerIf (#PB_Compiler_Processor = #PB_Processor_x86)
  s$ + " x86"
@@ -3303,8 +3303,8 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 3147
-; FirstLine = 3146
+; CursorPosition = 932
+; FirstLine = 928
 ; Folding = -------------------------------
 ; Markers = 61,99,1484,1550
 ; EnableXP

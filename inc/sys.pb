@@ -229,7 +229,7 @@ Procedure.s LIN_GetOS()
  Protected buf.new_utsname, fh
  Protected OS$, t$, arch$, issue$, os_release$
  Protected os_name$, name$ = "NAME=", name_l = Len(name$)
- Protected os_pretty_name$, pretty_name$ = "PRETTY_NAME=", pretty_name_l = Len(pretty_name$)
+ Protected os_pretty_name$, pretty_name$ = "PRETTY_NAME=", pretty_name_len = Len(pretty_name$)
  
  If LIN_Is64BitOS()
     arch$ = "x64"
@@ -255,8 +255,8 @@ Procedure.s LIN_GetOS()
             t$ = Mid(t$, 2, Len(t$) - 2)
             os_name$ = t$            
         EndIf        
-        If Left(t$, pretty_name_l) = pretty_name$
-            t$ = Mid(t$, pretty_name_l + 1)
+        If Left(t$, pretty_name_len) = pretty_name$
+            t$ = Mid(t$, pretty_name_len + 1)
             t$ = Mid(t$, 2, Len(t$) - 2)
             os_pretty_name$ = t$            
         EndIf        
@@ -380,8 +380,8 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 244
-; FirstLine = 232
+; CursorPosition = 251
+; FirstLine = 215
 ; Folding = -----
 ; EnableXP
 ; EnableUser

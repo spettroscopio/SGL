@@ -61,10 +61,10 @@ out(l$)
 l$ = "CPU: " + sgl::GetCpuName()
 out(l$)
 
-l$ = "Total Memory: " + str::FormatQuad(sgl::GetTotalMemory())
+l$ = "Total Memory: " + str::FormatBytes(sgl::GetTotalMemory(), str::#FormatBytes_Memory, 0)
 out(l$)
 
-l$ = "Free Memory: " + str::FormatQuad(sgl::GetFreeMemory())
+l$ = "Free Memory: " + str::FormatBytes(sgl::GetFreeMemory(), str::#FormatBytes_Memory, 0)
 out(l$)
 
 l$ = "Timer resolution: " + sgl::GetTimerResolutionString()
@@ -104,6 +104,12 @@ win = sgl::CreateWindow(640, 480, "")
 
 sgl::MakeContextCurrent(win)
 
+l$ = "Vendor: " + sgl::GetVendor()
+out(l$)
+
+l$ = "Renderer: " + sgl::GetRenderer()
+out(l$)
+
 sgl::GetContextVersion(@maj, @min)
 l$ = "OpenGL context version: " + Str(maj) + "." + Str(min)
 out(l$)
@@ -118,12 +124,6 @@ Select profile
         l$ = "OpenGL profile: CORE"
         out(l$)
 EndSelect
-
-l$ = "Vendor: " + sgl::GetVendor()
-out(l$)
-
-l$ = "Renderer: " + sgl::GetRenderer()
-out(l$)
 
 l$ = "Shading Language: " + sgl::GetShadingLanguage()
 out(l$)
@@ -140,16 +140,16 @@ l$ = "Max texture units (fixed pipeline): " + Str(temp)
 out(l$)
 
 If sgl::GetContextVersionToken() >= 200
-    glGetIntegerv_(#GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, @temp)
-    l$ = "Max combined texture units: " + Str(temp)
-    out(l$)
-    
     glGetIntegerv_(#GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, @temp)
     l$ = "Max texture units (vertex shader): " + Str(temp)
     out(l$)
     
     glGetIntegerv_(#GL_MAX_TEXTURE_IMAGE_UNITS, @temp)
     l$ = "Max texture units (fragment shader): " + Str(temp)
+    out(l$)
+    
+    glGetIntegerv_(#GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, @temp)
+    l$ = "Max combined texture units: " + Str(temp)
     out(l$)
     
     glGetIntegerv_(#GL_MAX_VERTEX_UNIFORM_COMPONENTS, @temp)
@@ -159,11 +159,20 @@ If sgl::GetContextVersionToken() >= 200
     glGetIntegerv_(#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS , @temp)
     l$ = "Max uniforms (fragment shader): " + Str(temp)
     out(l$)
+    
+    glGetIntegerv_(#GL_MAX_VARYING_FLOATS, @temp)
+    l$ = "Max varying floats (from the vertex shader): " + Str(temp)
+    out(l$)
+    
+    glGetIntegerv_(#GL_MAX_VERTEX_ATTRIBS, @temp)
+    l$ = "Max vertex attributes: " + Str(temp)
+    out(l$)
+    
 EndIf
 
 glLoad::RegisterCallBack(glLoad::#CallBack_EnumFuncs, @CallBack_EnumFuncs())
                                 
-l$ = "Imported OpenGL functions:"
+l$ = "Available OpenGL functions:"
 out(l$)
 
 If glLoad::Load () = 0
@@ -175,7 +184,7 @@ glLoad::GetProcsCount(@GoodProcsCount, @BadProcsCount)
 l$ = Str(GoodProcsCount) + " functions imported, " + Str(BadProcsCount) + " missing."            
 out(l$)
 
-l$ = "List of the available OpenGL extensions:"
+l$ = "Available OpenGL extensions:"
 out(l$)
 
 extensions = sgl::LoadExtensionsStrings()
@@ -195,8 +204,8 @@ sgl::Shutdown()
 logfile::Close(lf)
 
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 119
-; FirstLine = 96
+; CursorPosition = 167
+; FirstLine = 121
 ; Folding = -
 ; Optimizer
 ; EnableXP
