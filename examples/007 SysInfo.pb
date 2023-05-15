@@ -23,7 +23,7 @@ EndMacro
 Global l$, file$, lf
 
 If InsideIDE() = 0 ; creates a logfile if a standalone exe
- file$ = LogFile::GetProgramDirectory() + "sysinfo.logfile.txt" ; in the same directory of the process 
+ file$ = LogFile::GetProgramDirectory() + "sysinfo.txt" ; in the same directory of the process 
  lf = LogFile::Open(file$, LogFile::#TimeStamp)
 EndIf
 
@@ -55,6 +55,8 @@ out(l$)
 l$ = sgl::GetGlfwVersion()
 out(l$)
 
+out("")
+
 l$ = "OS: " + sgl::GetOS()
 out(l$)
 
@@ -70,29 +72,7 @@ out(l$)
 l$ = "Timer resolution: " + sgl::GetTimerResolutionString()
 out(l$)
 
-Dim monitors(0)
-Define vmode.sgl::VideoMode
-monitors = sgl::GetMonitors (monitors())
-
-For mon = 1 To monitors
-    sgl::GetVideoMode(monitors(mon-1), @vmode)
-    l$ = "Monitor #" + mon + " " + sgl::GetMonitorName(monitors(mon-1)) + str::Sprintf(" (%ix%i, %i bits, %i Hz)", @vmode\width, @vmode\height, @vmode\depth, @vmode\freq)
-    out(l$)
-
-    sgl::GetMonitorContentScale(monitors(mon-1), @xf, @yf)
-    l$ = str::Sprintf("Monitor #%i DPI scaling factor: %.2f x %.2f", @mon, @xf, @yf)
-    out(l$)
-
-    l$ = str::Sprintf("Monitor #%i Video modes: ", @mon)    
-    out(l$)
-    
-    Dim vmodes.sgl::VideoMode(0)
-    modes = sgl::GetVideoModes(monitors(mon-1), vmodes())
-    For i = 1 To modes
-        l$ = str::Sprintf("Mode %'02i: %i x %i, %i bits (%i Hz)", @i, @vmodes(i-1)\width, @vmodes(i-1)\height, @vmodes(i-1)\depth, @vmodes(i-1)\freq)
-        out(l$)
-    Next 
-Next
+out("")
 
 sgl::SetWindowHint(sgl::#HINT_WIN_VISIBLE, 0)
 sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_MAJOR, 1)
@@ -132,43 +112,70 @@ l$ = "Debug context: " + std::IIFs(sgl::IsDebugContext(), "Yes", "No")
 out(l$)
 
 glGetIntegerv_(#GL_MAX_TEXTURE_SIZE, @temp)
-l$ = "Max texture size: " + Str(temp)
+l$ = "#GL_MAX_TEXTURE_SIZE : " + Str(temp)
 out(l$)
 
 glGetIntegerv_(#GL_MAX_TEXTURE_UNITS, @temp)
-l$ = "Max texture units (fixed pipeline): " + Str(temp)
+l$ = "#GL_MAX_TEXTURE_UNITS (fixed pipeline): " + Str(temp)
 out(l$)
 
 If sgl::GetContextVersionToken() >= 200
+    glGetIntegerv_(#GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, @temp)
+    l$ = "#GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS : " + Str(temp)
+    out(l$)
+    
     glGetIntegerv_(#GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, @temp)
-    l$ = "Max texture units (vertex shader): " + Str(temp)
+    l$ = "#GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS : " + Str(temp)
     out(l$)
     
     glGetIntegerv_(#GL_MAX_TEXTURE_IMAGE_UNITS, @temp)
-    l$ = "Max texture units (fragment shader): " + Str(temp)
-    out(l$)
-    
-    glGetIntegerv_(#GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, @temp)
-    l$ = "Max combined texture units: " + Str(temp)
-    out(l$)
-    
-    glGetIntegerv_(#GL_MAX_VERTEX_UNIFORM_COMPONENTS, @temp)
-    l$ = "Max uniforms (vertex shader): " + Str(temp)
-    out(l$)
-    
-    glGetIntegerv_(#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS , @temp)
-    l$ = "Max uniforms (fragment shader): " + Str(temp)
-    out(l$)
-    
-    glGetIntegerv_(#GL_MAX_VARYING_FLOATS, @temp)
-    l$ = "Max varying floats (from the vertex shader): " + Str(temp)
+    l$ = "#GL_MAX_TEXTURE_IMAGE_UNITS : " + Str(temp)
     out(l$)
     
     glGetIntegerv_(#GL_MAX_VERTEX_ATTRIBS, @temp)
-    l$ = "Max vertex attributes: " + Str(temp)
+    l$ = "#GL_MAX_VERTEX_ATTRIBS : " + Str(temp)
     out(l$)
     
+    glGetIntegerv_(#GL_MAX_VARYING_FLOATS, @temp)
+    l$ = "#GL_MAX_VARYING_FLOATS : " + Str(temp)
+    out(l$)
+    
+    glGetIntegerv_(#GL_MAX_VERTEX_UNIFORM_COMPONENTS, @temp)
+    l$ = "#GL_MAX_VERTEX_UNIFORM_COMPONENTS : " + Str(temp)
+    out(l$)
+    
+    glGetIntegerv_(#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS , @temp)
+    l$ = "#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS : " + Str(temp)
+    out(l$)        
 EndIf
+
+out("")
+
+Dim monitors(0)
+Define vmode.sgl::VideoMode
+monitors = sgl::GetMonitors (monitors())
+
+For mon = 1 To monitors
+    sgl::GetVideoMode(monitors(mon-1), @vmode)
+    l$ = "Monitor #" + mon + " " + sgl::GetMonitorName(monitors(mon-1)) + str::Sprintf(" (%ix%i, %i bits, %i Hz)", @vmode\width, @vmode\height, @vmode\depth, @vmode\freq)
+    out(l$)
+
+    sgl::GetMonitorContentScale(monitors(mon-1), @xf, @yf)
+    l$ = str::Sprintf("Monitor #%i DPI scaling factor: %.2f x %.2f", @mon, @xf, @yf)
+    out(l$)
+
+    l$ = str::Sprintf("Monitor #%i Video modes: ", @mon)    
+    out(l$)
+    
+    Dim vmodes.sgl::VideoMode(0)
+    modes = sgl::GetVideoModes(monitors(mon-1), vmodes())
+    For i = 1 To modes
+        l$ = str::Sprintf("Mode %'02i: %i x %i, %i bits (%i Hz)", @i, @vmodes(i-1)\width, @vmodes(i-1)\height, @vmodes(i-1)\depth, @vmodes(i-1)\freq)
+        out(l$)
+    Next 
+Next
+
+out("")
 
 glLoad::RegisterCallBack(glLoad::#CallBack_EnumFuncs, @CallBack_EnumFuncs())
                                 
@@ -183,6 +190,8 @@ EndIf
 glLoad::GetProcsCount(@GoodProcsCount, @BadProcsCount)
 l$ = Str(GoodProcsCount) + " functions imported, " + Str(BadProcsCount) + " missing."            
 out(l$)
+
+out("")
 
 l$ = "Available OpenGL extensions:"
 out(l$)
@@ -204,12 +213,12 @@ sgl::Shutdown()
 logfile::Close(lf)
 
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 167
-; FirstLine = 121
+; CursorPosition = 176
+; FirstLine = 128
 ; Folding = -
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = sysinfo.exe
+; Executable = \\MAXWELL\Share\sgl\sysinfo.exe
 ; CPU = 1
 ; CompileSourceDirectory

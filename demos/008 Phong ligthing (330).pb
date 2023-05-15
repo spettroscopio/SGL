@@ -299,7 +299,7 @@ Procedure Render()
  Light\shiness = 24.0
  
  If gLightOn         
-    glClearColor_(0.25, 0.25, 0.3, 1.0)
+    glClearColor_(0.3, 0.3, 0.4, 1.0)
     vec3::Set(Light\vColor,           0.6, 0.6, 0.6)    
     vec3::Set(Light\vAmbientColor,    0.35, 0.35, 0.4)
     vec3::Set(Light\vSpecularColor,   0.2, 0.2, 0.2)
@@ -471,11 +471,15 @@ Procedure MainLoop()
     EndIf
     
     If sgl::GetKeyPress(sgl::#Key_S)
-        gSpecularOn ! 1
+        If gLightOn
+            gSpecularOn ! 1
+        EndIf
     EndIf
 
     If sgl::GetKeyPress(sgl::#Key_D)
-        gDiffuseOn ! 1
+        If gLightOn
+            gDiffuseOn ! 1
+        endif
     EndIf
     
     If sgl::IsWindowMinimized(gWin) = 0
@@ -493,9 +497,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 309
-; FirstLine = 282
+; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; CursorPosition = 481
+; FirstLine = 446
 ; Folding = --
 ; Optimizer
 ; EnableXP

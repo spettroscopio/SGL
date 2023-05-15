@@ -14,10 +14,10 @@ EndMacro
 
 ; error callback sources
 
-#SOURCE_GLFW$   = "GLFW" 
-#SOURCE_SGL$    = "SGL"
-#SOURCE_OPENGL$ = "OPENGL"
-#SOURCE_GLSL$   = "GLSL"
+#SOURCE_ERROR_GLFW$   = "GLFW" 
+#SOURCE_ERROR_SGL$    = "SGL"
+#SOURCE_ERROR_OPENGL$ = "OPENGL"
+#SOURCE_ERROR_GLSL$   = "GLSL"
 
 ;- Declares
 
@@ -663,30 +663,28 @@ Procedure split_glsl_errors (errlog$)
    
  For i = 0 To lines - 1
     If Len(lines$(i))
-        CALLBACK_ERROR (#SOURCE_GLSL$, lines$(i))
+        CALLBACK_ERROR (#SOURCE_ERROR_GLSL$, lines$(i))
     EndIf
  Next
 EndProcedure
 
 ProcedureC callback_error_glfw (err, *desc)
  If SGL\fpCallBack_Error 
-    SGL\fpCallBack_Error(#SOURCE_GLFW$, PeekS(*desc, -1, #PB_UTF8) + " (ErrCode = " + Str(err) + ") ")
+    SGL\fpCallBack_Error(#SOURCE_ERROR_GLFW$, PeekS(*desc, -1, #PB_UTF8) + " (ErrCode = " + Str(err) + ") ")
  EndIf 
 EndProcedure
 
 Procedure callback_error_opengl (source, type, id, severity, length, *message, *userParam)
-
- Protected source$, type$, severity$, out$
- Protected myseverity 
+ Protected source$, type$, severity$, out$ 
  
  If SGL\fpCallBack_Error     
     Select source
-        Case #GL_DEBUG_SOURCE_API:             source$ = "API"
-        Case #GL_DEBUG_SOURCE_WINDOW_SYSTEM:   source$ = "Window System" 
-        Case #GL_DEBUG_SOURCE_SHADER_COMPILER: source$ = "Compiler"
-        Case #GL_DEBUG_SOURCE_THIRD_PARTY:     source$ = "Third Party"
-        Case #GL_DEBUG_SOURCE_APPLICATION:     source$ = "Application"
-        Case #GL_DEBUG_SOURCE_OTHER:           source$ = "Other"
+        Case #GL_DEBUG_SOURCE_API:               source$ = "API"
+        Case #GL_DEBUG_SOURCE_WINDOW_SYSTEM:     source$ = "Window System" 
+        Case #GL_DEBUG_SOURCE_SHADER_COMPILER:   source$ = "Compiler"
+        Case #GL_DEBUG_SOURCE_THIRD_PARTY:       source$ = "Third Party"
+        Case #GL_DEBUG_SOURCE_APPLICATION:       source$ = "Application"
+        Default : source$ = "Other"
     EndSelect
 
     Select type        
@@ -698,19 +696,20 @@ Procedure callback_error_opengl (source, type, id, severity, length, *message, *
         Case #GL_DEBUG_TYPE_MARKER:              type$ = "Marker"
         Case #GL_DEBUG_TYPE_PUSH_GROUP:          type$ = "Push Group"
         Case #GL_DEBUG_TYPE_POP_GROUP:           type$ = "Pop Group"
-        Case #GL_DEBUG_TYPE_OTHER:               type$ = "Other"       
+        Default : source$ = "Other"
     EndSelect
     
    Select severity
-        Case #GL_DEBUG_SEVERITY_HIGH:         severity$ = "High" : myseverity = #DEBUG_OUPUT_HIGH
-        Case #GL_DEBUG_SEVERITY_MEDIUM:       severity$ = "Medium" : myseverity = #DEBUG_OUPUT_MEDIUM
-        Case #GL_DEBUG_SEVERITY_LOW:          severity$ = "Low" : myseverity = #DEBUG_OUPUT_LOW
-        Case #GL_DEBUG_SEVERITY_NOTIFICATION: severity$ = "Notifications" : myseverity = #DEBUG_OUPUT_NOTIFICATIONS
+        Case #GL_DEBUG_SEVERITY_HIGH:            severity$ = "High" : severity = #DEBUG_OUPUT_HIGH
+        Case #GL_DEBUG_SEVERITY_MEDIUM:          severity$ = "Medium" : severity = #DEBUG_OUPUT_MEDIUM
+        Case #GL_DEBUG_SEVERITY_LOW:             severity$ = "Low" : severity = #DEBUG_OUPUT_LOW
+        Case #GL_DEBUG_SEVERITY_NOTIFICATION:    severity$ = "Notifications" : severity = #DEBUG_OUPUT_NOTIFICATIONS
+        Default : severity = #DEBUG_OUPUT_NOTIFICATIONS
     EndSelect
     
-    If myseverity >= SGL\debugOutputLevel            
-        out$ = "Src: " + source$ + ", Type: " + type$ + ", " + severity$ + ", " + PeekS(*message, -1, #PB_UTF8)       
-        SGL\fpCallBack_Error(#SOURCE_OPENGL$, out$)
+    If severity >= SGL\debugOutputLevel            
+        out$ = "Src: " + source$ + ", Type: " + type$ + ", " + severity$ + ", " + PeekS(*message, -1, #PB_UTF8)
+        SGL\fpCallBack_Error(#SOURCE_ERROR_OPENGL$, out$)
     EndIf     
  EndIf
 EndProcedure
@@ -855,7 +854,7 @@ Procedure.i Init()
 ;> Initialize the SGL library.
  
  If SGL\initialized = #True    
-    CALLBACK_ERROR (#SOURCE_SGL$, "SGL has been already initialized.")
+    CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "SGL has been already initialized.")
     Goto exit
  EndIf
  
@@ -869,20 +868,20 @@ Procedure.i Init()
     Case glfwLoad::#LOAD_OK
         ; NOP
     Case glfwLoad::#LOAD_DLL_NOT_FOUND        
-        CALLBACK_ERROR (#SOURCE_SGL$, "GLFW dynamic library not found.")    
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "GLFW dynamic library not found.")    
         Goto exit
     Case glfwLoad::#LOAD_MISSING_IMPORTED_FUNCS        
-        CALLBACK_ERROR (#SOURCE_SGL$, "Some of the GLFW dynamically imported functions are missing.")
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "Some of the GLFW dynamically imported functions are missing.")
         Goto exit
     Default
-        CALLBACK_ERROR (#SOURCE_SGL$, "glfw_Load() return code was unexpected.")
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glfwLoad::Load() return code was unexpected.")
         Goto exit
  EndSelect 
  
  glfwSetErrorCallback(@callback_error_glfw())
  
  If glfwInit() = 0    
-    CALLBACK_ERROR (#SOURCE_SGL$, "glfwInit() failed.")
+    CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glfwInit() failed.")
     Goto exit
  EndIf
  
@@ -912,13 +911,6 @@ Procedure Shutdown()
  DestroyTimer(SGL\TrackFrameTime\timerFrameAccum) 
  
  init_sgl_obj()
-EndProcedure
-
-Procedure RegisterErrorCallBack (*fp)
-;> Registers a callback to get runtime error messages from the library.
-; Can and should be called before Init().   
-; *fp = 0 is equivalent to unregistering the callback
- SGL\fpCallBack_Error = *fp
 EndProcedure
 
 Procedure.s GetGlfwVersion()
@@ -965,6 +957,13 @@ Procedure.s GetSglVersion()
  s$ + " (PB " + Str(#PB_Compiler_Version / 100) + "." + str::PadLeft(Str(#PB_Compiler_Version % 100),2,"0") + ")"
   
  ProcedureReturn s$
+EndProcedure
+
+Procedure RegisterErrorCallBack (*fp)
+;> Registers a callback to get runtime error messages from the library.
+; Can and should be called before Init().   
+; *fp = 0 is equivalent to unregistering the callback
+ SGL\fpCallBack_Error = *fp
 EndProcedure
 
 ;- [ EVENTS ]
@@ -1111,7 +1110,7 @@ Procedure.i EnableDebugOutput (level = #DEBUG_OUPUT_MEDIUM)
 
  If GetContextVersionToken() < 430 ; debug output is core in 4.30  
     If ARB_debug_output() = 0 ; try to load the extension
-        CALLBACK_ERROR (#SOURCE_SGL$, "ARB_debug_output extension not available.")
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "ARB_debug_output extension not available.")
         ProcedureReturn 0
     EndIf        
  EndIf   
@@ -1132,7 +1131,7 @@ Procedure.i EnableDebugOutput (level = #DEBUG_OUPUT_MEDIUM)
     Case #DEBUG_OUPUT_HIGH
         SGL\debugOutputLevel = level
     Default
-        CALLBACK_ERROR (#SOURCE_SGL$, "EnableDebugOutput() level is invalid.")
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "EnableDebugOutput() level is invalid.")
         ProcedureReturn 0
  EndSelect
  
@@ -1151,7 +1150,7 @@ Procedure ClearGlErrors()
  Until (glerr = #GL_NO_ERROR) Or (safe_bailout = 0)
  
  If glerr <> #GL_NO_ERROR
-    CALLBACK_ERROR (#SOURCE_SGL$, "glGetError() inside an infinite loop, no current context ?")
+    CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glGetError() inside an infinite loop, no current context ?")
  EndIf    
 EndProcedure
 
@@ -1186,7 +1185,7 @@ Procedure CheckGlErrors()
     EndSelect
     
     If err$ <> #Empty$
-        CALLBACK_ERROR (#SOURCE_OPENGL$, err$)
+        CALLBACK_ERROR (#SOURCE_ERROR_OPENGL$, err$)
     EndIf    
     
     safe_bailout - 1
@@ -1194,7 +1193,7 @@ Procedure CheckGlErrors()
  Until (glerr = #GL_NO_ERROR) Or (safe_bailout = 0)
  
  If glerr <> #GL_NO_ERROR
-    CALLBACK_ERROR (#SOURCE_SGL$, "glGetError() inside an infinite loop (no current context ?)")    
+    CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glGetError() inside an infinite loop, no current context ?")
  EndIf    
 EndProcedure
 
@@ -1261,7 +1260,7 @@ Procedure GetContextVersion (*major, *minor)
      ProcedureReturn 
  EndIf
  
- CALLBACK_ERROR (#SOURCE_SGL$, "GetContextVersion() failed, no current context ?")
+ CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "GetContextVersion() failed, no current context ?")
 EndProcedure
 
 Procedure.i GetContextVersionToken()
@@ -1475,7 +1474,7 @@ Procedure SetCursorMode (win, mode)
     Case #CURSOR_DISABLED
         ; NOP
     Default
-        CALLBACK_ERROR (#SOURCE_SGL$, "SetCursorMode() specified mode is invalid.")
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "SetCursorMode() specified mode is invalid.")
  EndSelect
  
  glfwSetInputMode(win, #GLFW_CURSOR, mode)
@@ -1514,7 +1513,7 @@ Procedure.s GetMouseButtonString (button)
     Case #MOUSE_BUTTON_4 To #MOUSE_BUTTON_8
         desc$ = "#MOUSE_BUTTON_" + Str(button - #MOUSE_BUTTON_4 + 4)
     Default
-        CALLBACK_ERROR (#SOURCE_SGL$, "GetMouseButtonString() specified button is invalid.")
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "GetMouseButtonString() specified button is invalid.")
  EndSelect
  
  ProcedureReturn desc$
@@ -1531,7 +1530,7 @@ Procedure.i GetMouseButton (win, button)
     Case #GLFW_RELEASE
         status = #RELEASED
     Default
-        CALLBACK_ERROR (#SOURCE_SGL$, "glfwGetMouseButton() returned status is invalid.")        
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glfwGetMouseButton() returned status is invalid.")        
  EndSelect
  
  ProcedureReturn status 
@@ -1761,7 +1760,7 @@ Procedure.i RegisterWindowCallBack (win, type, *fp)
         SGL\fpCallBack_MouseButton = *fp
         glfwSetMouseButtonCallback(win, @callback_window_mouse_button())
     Default
-        CALLBACK_ERROR (#SOURCE_SGL$, "Window CallBack type is invalid.")
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "Window CallBack type is invalid.")
  EndSelect
  
  ProcedureReturn *prevCallBack
@@ -1829,7 +1828,7 @@ Procedure SetWindowHint (type, value)
     Case #HINT_WIN_REFRESH_RATE
         SGL\hintWinRefreshRate = value           
     Default
-        CALLBACK_ERROR (#SOURCE_SGL$, "SetWindowHint() hint type is invalid.")        
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "SetWindowHint() hint type is invalid.")        
  EndSelect
 EndProcedure
 
@@ -2080,7 +2079,7 @@ Procedure.i GetPrimaryMonitor()
  Protected mon = glfwGetPrimaryMonitor()
  
  If mon = #Null
-     CALLBACK_ERROR (#SOURCE_SGL$, "Primary monitor not detected.")
+     CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "Primary monitor not detected.")
      ProcedureReturn 0
  EndIf
     
@@ -2105,7 +2104,8 @@ Procedure.i GetMonitors (Array monitors(1))
     ProcedureReturn count 
  EndIf
  
- CALLBACK_ERROR (#SOURCE_SGL$, "Error getting the list of monitors.")
+ CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "Error getting the list of monitors.")
+ 
  ProcedureReturn 0 
 EndProcedure
 
@@ -2115,7 +2115,7 @@ Procedure.s GetMonitorName (mon)
  Protected mon$ = PeekS(glfwGetMonitorName(mon), -1, #PB_UTF8)
  
  If mon$ = #Empty$
-    CALLBACK_ERROR (#SOURCE_SGL$, "glfwGetMonitorName() failed.")        
+    CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glfwGetMonitorName() failed.")        
  EndIf
  
  ProcedureReturn mon$
@@ -2134,7 +2134,8 @@ Procedure.i GetVideoMode (mon, *vmode.VideoMode)
      ProcedureReturn 1
  EndIf
  
- CALLBACK_ERROR (#SOURCE_SGL$, "glfwGetVideoMode() failed to retrieve the current video mode for the monitor.")
+ CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glfwGetVideoMode() failed to retrieve the current video mode for the monitor.")
+ 
  ProcedureReturn 0
 EndProcedure
 
@@ -2160,7 +2161,7 @@ Procedure.i GetVideoModes (mon, Array vmodes.VideoMode(1))
     ProcedureReturn count 
  EndIf
  
- CALLBACK_ERROR (#SOURCE_SGL$, "glfwGetVideoModes() failed to retrieve the list of video modes.")
+ CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "glfwGetVideoModes() failed to retrieve the list of video modes.")
  ProcedureReturn 0 
 EndProcedure
 
@@ -2409,7 +2410,7 @@ Procedure SetImageAlpha (img, alpha)
  StopDrawing()  
 EndProcedure
 
-Procedure SetImageAlphaForColor (img, color, alpha)
+Procedure SetImageColorAlpha (img, color, alpha)
 ;> Sets the alpha channel of the image to alpha but only for the pixels of the specified color.
 
 ; img : A valid 32 bit image with alpha channel.
@@ -2882,7 +2883,7 @@ Procedure TrackFPS()
 EndProcedure
 
 Procedure.i GetFPS()
-;> Returns the number of frame per seconds in the last second.
+;> Returns the number of the frame per seconds in the last second.
 ; See TrackFPS()
 
  If SGL\TrackFps\fps
@@ -2919,7 +2920,7 @@ Procedure StopFrameTimer()
 EndProcedure
 
 Procedure.f GetFrameTime()
-;> Returns the average of the frame times sampled in the last second expressed in milliseconds.
+;> Returns the average frame time sampled in the last second expressed in milliseconds.
 
  If SGL\TrackFrameTime\frameTime
     ProcedureReturn SGL\TrackFrameTime\frameTime * 1000
@@ -2936,11 +2937,11 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
 
 ; fontName$ is the name of the font
 ; fontSize is the size in points
-; fontFlags are the PB constants used for LoadFont(), typically #PB_Font_Bold or #PB_Font_Italic
+; fontFlags are the PB constants used for LoadFont(), typically nothing or #PB_Font_Bold or #PB_Font_Italic
 ; ranges is an array of ranges of unicode chars to be included in the bitmap font 
 ; width, height are the dimensions of the image (and later texture) 
 
-; The function returns 0 if (width x height) result in an image not big enough to store all the glyphs.
+; The function returns 0 if (width x height) result in an image too small to store all the glyphs.
 
  Protected hDC, image, x, y, highestRow, highestFont
  Protected char$, char, gw, gh
@@ -3103,7 +3104,7 @@ Procedure.i CompileShader (string$, shaderType)
  glGetShaderiv_(shader, #GL_COMPILE_STATUS, @result)
  
  If result = #GL_FALSE    
-    CALLBACK_ERROR (#SOURCE_GLSL$, "glCompileShader() error in " + shader_type_to_string(shaderType))
+    CALLBACK_ERROR (#SOURCE_ERROR_GLSL$, "glCompileShader() error in " + shader_type_to_string(shaderType))
     
     glGetShaderiv_(shader, #GL_INFO_LOG_LENGTH, @length)
     
@@ -3189,7 +3190,7 @@ CompilerIf (#PB_Compiler_Debugger = 1)
  glGetProgramiv_(shaderProgram, #GL_VALIDATE_STATUS, @result)
  
  If result = #GL_FALSE
-    CALLBACK_ERROR (#SOURCE_GLSL$, "glValidateProgram() failed.")
+    CALLBACK_ERROR (#SOURCE_ERROR_GLSL$, "glValidateProgram() failed.")
     
     glGetProgramiv_(shaderProgram, #GL_INFO_LOG_LENGTH, @length)
     
@@ -3300,13 +3301,12 @@ Procedure SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f)
  glUniform4f_(uniform, v0, v1, v2, v3) 
 EndProcedure
 
-
 EndModule
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 932
-; FirstLine = 928
+; CursorPosition = 50
+; FirstLine = 8
 ; Folding = -------------------------------
-; Markers = 61,99,1484,1550
+; Markers = 61,99,1483,1549
 ; EnableXP
 ; EnableUser
 ; UseMainFile = examples\001 Minimal.pb

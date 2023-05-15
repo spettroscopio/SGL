@@ -1,10 +1,10 @@
-﻿; It generate the code for these sections from glfw.pbi
+﻿; Generates the code for these sections from glfw.pbi
 
 #s1$ = ";- GLFW CONSTANTS"
 #s2$ = ";- GLFW IMPORTS FOR STATIC BINDING"
 #s3$ = ";- GLFW PROTOTYPES FOR DYNAMIC BINDING"
 
-; It dose not generate the code for the structures (they are just a few and it's safer to do it manually anyway).
+; It does not generate the code for the structures (they are just a few and it's safer to do it manually anyway).
 
 EnableExplicit
 
@@ -150,9 +150,9 @@ EndProcedure
 
 Main()
 
-; IDE Options = PureBasic 5.73 LTS (Windows - x86)
-; CursorPosition = 114
-; FirstLine = 95
+; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; CursorPosition = 151
+; FirstLine = 103
 ; Folding = -
 ; EnableXP
 ; EnableUser

@@ -2,21 +2,19 @@
 ; sgl.pbi
 ; by Luis
 ;
-; SGL is a work-in-progress. 
-; Its intended use is to be an instructional aid for myself first, but also for any PurebBasic user interested in 
+; SGL intended use is to be an instructional aid for myself first, but also for any PurebBasic user interested in 
 ; learning OpenGL.
 ; 
-; As a second step from this, the idea is to use it for writing some more advanced demos, and maybe even a simple 
-; 2D game engine on top of it.
+; As a second step from this, the idea is to use it for writing some more advanced demos, or a simple 2D game engine.
 ;
-; OS: Windows, Linux
+; OS: Windows x86/x64, Linux x64
 ;
 ; 0.90, Feb 06 2023, PB 6.01
 ; First release.
 ; *********************************************************************************************************************
 
 CompilerIf Defined(sgl_config, #PB_Module) = 0 
- CompilerError "The configuration module is missing."
+ CompilerError "You must include the configuration module sgl.config.pbi"
 CompilerEndIf
 
 ; GLFW linking configuration
@@ -62,7 +60,7 @@ EnableExplicit
 #SGL_MINOR = 9
 #SGL_REVISION = 0
   
-;- CallBacks Prototypes
+;- CallBacks 
   
 Prototype CallBack_Error (Source$, Desc$)
 Prototype CallBack_WindowClose (win)
@@ -80,20 +78,40 @@ Prototype CallBack_CursorPos (win, x.d, y.d)
 Prototype CallBack_CursorEntering (win, entering)
 Prototype CallBack_MouseButton (win, button, action, mods)
 
-Macro RGBA (r, g, b, a)
+;- Macros 
+
+Macro B2F (byte) ; byte to float
+ ; byte MUST be in the range 0 .. 255
+ (byte / 255.0)
+EndMacro
+
+Macro F2B (float) ; float to byte
+ ; float MUST be in the range 0.0 .. 1.0
+ (float * 255.0)
+EndMacro
+
+Macro RGBA (r, g, b, a) ; 4 integers to RGBA integer
  (r | g << 8 | b << 16 | a << 24)
 EndMacro
 
-Macro RGB (r, g, b)
+Macro RGB (r, g, b) ; 3 integers to RGB integer
  (r | g << 8 | b << 16)
 EndMacro
 
-Macro BGRA (b, g, r, a)
+Macro BGRA (b, g, r, a) ; 4 integers to BGRA integer
  (b | g << 8 | r << 16 | 0 << 24)
 EndMacro
 
-Macro BGR (b, g, r)
+Macro BGR (b, g, r) ; 3 integers to BGR integer
  (b | g << 8 | r << 16)
+EndMacro
+
+Macro F2RGB (r, g, b) ; 3 floats to RGB integer
+ RGB (F2B(r), F2B(g), F2B(b))
+EndMacro
+
+Macro F2RGBA (r, g, b, a) ; 4 floats to RGBA integer
+ RGBA (F2B(r), F2B(g), F2B(b), F2B(a))
 EndMacro
 
 Macro StartData()
@@ -192,9 +210,9 @@ EndStructure
 
 #DONT_CARE = glfw::#GLFW_DONT_CARE
 
-;- CallBacks Constants
+;- Constants
 
-Enumeration 
+Enumeration ; CallBacks Constants 
  #CALLBACK_WINDOW_CLOSE
  #CALLBACK_WINDOW_POS
  #CALLBACK_WINDOW_SIZE
@@ -211,26 +229,20 @@ Enumeration
  #CALLBACK_MOUSE_BUTTON
 EndEnumeration
 
-;- OpenGL Debug Output
-
-Enumeration
+Enumeration ; OpenGL Debug Output
  #DEBUG_OUPUT_NOTIFICATIONS
  #DEBUG_OUPUT_LOW 
  #DEBUG_OUPUT_MEDIUM
  #DEBUG_OUPUT_HIGH
 EndEnumeration
 
-;- OpenGL Profiles
-
-Enumeration
+Enumeration ; OpenGL Profiles
  #PROFILE_ANY = 1
  #PROFILE_COMPATIBLE 
  #PROFILE_CORE 
 EndEnumeration
 
-;- Window Hints Constants
-
-Enumeration 1
+Enumeration 1 ; Window Hints Constants
  #HINT_WIN_OPENGL_DEBUG ; default 0
  #HINT_WIN_OPENGL_MAJOR ; default 1
  #HINT_WIN_OPENGL_MINOR ; default 0
@@ -254,26 +266,26 @@ Enumeration 1
  #HINT_WIN_REFRESH_RATE ; default #DONT_CARE (full screen only)
 EndEnumeration
 
-;- Press and Release States
+; Pressed and Released for keys and buttons
 
 #PRESSED    = glfw::#GLFW_PRESS
 #RELEASED   = glfw::#GLFW_RELEASE
 #REPEATING  = glfw::#GLFW_REPEAT
 
-;- Keys Modifiers
+; Keys Modifiers
 
 #KEY_MOD_SHIFT   = glfw::#GLFW_MOD_SHIFT
 #KEY_MOD_CONTROL = glfw::#GLFW_MOD_CONTROL
 #KEY_MOD_ALT     = glfw::#GLFW_MOD_ALT  
 #KEY_MOD_SUPER   = glfw::#GLFW_MOD_SUPER
 
-;- Mouse Cursor
+; Mouse Cursor
 
 #CURSOR_NORMAL   = glfw::#GLFW_CURSOR_NORMAL 
 #CURSOR_HIDDEN   = glfw::#GLFW_CURSOR_HIDDEN 
 #CURSOR_DISABLED = glfw::#GLFW_CURSOR_DISABLED 
 
-;- Mouse Buttons
+; Mouse Buttons
 
 Enumeration 
  #MOUSE_BUTTON_1 = glfw::#GLFW_MOUSE_BUTTON_1
@@ -290,7 +302,7 @@ Enumeration
  #MOUSE_BUTTON_MIDDLE = #MOUSE_BUTTON_3
 EndEnumeration 
 
-;- Keys
+; Keys
 
 Enumeration 
  #Key_Unknown = 0
@@ -430,9 +442,9 @@ EndEnumeration
 
 Declare.i   Init() ; Initialize the SGL library.
 Declare     Shutdown() ; Terminates the library, destroying any window still open and releasing resources.
-Declare     RegisterErrorCallBack (*fp) ; Registers a callback to get runtime error messages from the library.
 Declare.s   GetGlfwVersion() ; Returns a string representing the version of the GLFW backend.
 Declare.s   GetSglVersion() ; Returns a string representing the SGL version.
+Declare     RegisterErrorCallBack (*fp) ; Registers a callback to get runtime error messages from the library.
 
 ; [ EVENTS ]
 
@@ -467,7 +479,7 @@ Declare.s   GetVendor() ; Returns the name of the OpenGL vendor.
 Declare.s   GetShadingLanguage() ; Returns the description of the OpenGL shading language.
 Declare     GetContextVersion (*major, *minor) ; Gets the version of the OpenGL context divided in major and minor.
 Declare.i   GetContextVersionToken() ; Returns the version of the OpenGL context as a token (a single integer).
-Declare.i   GetContextProfile() ; Returns #PROFILE_COMPATIBLE or #PROFILE_CORE as the profile type for a context >= 3.2.
+Declare.i   GetContextProfile() ; Returns #PROFILE_COMPATIBLE or #PROFILE_CORE as the profile type for a context >= 3.2, else 0.
 Declare.i   IsDebugContext() ; Returns 1 if the current context is supporting the debug features of OpenGL 4.3, else 0.
 Declare.i   GetProcAddress (func$) ; Returns the address of the specified OpenGL function or extension if supported by the current context.
 
@@ -565,7 +577,7 @@ Declare     DestroyTexelData (*td.TexelData) ; Release the memory allocated by C
 Declare.i   CopyImageAddingAlpha (img, alpha) ; Creates a new image from the source image passed, adding an alpha channel.
 Declare.i   CopyImageRemovingAlpha (img) ; Creates a new image from the source image passed, removing the alpha channel.
 Declare     SetImageAlpha (img, alpha) ; Fills the alpha channel of the image with alpha.
-Declare     SetImageAlphaForColor (img, color, alpha) ; Sets the alpha channel of the image to alpha but only for the pixels of the specified color.
+Declare     SetImageColorAlpha (img, color, alpha) ; Sets the alpha channel of the image to alpha but only for the pixels of the specified color.
 Declare.i   CreateImageFromFrameBuffer (win, x, y, w, h) ; Grabs a specified area from the OpenGL framebuffer screen and creates a PB image from it.
 Declare.i   CreateImageFromAlpha (img) ; Creates a new image whose color bits are copied from the alpha channel of the source image.
 Declare.i   CreateImage_Box (w, h, color, alpha = 255) ; Creates an image filled with a single color and with the specified alpha value.
@@ -593,7 +605,7 @@ Declare     DestroyBitmapFontData (*bmf.BitmapFontData) ; Release the memory all
 
 Declare.i   CompileShader (string$, shaderType) ; Compile the shader from the specified source string and returns its handle or 0 in case of error.
 Declare.i   CompileShaderFromFile (file$, shaderType) ; Compile a shader from file and returns its handle or 0 in case of error.
-Declare     AddShaderObject (*objects.ShaderObjects, shader) ; Adds the compiled shader object to the list of objects to be linked with BuildShader()
+Declare     AddShaderObject (*objects.ShaderObjects, shader) ; Adds the compiled shader object to the list of objects to be linked with BuildShaderProgram()
 Declare     ClearShaderObjects (*objects.ShaderObjects) ; Clears the compiled shader object list.
 Declare.i   BuildShaderProgram (*objects.ShaderObjects, cleanup = #True) ; Build the shader program linking the specified compiled shaders together and returns its handle or 0 in case of error.
 Declare     DestroyShaderProgram (program) ; Delete the shader program.
@@ -614,10 +626,9 @@ Declare     SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f) ; Pass a uniform
 EndDeclareModule
 
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 595
-; FirstLine = 567
-; Folding = ----
-; Markers = 427
+; CursorPosition = 16
+; Folding = -----
+; Markers = 439
 ; EnableXP
 ; EnableUser
 ; CPU = 1
