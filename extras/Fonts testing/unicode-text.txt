@@ -1,0 +1,7 @@
+Tested with the font Consolas.
+
+Some latin text (ASCII) in the range (32-128).
+
+Greek ($0370-$03FF): Κείμενο στα ελληνικά χωρίς προβλήματα !
+
+Russian ($0400-$04FF): Текст на русском языке без проблем !
