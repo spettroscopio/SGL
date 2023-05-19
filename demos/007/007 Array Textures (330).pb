@@ -1,33 +1,30 @@
-﻿; FPS Camera, sampler arrays, mouse
-
-; Shows a possible way to pass multiple textures to a shader using Sampler2D arrays.
-; Shows how to implement a simple FPS camera and using keyboard and mouse to navigate.
-
+﻿; This is the same program as the previous one, but modified to use Array Textures (#GL_TEXTURE_2D_ARRAY) instead of an array of Sampler2D. 
+; https://www.khronos.org/opengl/wiki/Array_Texture
 
 EnableExplicit
 
-IncludeFile "../sgl.config.pbi"
-IncludeFile "../sgl.pbi"
-IncludeFile "../sgl.pb"
+IncludeFile "../../sgl.config.pbi"
+IncludeFile "../../sgl.pbi"
+IncludeFile "../../sgl.pb"
 
-IncludeFile "../extras/RenderText_330/RenderText.pb"
-IncludeFile "../extras/Camera/CameraFPS.pb"
+IncludeFile "../../extras/RenderText_330/RenderText.pb"
+IncludeFile "../../extras/Camera/ArcBall.pb"
 
 UseModule gl
 
-#TITLE$ = "FPS Camera, Sampler2D arrays, mouse"
+#TITLE$ = "Array Textures (#GL_TEXTURE_2D_ARRAY)"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 1
 
 Global gWin
-Global gVSync = #VSYNC
+Global gVSync = #VSYNC 
 Global gShader
 Global gFon
 Global gFonHelp
 Global gTimer
 Global gVao
-Global Dim gTextures(5)
+Global gTextureArray
 
 Declare   CallBack_WindowRefresh (win)
 Declare   CallBack_Error (source$, desc$)
@@ -54,48 +51,62 @@ Procedure.i RandomColor()
  ProcedureReturn RGB(r,g,b)
 EndProcedure
 
-
-Procedure.i BuildTex (id)
+Procedure.i BuildTexArray ()
  Protected *td.sgl::TexelData
- Protected img, texid
+ Protected img, texid, layer
  Protected maxAnisotropy.f
- 
- Select id
-    Case 0 
-        img = sgl::CreateImage_DiceFace(512, 512, 1, RGB(0, 0, 0), RandomColor()) ; front 
-    Case 1         
-        img = sgl::CreateImage_DiceFace(512, 512, 6, RGB(0, 0, 0), RandomColor()) ; back
-    Case 2 
-        img = sgl::CreateImage_DiceFace(512, 512, 5, RGB(0, 0, 0), RandomColor()) ; top 
-    Case 3 
-        img = sgl::CreateImage_DiceFace(512, 512, 2, RGB(0, 0, 0), RandomColor()) ; bottom
-    Case 4 
-        img = sgl::CreateImage_DiceFace(512, 512, 3, RGB(0, 0, 0), RandomColor()) ; right
-    Case 5 
-        img = sgl::CreateImage_DiceFace(512, 512, 4, RGB(0, 0, 0), RandomColor()) ; left
- EndSelect
-  
- *td = sgl::CreateTexelData (img)
-  
+   
  glGenTextures_(1, @texid) 
- glBindTexture_(#GL_TEXTURE_2D, texid)
- 
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
- 
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
- 
+ glBindTexture_(#GL_TEXTURE_2D_ARRAY, texid)
+  
  If sgl::IsExtensionAvailable("GL_EXT_texture_filter_anisotropic") Or sgl::IsExtensionAvailable("GL_ARB_texture_filter_anisotropic")
     glGetFloatv_(#GL_MAX_TEXTURE_MAX_ANISOTROPY, @maxAnisotropy)
-    glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
+    glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
  EndIf
-  
- glTexImage2D_(#GL_TEXTURE_2D, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
- glGenerateMipmap_(#GL_TEXTURE_2D)
  
- FreeImage(img)
- sgl::DestroyTexelData(*td)
+ For layer = 0 To 5
+     Select layer
+        Case 0 
+            img = sgl::CreateImage_DiceFace(512, 512, 1, RGB(0, 0, 0), RandomColor()) ; front 
+            *td = sgl::CreateTexelData (img)
+            
+            ; this define how many layers (subtextures) will be present in the Array Texture
+            ; the "6" after the dimensions is used in this case
+            ; note all the textures must have of the same size, 6 x 512x512 textures in this case
+            glTexImage3D_(#GL_TEXTURE_2D_ARRAY, 0, *td\internalTextureFormat, 512, 512, 6, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, #Null)
+ 
+            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
+            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
+ 
+            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
+            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
+            
+        Case 1         
+            img = sgl::CreateImage_DiceFace(512, 512, 6, RGB(0, 0, 0), RandomColor()) ; back
+            *td = sgl::CreateTexelData (img)
+        Case 2 
+            img = sgl::CreateImage_DiceFace(512, 512, 5, RGB(0, 0, 0), RandomColor()) ; top 
+            *td = sgl::CreateTexelData (img)
+        Case 3 
+            img = sgl::CreateImage_DiceFace(512, 512, 2, RGB(0, 0, 0), RandomColor()) ; bottom
+            *td = sgl::CreateTexelData (img)
+        Case 4 
+            img = sgl::CreateImage_DiceFace(512, 512, 3, RGB(0, 0, 0), RandomColor()) ; right
+            *td = sgl::CreateTexelData (img)
+        Case 5 
+            img = sgl::CreateImage_DiceFace(512, 512, 4, RGB(0, 0, 0), RandomColor()) ; left
+            *td = sgl::CreateTexelData (img)
+     EndSelect
+    
+    ; store the single 2D texture inside the n-th layer
+    glTexSubImage3D_(#GL_TEXTURE_2D_ARRAY, 0, 0, 0, layer, 512, 512, 1, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
+    
+    glGenerateMipmap_(#GL_TEXTURE_2D_ARRAY)
+    
+    sgl::DestroyTexelData(*td)
+    
+    FreeImage(img)
+ Next   
  
  ProcedureReturn texid
 EndProcedure
@@ -104,7 +115,7 @@ Procedure SetupData()
   Protected vbo, ibo
 
  Protected *vertex = sgl::StartData()   
-  ; 3 * vertex_pos + 2 * texture_coord + 1 * texture_unit
+  ; 3 * vertex_pos + 3 * texture_coord 
   
   Data.f -1.0, -1.0,  1.0,   0.0, 0.0,   0.0 ; front 
   Data.f  1.0, -1.0,  1.0,   1.0, 0.0,   0.0
@@ -161,10 +172,7 @@ Procedure SetupData()
  glVertexAttribPointer_(0, 3, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 0)
  
  glEnableVertexAttribArray_(1) ; texture coords
- glVertexAttribPointer_(1, 2, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 3 * SizeOf(Float))
-
- glEnableVertexAttribArray_(2) ; texture unit
- glVertexAttribPointer_(2, 1, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 5 * SizeOf(Float))
+ glVertexAttribPointer_(1, 3, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 3 * SizeOf(Float))
 
  ; index buffer
  glGenBuffers_(1, @ibo)
@@ -177,23 +185,18 @@ Procedure SetupData()
  
  ; Textures
  
- gTextures(0) = BuildTex(0)
- gTextures(1) = BuildTex(1)
- gTextures(2) = BuildTex(2)
- gTextures(3) = BuildTex(3)
- gTextures(4) = BuildTex(4)
- gTextures(5) = BuildTex(5)
+ gTextureArray = BuildTexArray()
  
  ; Shaders
   
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
  
- vs = sgl::CompileShaderFromFile("005.vert.glsl", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("007.vert.glsl", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("005.frag.glsl", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("007.frag.glsl", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
@@ -217,7 +220,7 @@ Procedure SetupData()
  ; Latin (ascii)
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128               
- gFonHelp = RenderText::CreateFont("consolas", 10, #PB_Font_Bold, ranges(), 256, 256) 
+ gFonHelp = RenderText::CreateFont("Consolas", 10, #PB_Font_Bold, ranges(), 256, 256) 
  ASSERT(gFonHelp)
   
 EndProcedure
@@ -267,33 +270,17 @@ EndProcedure
 Procedure Render()
  Protected w, h, text$ 
  Protected delta.f
- Protected.vec3::vec3 pos
  Protected.m4x4::m4x4 model, projection, view
- Protected u_model, u_view, u_projection, u_texUnits
+ Protected u_model, u_view, u_projection, u_texture
  
  Static firstRun = 1
- Static camera
+ Static *camera.ArcBall::ArcBall
  
  If firstRun
     firstRun = 0   
-     
-    ; the y of the vector is the height of the camera eyes, 0.0 put them at the same center of the cube     
-    vec3::set(pos, -3.0, 0.0, 6.0)
-   
-    ; the last 3 params are the camera position in the world, the yaw and the pitch in degrees
-    camera = CameraFPS::Create(gWin, pos, 20.0, 0.0)
-    
-    CameraFPS::SetLimits(camera, -80.0, 80.0) ; look up / down max degrees 
-    CameraFPS::SetSensitivity(camera, 0.1, 0.1) ; mouse sensitivity
-    CameraFPS::SetSpeed(camera, 5.0) ; walking speed
-    
-    Static cubeRot.f
-  EndIf 
- 
- Protected *units = sgl::StartData()
-  Data.l 0, 1, 2, 3, 4, 5
- sgl::StopData()
- 
+    *camera = ArcBall::Create(gWin, 6.0)
+ EndIf 
+  
  glClearColor_(0.25,0.25,0.5,1.0)
  glEnable_(#GL_DEPTH_TEST) 
  glClear_(#GL_COLOR_BUFFER_BIT | #GL_DEPTH_BUFFER_BIT)
@@ -303,64 +290,37 @@ Procedure Render()
 
  delta = sgl::GetDeltaTime(gTimer)
  
+ ; model
+ m4x4::Identity(model)
+
+ ; view
+ ArcBall::Update(*camera, delta)
+ 
+ m4x4::Copy( ArcBall::GetMatrix(*camera), view)
+ 
+ ; projection
+ m4x4::Perspective(projection, 60.0, Math::Float(w)/Math::Float(h), 0.1, 100.0)
+  
  sgl::BindShaderProgram(gShader)
  
- ; view 
- CameraFPS::Update(camera, delta)
- m4x4::Copy( CameraFPS::GetMatrix(camera), view)
+ u_model = sgl::GetUniformLocation(gShader, "u_model")
+ sgl::SetUniformMatrix4x4(u_model, @model)
  
  u_view = sgl::GetUniformLocation(gShader, "u_view")
  sgl::SetUniformMatrix4x4(u_view, @view)
  
- ; projection
- m4x4::Perspective(projection, 60.0, Math::Float(w)/Math::Float(h), 0.1, 100.0)
- 
  u_projection = sgl::GetUniformLocation(gShader, "u_projection")
  sgl::SetUniformMatrix4x4(u_projection, @projection)
+
+ u_texture = sgl::GetUniformLocation(gShader, "u_texture")
+ sgl::SetUniformLong(u_texture, 0) ; texture unit
  
- u_texUnits = sgl::GetUniformLocation(gShader, "u_texUnits")
- sgl::SetUniformLongs(u_texUnits, *units, 6)
- 
+ ; only one texture is bound here, but it's an Array Texture containing one 2D texture for layer
  glActiveTexture_(#GL_TEXTURE0)
- glBindTexture_(#GL_TEXTURE_2D, gTextures(0))
- glActiveTexture_(#GL_TEXTURE1)
- glBindTexture_(#GL_TEXTURE_2D, gTextures(1))
- glActiveTexture_(#GL_TEXTURE2)
- glBindTexture_(#GL_TEXTURE_2D, gTextures(2))
- glActiveTexture_(#GL_TEXTURE3)
- glBindTexture_(#GL_TEXTURE_2D, gTextures(3))
- glActiveTexture_(#GL_TEXTURE4)
- glBindTexture_(#GL_TEXTURE_2D, gTextures(4))
- glActiveTexture_(#GL_TEXTURE5)
- glBindTexture_(#GL_TEXTURE_2D, gTextures(5))
- 
+ glBindTexture_(#GL_TEXTURE_2D_ARRAY, gTextureArray) 
+
  glBindVertexArray_(gVao)
  
- ; model
- u_model = sgl::GetUniformLocation(gShader, "u_model")
-
- cubeRot + 60 * delta
- 
- m4x4::Identity(model)
- m4x4::TranslateXYZ(model, -3.0, -0.5, 0.0)
- m4x4::ScaleXYZ(model, 0.5, 0.5, 0.5)
- m4x4::RotateY(model, -cuberot)
- sgl::SetUniformMatrix4x4(u_model, @model) 
- glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
- 
- m4x4::Identity(model)
- sgl::SetUniformMatrix4x4(u_model, @model)
- glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
-
- 
- math::Clamp(cubeRot, 0.0, 360.0)
- 
- m4x4::Identity(model)
- m4x4::TranslateXYZ(model, 3.0, 1.0, 0.0)
- m4x4::ScaleXYZ(model, 0.25, 0.25, 0.25)
- m4x4::RotateY(model, cubeRot)
- m4x4::RotateX(model, -cubeRot)
- sgl::SetUniformMatrix4x4(u_model, @model) 
  glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
   
  ; text info
@@ -377,26 +337,43 @@ Procedure Render()
 
  vec3::Set(color, 0.7, 0.8, 1.0)
  y - RenderText::GetFontHeight(gFonHelp) * 2.1
- text$ = "STRAFE       = Left/Right Arrow"
+ text$ = "ArcBall            = Right Mouse Button" 
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
  y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = "FORWARD/BACK = Up/Down Arrow"
+ text$ = "ZOOM IN / OUT      = Mouse Wheel"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
  y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = "LOOK AROUND  = Right Mouse Button" 
+ text$ = "Up/Down/Left/Right = Middle Button"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
 
  y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = "RESET CAMERA = R" 
+ text$ = "RESET CAMERA       = R" 
+ RenderText::Render(gWin, gFonHelp, text$, x, y, color)
+
+ y - RenderText::GetFontHeight(gFonHelp) * 1.5
+ text$ = "ArcBall virtual (X,Y,Z)"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
+ y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ text$ = str::Sprintf("X = %6.3f", @*camera\sphere\x)
+ RenderText::Render(gWin, gFonHelp, text$, x, y, color)
+ 
+ y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ text$ = str::Sprintf("Y = %6.3f", @*camera\sphere\y)
+ RenderText::Render(gWin, gFonHelp, text$, x, y, color)
+
+ y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ text$ = str::Sprintf("Z = %6.3f", @*camera\sphere\z)
+ RenderText::Render(gWin, gFonHelp, text$, x, y, color)
+
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0)
  x = 1 : y = 0
- RenderText::Render(gWin, gFon, sgl::GetRenderer(), x, y, color)
-
+ text$ = sgl::GetRenderer()
+ RenderText::Render(gWin, gFon, text$, x, y, color)
+ 
  sgl::SwapBuffers(gWin)
 EndProcedure
 
@@ -412,7 +389,7 @@ Procedure MainLoop()
         gVSync ! 1
         sgl::EnableVSync(gVSync)
     EndIf
-        
+    
     If sgl::IsWindowMinimized(gWin) = 0
         Render()
         sgl::TrackFPS()
@@ -428,9 +405,8 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 220
-; FirstLine = 216
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 10
 ; Folding = --
 ; EnableXP
 ; EnableUser

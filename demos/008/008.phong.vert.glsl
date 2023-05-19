@@ -9,7 +9,7 @@ layout (location = 2) in vec3 normal;
 // output sent to the fragment shader
 
 out vec3  v_fragPos; // fragment position in world coordinates
-out vec3  v_color;  // texture coordinates
+out vec3  v_color;  // color
 out vec3  v_normal; // normal vector
 
 uniform mat4 u_model;

@@ -156,8 +156,6 @@ Procedure.f Colinearity (*VectorA.vec2, *VectorB.vec2)
  ProcedureReturn DotProduct(vuA, vuB)
 EndProcedure
 
-
-
 Procedure PointAlongVector (*PointA.vec2, *PointB.vec2, distance.f, *PointAlong.vec2)
 ;> Calculate the point along the vector going from PointA to PointB at the specified distance from PointA.
 ; PointAlong = PointA + distance in the direction of PointA -> PointB.
@@ -392,7 +390,9 @@ vec2::TransformWorldToLocal(Origin, UnitAxisX, UnitAxisY, pw, pl)
 vec2::Dump(pl) ; (2.02, 1.01)
 
 CompilerEndIf
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; CursorPosition = 156
+; FirstLine = 125
 ; Folding = -----
 ; Markers = 10
 ; EnableXP

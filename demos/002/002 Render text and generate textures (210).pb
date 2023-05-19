@@ -5,16 +5,16 @@
 
 EnableExplicit
 
-IncludeFile "../sgl.config.pbi"
-IncludeFile "../sgl.pbi"
-IncludeFile "../sgl.pb"
+IncludeFile "../../sgl.config.pbi"
+IncludeFile "../../sgl.pbi"
+IncludeFile "../../sgl.pb"
 
-IncludeFile "../extras/RenderText_210/RenderText.pb"
+IncludeFile "../../extras/RenderText_210/RenderText.pb"
 
 #TITLE$ = "Render text and generate textures"
 #SCROLL_TEXT$ = "This is some pretty uninteresting scrolling text ... wait, there is more ... and unexpectedly there is even more ... ok, that's enough !"
-#WIN_WIDTH = 800
-#WIN_HEIGHT = 600
+#WIN_WIDTH = 1024
+#WIN_HEIGHT = 768
 #VSYNC = 1
 
 #ROTATION_TIME = 20.0 ; seconds to rotate 360.0 degrees
@@ -308,9 +308,8 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 59
-; FirstLine = 52
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 16
 ; Folding = --
 ; Optimizer
 ; EnableXP

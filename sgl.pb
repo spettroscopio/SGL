@@ -858,9 +858,11 @@ Procedure.i Init()
     Goto exit
  EndIf
  
- UsePNGImageEncoder()
- 
+ UsePNGImageEncoder() 
  UsePNGImageDecoder()
+
+ UseJPEGImageEncoder() 
+ UseJPEGImageDecoder()
 
  Protected err = glfwLoad::Load()
 
@@ -3303,10 +3305,10 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 50
-; FirstLine = 8
+; CursorPosition = 2828
+; FirstLine = 2824
 ; Folding = -------------------------------
-; Markers = 61,99,1483,1549
+; Markers = 61,99,1485,1551
 ; EnableXP
 ; EnableUser
 ; UseMainFile = examples\001 Minimal.pb

@@ -1,18 +1,17 @@
-﻿; This is the same program as the previous one, but modified to use Array Textures (#GL_TEXTURE_2D_ARRAY) instead of an array of Sampler2D. 
-; https://www.khronos.org/opengl/wiki/Array_Texture
+﻿; This is the very similar to the previous program, but modified to use an ArcBall instead of a FPS camera.
 
 EnableExplicit
 
-IncludeFile "../sgl.config.pbi"
-IncludeFile "../sgl.pbi"
-IncludeFile "../sgl.pb"
+IncludeFile "../../sgl.config.pbi"
+IncludeFile "../../sgl.pbi"
+IncludeFile "../../sgl.pb"
 
-IncludeFile "../extras/RenderText_330/RenderText.pb"
-IncludeFile "../extras/Camera/ArcBall.pb"
+IncludeFile "../../extras/RenderText_330/RenderText.pb"
+IncludeFile "../../extras/Camera/ArcBall.pb"
 
 UseModule gl
 
-#TITLE$ = "Array Textures (#GL_TEXTURE_2D_ARRAY)"
+#TITLE$ = "ArcBall Camera"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 1
@@ -24,7 +23,7 @@ Global gFon
 Global gFonHelp
 Global gTimer
 Global gVao
-Global gTextureArray
+Global Dim gTextures(5)
 
 Declare   CallBack_WindowRefresh (win)
 Declare   CallBack_Error (source$, desc$)
@@ -51,62 +50,47 @@ Procedure.i RandomColor()
  ProcedureReturn RGB(r,g,b)
 EndProcedure
 
-Procedure.i BuildTexArray ()
+Procedure.i BuildTex (id)
  Protected *td.sgl::TexelData
- Protected img, texid, layer
+ Protected img, texid
  Protected maxAnisotropy.f
-   
- glGenTextures_(1, @texid) 
- glBindTexture_(#GL_TEXTURE_2D_ARRAY, texid)
+ 
+ Select id
+    Case 0 
+        img = sgl::CreateImage_DiceFace(512, 512, 1, RGB(0, 0, 0), RandomColor()) ; front 
+    Case 1         
+        img = sgl::CreateImage_DiceFace(512, 512, 6, RGB(0, 0, 0), RandomColor()) ; back
+    Case 2 
+        img = sgl::CreateImage_DiceFace(512, 512, 5, RGB(0, 0, 0), RandomColor()) ; top 
+    Case 3 
+        img = sgl::CreateImage_DiceFace(512, 512, 2, RGB(0, 0, 0), RandomColor()) ; bottom
+    Case 4 
+        img = sgl::CreateImage_DiceFace(512, 512, 3, RGB(0, 0, 0), RandomColor()) ; right
+    Case 5 
+        img = sgl::CreateImage_DiceFace(512, 512, 4, RGB(0, 0, 0), RandomColor()) ; left
+ EndSelect
   
+ *td = sgl::CreateTexelData (img)
+  
+ glGenTextures_(1, @texid) 
+ glBindTexture_(#GL_TEXTURE_2D, texid)
+ 
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
+ 
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
+ 
  If sgl::IsExtensionAvailable("GL_EXT_texture_filter_anisotropic") Or sgl::IsExtensionAvailable("GL_ARB_texture_filter_anisotropic")
     glGetFloatv_(#GL_MAX_TEXTURE_MAX_ANISOTROPY, @maxAnisotropy)
-    glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
+    glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
  EndIf
+  
+ glTexImage2D_(#GL_TEXTURE_2D, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
+ glGenerateMipmap_(#GL_TEXTURE_2D)
  
- For layer = 0 To 5
-     Select layer
-        Case 0 
-            img = sgl::CreateImage_DiceFace(512, 512, 1, RGB(0, 0, 0), RandomColor()) ; front 
-            *td = sgl::CreateTexelData (img)
-            
-            ; this define how many layers (subtextures) will be present in the Array Texture
-            ; the "6" after the dimensions is used in this case
-            ; note all the textures must have of the same size, 6 x 512x512 textures in this case
-            glTexImage3D_(#GL_TEXTURE_2D_ARRAY, 0, *td\internalTextureFormat, 512, 512, 6, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, #Null)
- 
-            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
-            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
- 
-            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
-            glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
-            
-        Case 1         
-            img = sgl::CreateImage_DiceFace(512, 512, 6, RGB(0, 0, 0), RandomColor()) ; back
-            *td = sgl::CreateTexelData (img)
-        Case 2 
-            img = sgl::CreateImage_DiceFace(512, 512, 5, RGB(0, 0, 0), RandomColor()) ; top 
-            *td = sgl::CreateTexelData (img)
-        Case 3 
-            img = sgl::CreateImage_DiceFace(512, 512, 2, RGB(0, 0, 0), RandomColor()) ; bottom
-            *td = sgl::CreateTexelData (img)
-        Case 4 
-            img = sgl::CreateImage_DiceFace(512, 512, 3, RGB(0, 0, 0), RandomColor()) ; right
-            *td = sgl::CreateTexelData (img)
-        Case 5 
-            img = sgl::CreateImage_DiceFace(512, 512, 4, RGB(0, 0, 0), RandomColor()) ; left
-            *td = sgl::CreateTexelData (img)
-     EndSelect
-    
-    ; store the single 2D texture inside the n-th layer
-    glTexSubImage3D_(#GL_TEXTURE_2D_ARRAY, 0, 0, 0, layer, 512, 512, 1, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
-    
-    glGenerateMipmap_(#GL_TEXTURE_2D_ARRAY)
-    
-    sgl::DestroyTexelData(*td)
-    
-    FreeImage(img)
- Next   
+ FreeImage(img)
+ sgl::DestroyTexelData(*td)
  
  ProcedureReturn texid
 EndProcedure
@@ -115,7 +99,7 @@ Procedure SetupData()
   Protected vbo, ibo
 
  Protected *vertex = sgl::StartData()   
-  ; 3 * vertex_pos + 3 * texture_coord 
+  ; 3 * vertex_pos + 2 * texture_coord + 1 * texture_unit
   
   Data.f -1.0, -1.0,  1.0,   0.0, 0.0,   0.0 ; front 
   Data.f  1.0, -1.0,  1.0,   1.0, 0.0,   0.0
@@ -172,7 +156,10 @@ Procedure SetupData()
  glVertexAttribPointer_(0, 3, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 0)
  
  glEnableVertexAttribArray_(1) ; texture coords
- glVertexAttribPointer_(1, 3, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 3 * SizeOf(Float))
+ glVertexAttribPointer_(1, 2, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 3 * SizeOf(Float))
+
+ glEnableVertexAttribArray_(2) ; texture unit
+ glVertexAttribPointer_(2, 1, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 5 * SizeOf(Float))
 
  ; index buffer
  glGenBuffers_(1, @ibo)
@@ -185,18 +172,23 @@ Procedure SetupData()
  
  ; Textures
  
- gTextureArray = BuildTexArray()
+ gTextures(0) = BuildTex(0)
+ gTextures(1) = BuildTex(1)
+ gTextures(2) = BuildTex(2)
+ gTextures(3) = BuildTex(3)
+ gTextures(4) = BuildTex(4)
+ gTextures(5) = BuildTex(5)
  
  ; Shaders
   
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
  
- vs = sgl::CompileShaderFromFile("007.vert.glsl", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("006.vert.glsl", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("007.frag.glsl", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("006.frag.glsl", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
@@ -271,7 +263,7 @@ Procedure Render()
  Protected w, h, text$ 
  Protected delta.f
  Protected.m4x4::m4x4 model, projection, view
- Protected u_model, u_view, u_projection, u_texture
+ Protected u_model, u_view, u_projection, u_texUnits
  
  Static firstRun = 1
  Static *camera.ArcBall::ArcBall
@@ -280,7 +272,11 @@ Procedure Render()
     firstRun = 0   
     *camera = ArcBall::Create(gWin, 6.0)
  EndIf 
-  
+ 
+ Protected *units = sgl::StartData()
+  Data.l 0, 1, 2, 3, 4, 5
+ sgl::StopData()
+ 
  glClearColor_(0.25,0.25,0.5,1.0)
  glEnable_(#GL_DEPTH_TEST) 
  glClear_(#GL_COLOR_BUFFER_BIT | #GL_DEPTH_BUFFER_BIT)
@@ -312,13 +308,22 @@ Procedure Render()
  u_projection = sgl::GetUniformLocation(gShader, "u_projection")
  sgl::SetUniformMatrix4x4(u_projection, @projection)
 
- u_texture = sgl::GetUniformLocation(gShader, "u_texture")
- sgl::SetUniformLong(u_texture, 0) ; texture unit
+ u_texUnits = sgl::GetUniformLocation(gShader, "u_texUnits")
+ sgl::SetUniformLongs(u_texUnits, *units, 6)
  
- ; only one texture is bound here, but it's an Array Texture containing one 2D texture for layer
  glActiveTexture_(#GL_TEXTURE0)
- glBindTexture_(#GL_TEXTURE_2D_ARRAY, gTextureArray) 
-
+ glBindTexture_(#GL_TEXTURE_2D, gTextures(0))
+ glActiveTexture_(#GL_TEXTURE1)
+ glBindTexture_(#GL_TEXTURE_2D, gTextures(1))
+ glActiveTexture_(#GL_TEXTURE2)
+ glBindTexture_(#GL_TEXTURE_2D, gTextures(2))
+ glActiveTexture_(#GL_TEXTURE3)
+ glBindTexture_(#GL_TEXTURE_2D, gTextures(3))
+ glActiveTexture_(#GL_TEXTURE4)
+ glBindTexture_(#GL_TEXTURE_2D, gTextures(4))
+ glActiveTexture_(#GL_TEXTURE5)
+ glBindTexture_(#GL_TEXTURE_2D, gTextures(5))
+ 
  glBindVertexArray_(gVao)
  
  glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
@@ -405,9 +410,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 223
-; FirstLine = 219
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 190
+; FirstLine = 146
 ; Folding = --
 ; EnableXP
 ; EnableUser

@@ -591,10 +591,10 @@ Declare     StickLabelToImage (img, text$, size = 12, fore = $FFFFFF, back = $00
 Declare     EnableVSync (flag) ; Enable or disable vertical synchronization, if possible.
 Declare     SetMaxFPS (fps) ; Limit the number of FPS your main loop is going to render.
 Declare     TrackFPS() ; Tracks the current number of frame per seconds.
-Declare.i   GetFPS() ; Returns the number of frame per seconds in the last second.
+Declare.i   GetFPS() ; Returns the number of the frame per seconds in the last second.
 Declare     StartFrameTimer() ; Set the point in code where a frame start, and starts counting the passing time.
 Declare     StopFrameTimer() ; Set the point in code where a frame ends, and saves the elasped frame time.
-Declare.f   GetFrameTime() ; Returns the average of the frame times sampled in the last second expressed in milliseconds.
+Declare.f   GetFrameTime() ; Returns the average frame time sampled in the last second expressed in milliseconds.
 
 ; [ FONTS ]
 
@@ -622,11 +622,11 @@ Declare     SetUniformFloats (uniform, *address, count = 1) ; Pass a uniform to 
 Declare     SetUniform2Floats (uniform, v0.f, v1.f) ; Pass a uniform to the shader: 2 floats.
 Declare     SetUniform3Floats (uniform, v0.f, v1.f, v2.f) ; Pass a uniform to the shader: 3 floats.
 Declare     SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f) ; Pass a uniform to the shader: 4 floats.
-
 EndDeclareModule
 
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 16
+; CursorPosition = 624
+; FirstLine = 577
 ; Folding = -----
 ; Markers = 439
 ; EnableXP

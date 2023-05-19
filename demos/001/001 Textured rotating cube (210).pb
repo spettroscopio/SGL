@@ -6,15 +6,15 @@
 
 EnableExplicit
 
-IncludeFile "../sgl.config.pbi"
-IncludeFile "../sgl.pbi"
-IncludeFile "../sgl.pb"
+IncludeFile "../../sgl.config.pbi"
+IncludeFile "../../sgl.pbi"
+IncludeFile "../../sgl.pb"
 
 UseModule gl
 
 #TITLE$ = "Textured rotating cube"
-#WIN_WIDTH = 800
-#WIN_HEIGHT = 600
+#WIN_WIDTH = 1024
+#WIN_HEIGHT = 768
 #VSYNC = 1
 
 Global gWin
@@ -24,7 +24,7 @@ Global gTexture
 
 DataSection
  texture:   
- IncludeBinary "assets/yin-yang.png"   
+ IncludeBinary "../assets/yin-yang.png"   
 EndDataSection
 
 Declare     CallBack_WindowRefresh (gWin)
@@ -236,6 +236,7 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 16
 ; Folding = --
 ; Optimizer
 ; EnableXP

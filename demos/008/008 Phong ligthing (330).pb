@@ -4,11 +4,11 @@
 
 EnableExplicit
 
-IncludeFile "../sgl.config.pbi"
-IncludeFile "../sgl.pbi"
-IncludeFile "../sgl.pb"
+IncludeFile "../../sgl.config.pbi"
+IncludeFile "../../sgl.pbi"
+IncludeFile "../../sgl.pb"
 
-IncludeFile "../extras/RenderText_330/RenderText.pb"
+IncludeFile "../../extras/RenderText_330/RenderText.pb"
 
 UseModule gl
 
@@ -19,9 +19,7 @@ UseModule gl
 
 Global gWin
 Global gVSync = #VSYNC 
-Global gLightOn 
-Global gSpecularOn
-Global gDiffuseOn
+Global gAmbientOn, gSpecularOn, gDiffuseOn
 Global gShader, gLightShader
 Global gVao, gLightVao
 Global gFon
@@ -273,7 +271,7 @@ Procedure Render()
  
  Structure Light
   vPos.vec3::vec3
-  vColor.vec3::vec3  
+  vDiffuseColor.vec3::vec3  
   vAmbientColor.vec3::vec3
   vSpecularColor.vec3::vec3
   shiness.f
@@ -298,16 +296,16 @@ Procedure Render()
  
  Light\shiness = 24.0
  
- If gLightOn         
+ If gAmbientOn         
     glClearColor_(0.3, 0.3, 0.4, 1.0)
-    vec3::Set(Light\vColor,           0.6, 0.6, 0.6)    
-    vec3::Set(Light\vAmbientColor,    0.35, 0.35, 0.4)
+    vec3::Set(Light\vAmbientColor,    0.4, 0.4, 0.5)
+    vec3::Set(Light\vDiffuseColor,    0.5, 0.5, 0.5)    
     vec3::Set(Light\vSpecularColor,   0.2, 0.2, 0.2)
-    vec3::Copy(Light\vColor, lampColor)
+    vec3::Set(lampColor, 1.0, 1.0, 1.0)
  Else    
     glClearColor_(0.15, 0.15, 0.2, 1.0)
-    vec3::Set(Light\vColor,           0.0, 0.0, 0.0)
     vec3::Set(Light\vAmbientColor,    0.2, 0.2, 0.25)
+    vec3::Set(Light\vDiffuseColor,    0.0, 0.0, 0.0)
     vec3::Set(Light\vSpecularColor,   0.0, 0.0, 0.0)
     vec3::Set(lampColor, 0.1, 0.1, 0.1)
  EndIf
@@ -317,7 +315,7 @@ Procedure Render()
  EndIf
  
  If gDiffuseOn =  0
-    vec3::Zero(Light\vColor)
+    vec3::Zero(Light\vDiffuseColor)
  EndIf
     
  glEnable_(#GL_DEPTH_TEST) 
@@ -360,8 +358,8 @@ Procedure Render()
  u_light = sgl::GetUniformLocation(gShader, "u_light.vPos")
  sgl::SetUniformVec3(u_light, Light\vPos)
 
- u_light = sgl::GetUniformLocation(gShader, "u_light.vColor")
- sgl::SetUniformVec3(u_light, Light\vColor)
+ u_light = sgl::GetUniformLocation(gShader, "u_light.vDiffuseColor")
+ sgl::SetUniformVec3(u_light, Light\vDiffuseColor)
 
  u_light = sgl::GetUniformLocation(gShader, "u_light.vAmbientColor")
  sgl::SetUniformVec3(u_light, Light\vAmbientColor)  
@@ -415,7 +413,7 @@ Procedure Render()
 
  vec3::Set(color, 1.0, 1.0, 0.0) 
  x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
- If gLightOn 
+ If gAmbientOn 
     text$ = "[L]ight is ON"
  Else
     text$ = "[L]ight is OFF"
@@ -424,7 +422,7 @@ Procedure Render()
 
  vec3::Set(color, 1.0, 1.0, 0.0) 
  x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
- If gSpecularOn = 0 Or gLightOn = 0
+ If gSpecularOn = 0 Or gAmbientOn = 0
     text$ = "[S]pecular lighting is OFF"
  Else
     text$ = "[S]pecular lighting is ON"
@@ -433,7 +431,7 @@ Procedure Render()
 
  vec3::Set(color, 1.0, 1.0, 0.0) 
  x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
- If gDiffuseOn = 0 Or gLightOn = 0
+ If gDiffuseOn = 0 Or gAmbientOn = 0
     text$ = "[D]iffuse lighting is OFF"
  Else
     text$ = "[D]iffuse lighting is ON"
@@ -451,7 +449,7 @@ EndProcedure
 
 Procedure MainLoop()
 
- gLightOn = 1
+ gAmbientOn = 1
  gDiffuseOn = 1
  gSpecularOn = 1
  
@@ -467,19 +465,19 @@ Procedure MainLoop()
     EndIf
 
     If sgl::GetKeyPress(sgl::#Key_L)
-        gLightOn ! 1
+        gAmbientOn ! 1
     EndIf
     
     If sgl::GetKeyPress(sgl::#Key_S)
-        If gLightOn
+        If gAmbientOn
             gSpecularOn ! 1
         EndIf
     EndIf
 
     If sgl::GetKeyPress(sgl::#Key_D)
-        If gLightOn
+        If gAmbientOn
             gDiffuseOn ! 1
-        endif
+        EndIf
     EndIf
     
     If sgl::IsWindowMinimized(gWin) = 0
@@ -497,9 +495,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 481
-; FirstLine = 446
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 477
+; FirstLine = 449
 ; Folding = --
 ; Optimizer
 ; EnableXP

@@ -6,7 +6,7 @@ in vec3 v_fragPos;
 
 struct light {
   vec3 vPos;
-  vec3 vColor;
+  vec3 vDiffuseColor;
   vec3 vAmbientColor;
   vec3 vSpecularColor;
   float shiness;
@@ -36,7 +36,7 @@ void main () {
     float specularFactor = pow (max(dot(-viewDir, reflectDir), 0.0), u_light.shiness); 
     
     vec3 ambient  = u_light.vAmbientColor;
-    vec3 diffuse  = u_light.vColor * diffuseFactor;
+    vec3 diffuse  = u_light.vDiffuseColor * diffuseFactor;
     vec3 specular = u_light.vSpecularColor * specularFactor;
     
     fragColor = vec4(v_color * (ambient + diffuse + specular), 1.0);

@@ -184,7 +184,7 @@ Procedure _DBG_TEXT (Text$, Interval, FileName$, LineNum)
         FileName$ = GetFilePart(FileName$) ; if inside the IDE the full path is not shown ...
     EndIf
     
-    t$ = FileName$ + " (" + Str(LineNum) + ") " + Text$    
+    t$ = Chr(34) + FileName$ + Chr(34) + " (" + Str(LineNum) + ") " + Text$    
     
     Debug t$ ; do not delete this, it's for the console of the stand alone exe + debugger
     
@@ -222,9 +222,9 @@ EndProcedure
 CompilerEndIf
 
 EndModule
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 202
-; FirstLine = 28
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 186
+; FirstLine = 160
 ; Folding = ---
 ; EnableXP
 ; EnableUser

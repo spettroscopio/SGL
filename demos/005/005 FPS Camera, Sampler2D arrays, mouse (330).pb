@@ -1,23 +1,27 @@
-﻿; This is the very similar to the previous program, but modified to use an ArcBall instead of a FPS camera.
+﻿; FPS Camera, sampler arrays, mouse
+
+; Shows a possible way to pass multiple textures to a shader using Sampler2D arrays.
+; Shows how to implement a simple FPS camera and using keyboard and mouse to navigate.
+
 
 EnableExplicit
 
-IncludeFile "../sgl.config.pbi"
-IncludeFile "../sgl.pbi"
-IncludeFile "../sgl.pb"
+IncludeFile "../../sgl.config.pbi"
+IncludeFile "../../sgl.pbi"
+IncludeFile "../../sgl.pb"
 
-IncludeFile "../extras/RenderText_330/RenderText.pb"
-IncludeFile "../extras/Camera/ArcBall.pb"
+IncludeFile "../../extras/RenderText_330/RenderText.pb"
+IncludeFile "../../extras/Camera/CameraFPS.pb"
 
 UseModule gl
 
-#TITLE$ = "ArcBall Camera"
+#TITLE$ = "FPS Camera, Sampler2D arrays, mouse"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 1
 
 Global gWin
-Global gVSync = #VSYNC 
+Global gVSync = #VSYNC
 Global gShader
 Global gFon
 Global gFonHelp
@@ -49,6 +53,7 @@ Procedure.i RandomColor()
  b = Random(255, 64)
  ProcedureReturn RGB(r,g,b)
 EndProcedure
+
 
 Procedure.i BuildTex (id)
  Protected *td.sgl::TexelData
@@ -212,7 +217,7 @@ Procedure SetupData()
  ; Latin (ascii)
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128               
- gFonHelp = RenderText::CreateFont("Consolas", 10, #PB_Font_Bold, ranges(), 256, 256) 
+ gFonHelp = RenderText::CreateFont("consolas", 10, #PB_Font_Bold, ranges(), 256, 256) 
  ASSERT(gFonHelp)
   
 EndProcedure
@@ -262,16 +267,28 @@ EndProcedure
 Procedure Render()
  Protected w, h, text$ 
  Protected delta.f
+ Protected.vec3::vec3 pos
  Protected.m4x4::m4x4 model, projection, view
  Protected u_model, u_view, u_projection, u_texUnits
  
  Static firstRun = 1
- Static *camera.ArcBall::ArcBall
+ Static camera
  
  If firstRun
     firstRun = 0   
-    *camera = ArcBall::Create(gWin, 6.0)
- EndIf 
+     
+    ; the y of the vector is the height of the camera eyes, 0.0 put them at the same center of the cube     
+    vec3::set(pos, -3.0, 0.0, 6.0)
+   
+    ; the last 3 params are the camera position in the world, the yaw and the pitch in degrees
+    camera = CameraFPS::Create(gWin, pos, 20.0, 0.0)
+    
+    CameraFPS::SetLimits(camera, -80.0, 80.0) ; look up / down max degrees 
+    CameraFPS::SetSensitivity(camera, 0.1, 0.1) ; mouse sensitivity
+    CameraFPS::SetSpeed(camera, 5.0) ; walking speed
+    
+    Static cubeRot.f
+  EndIf 
  
  Protected *units = sgl::StartData()
   Data.l 0, 1, 2, 3, 4, 5
@@ -286,28 +303,21 @@ Procedure Render()
 
  delta = sgl::GetDeltaTime(gTimer)
  
- ; model
- m4x4::Identity(model)
-
- ; view
- ArcBall::Update(*camera, delta)
- 
- m4x4::Copy( ArcBall::GetMatrix(*camera), view)
- 
- ; projection
- m4x4::Perspective(projection, 60.0, Math::Float(w)/Math::Float(h), 0.1, 100.0)
-  
  sgl::BindShaderProgram(gShader)
  
- u_model = sgl::GetUniformLocation(gShader, "u_model")
- sgl::SetUniformMatrix4x4(u_model, @model)
+ ; view 
+ CameraFPS::Update(camera, delta)
+ m4x4::Copy( CameraFPS::GetMatrix(camera), view)
  
  u_view = sgl::GetUniformLocation(gShader, "u_view")
  sgl::SetUniformMatrix4x4(u_view, @view)
  
+ ; projection
+ m4x4::Perspective(projection, 60.0, Math::Float(w)/Math::Float(h), 0.1, 100.0)
+ 
  u_projection = sgl::GetUniformLocation(gShader, "u_projection")
  sgl::SetUniformMatrix4x4(u_projection, @projection)
-
+ 
  u_texUnits = sgl::GetUniformLocation(gShader, "u_texUnits")
  sgl::SetUniformLongs(u_texUnits, *units, 6)
  
@@ -326,6 +336,31 @@ Procedure Render()
  
  glBindVertexArray_(gVao)
  
+ ; model
+ u_model = sgl::GetUniformLocation(gShader, "u_model")
+
+ cubeRot + 60 * delta
+ 
+ m4x4::Identity(model)
+ m4x4::TranslateXYZ(model, -3.0, -0.5, 0.0)
+ m4x4::ScaleXYZ(model, 0.5, 0.5, 0.5)
+ m4x4::RotateY(model, -cuberot)
+ sgl::SetUniformMatrix4x4(u_model, @model) 
+ glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
+ 
+ m4x4::Identity(model)
+ sgl::SetUniformMatrix4x4(u_model, @model)
+ glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
+
+ 
+ math::Clamp(cubeRot, 0.0, 360.0)
+ 
+ m4x4::Identity(model)
+ m4x4::TranslateXYZ(model, 3.0, 1.0, 0.0)
+ m4x4::ScaleXYZ(model, 0.25, 0.25, 0.25)
+ m4x4::RotateY(model, cubeRot)
+ m4x4::RotateX(model, -cubeRot)
+ sgl::SetUniformMatrix4x4(u_model, @model) 
  glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
   
  ; text info
@@ -342,43 +377,26 @@ Procedure Render()
 
  vec3::Set(color, 0.7, 0.8, 1.0)
  y - RenderText::GetFontHeight(gFonHelp) * 2.1
- text$ = "ArcBall            = Right Mouse Button" 
+ text$ = "STRAFE       = Left/Right Arrow"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
  y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = "ZOOM IN / OUT      = Mouse Wheel"
+ text$ = "FORWARD/BACK = Up/Down Arrow"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
  y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = "Up/Down/Left/Right = Middle Button"
+ text$ = "LOOK AROUND  = Right Mouse Button" 
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
 
  y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = "RESET CAMERA       = R" 
- RenderText::Render(gWin, gFonHelp, text$, x, y, color)
-
- y - RenderText::GetFontHeight(gFonHelp) * 1.5
- text$ = "ArcBall virtual (X,Y,Z)"
+ text$ = "RESET CAMERA = R" 
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = str::Sprintf("X = %6.3f", @*camera\sphere\x)
- RenderText::Render(gWin, gFonHelp, text$, x, y, color)
- 
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = str::Sprintf("Y = %6.3f", @*camera\sphere\y)
- RenderText::Render(gWin, gFonHelp, text$, x, y, color)
-
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
- text$ = str::Sprintf("Z = %6.3f", @*camera\sphere\z)
- RenderText::Render(gWin, gFonHelp, text$, x, y, color)
-
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0)
  x = 1 : y = 0
- text$ = sgl::GetRenderer()
- RenderText::Render(gWin, gFon, text$, x, y, color)
- 
+ RenderText::Render(gWin, gFon, sgl::GetRenderer(), x, y, color)
+
  sgl::SwapBuffers(gWin)
 EndProcedure
 
@@ -394,7 +412,7 @@ Procedure MainLoop()
         gVSync ! 1
         sgl::EnableVSync(gVSync)
     EndIf
-    
+        
     If sgl::IsWindowMinimized(gWin) = 0
         Render()
         sgl::TrackFPS()
@@ -410,9 +428,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 215
-; FirstLine = 177
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 17
+; FirstLine = 1
 ; Folding = --
 ; EnableXP
 ; EnableUser
