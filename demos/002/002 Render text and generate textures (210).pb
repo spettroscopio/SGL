@@ -195,7 +195,7 @@ Procedure Render()
 
  glMatrixMode_(#GL_MODELVIEW) 
  glLoadIdentity_() 
- glTranslatef_(0.0, 0.0, -4.0) 
+ glTranslatef_(0.0, 0.0, -5.0) 
  
  glRotatef_(rot, 1.0, 1.0, 0.0)
  glRotatef_(rot, 0.0, 1.0, 0.0)
@@ -309,7 +309,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 16
+; CursorPosition = 197
+; FirstLine = 176
 ; Folding = --
 ; Optimizer
 ; EnableXP

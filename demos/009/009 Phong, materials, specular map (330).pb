@@ -107,11 +107,11 @@ Procedure SetupData()
   Data.f  1.0,  1.0,  1.0,   1.0, 1.0,   0.0,  0.0,  1.0
   Data.f -1.0,  1.0,  1.0,   0.0, 1.0,   0.0,  0.0,  1.0
                   
-  Data.f -1.0, -1.0, -1.0,   0.0, 1.0,   0.0,  0.0, -1.0 ; back 
-  Data.f -1.0,  1.0, -1.0,   0.0, 0.0,   0.0,  0.0, -1.0
-  Data.f  1.0,  1.0, -1.0,   1.0, 0.0,   0.0,  0.0, -1.0
-  Data.f  1.0, -1.0, -1.0,   1.0, 1.0,   0.0,  0.0, -1.0
-                  
+  Data.f -1.0, -1.0, -1.0,   1.0, 0.0,   0.0,  0.0, -1.0 ; back 
+  Data.f -1.0,  1.0, -1.0,   1.0, 1.0,   0.0,  0.0, -1.0
+  Data.f  1.0,  1.0, -1.0,   0.0, 1.0,   0.0,  0.0, -1.0
+  Data.f  1.0, -1.0, -1.0,   0.0, 0.0,   0.0,  0.0, -1.0
+                    
   Data.f -1.0,  1.0, -1.0,   0.0, 1.0,   0.0,  1.0,  0.0 ; top
   Data.f -1.0,  1.0,  1.0,   0.0, 0.0,   0.0,  1.0,  0.0
   Data.f  1.0,  1.0,  1.0,   1.0, 0.0,   0.0,  1.0,  0.0
@@ -200,11 +200,11 @@ Procedure SetupData()
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
  
- vs = sgl::CompileShaderFromFile("009.phong.vert.glsl", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("009.phong.vs", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("009.phong.frag.glsl", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("009.phong.fs", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
@@ -212,11 +212,11 @@ Procedure SetupData()
  ASSERT(gShader)
  
 
- vs = sgl::CompileShaderFromFile("009.light.vert.glsl", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("009.light.vs", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("009.light.frag.glsl", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("009.light.fs", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
@@ -338,7 +338,7 @@ Procedure Render()
  Material\shiness = 32.0
  
  If gAmbientOn         
-    glClearColor_(0.15, 0.15, 0.25, 1.0)
+    glClearColor_(0.3, 0.3, 0.35, 1.0)
     vec3::Set(Light\vAmbientColor,    0.55, 0.55, 0.55)
     vec3::Set(Light\vDiffuseColor,    0.5, 0.5, 0.5)    
     vec3::Set(Light\vSpecularColor,   1.0, 1.0, 1.0)
@@ -565,9 +565,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 468
-; FirstLine = 427
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 340
+; FirstLine = 316
 ; Folding = --
 ; Optimizer
 ; EnableXP

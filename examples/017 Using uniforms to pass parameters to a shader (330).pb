@@ -36,7 +36,7 @@ Procedure Render (win)
  u_Color = sgl::GetUniformLocation(gShader, "u_Color")
  
  ; in this example we just split the drawing in two parts to test 
- ; the color passing using the uniform
+ ; the parameter passing using the uniform
  
  sgl::SetUniform4Floats(u_Color, 1.0, 0.0, 0.0, 1.0) 
  glDrawElements_(#GL_TRIANGLES, 3, #GL_UNSIGNED_INT, 0)
@@ -142,8 +142,8 @@ If sgl::Init()
 EndIf
  
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 103
-; FirstLine = 95
+; CursorPosition = 38
+; FirstLine = 33
 ; Folding = -
 ; EnableXP
 ; EnableUser

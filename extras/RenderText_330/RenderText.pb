@@ -338,18 +338,18 @@ Procedure.i CreateFont (fontName$, fontSize, fontFlags,  Array ranges.sgl::Bitma
 EndProcedure
 
 DataSection
-vertex: : IncludeBinary "rt.vert.glsl" : vertex_end:
+vertex: : IncludeBinary "rt.vs" : vertex_end:
 EndDataSection
 
 DataSection
-fragment: : IncludeBinary "rt.frag.glsl" : fragment_end:
+fragment: : IncludeBinary "rt.fs" : fragment_end:
 EndDataSection
 
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 261
-; FirstLine = 91
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 344
+; FirstLine = 300
 ; Folding = --
 ; EnableXP
 ; EnableUser

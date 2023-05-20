@@ -160,11 +160,11 @@ Procedure SetupData()
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
  
- vs = sgl::CompileShaderFromFile("003.vert.glsl", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("003.vs", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("003.frag.glsl", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("003.fs", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
@@ -257,7 +257,7 @@ Procedure Render()
 
  ; modelview
  m4x4::Identity(modelview)
- m4x4::TranslateXYZ(modelview, 0.0, 0.0, -4.0)
+ m4x4::TranslateXYZ(modelview, 0.0, 0.0, -5.0)
  m4x4::RotateX(modelview, rot)
  m4x4::RotateY(modelview, rot)
  m4x4::RotateZ(modelview, rot)
@@ -329,8 +329,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 31
-; FirstLine = 27
+; CursorPosition = 259
+; FirstLine = 232
 ; Folding = --
 ; EnableXP
 ; EnableUser

@@ -3304,9 +3304,9 @@ Procedure SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f)
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 2828
-; FirstLine = 2824
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; CursorPosition = 3290
+; FirstLine = 3257
 ; Folding = -------------------------------
 ; Markers = 61,99,1485,1551
 ; EnableXP

@@ -74,11 +74,13 @@ Procedure SetupShaders()
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
  
- vs = sgl::CompileShaderFromFile("020.vert.glsl", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("020.vs", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
+ ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("020.frag.glsl", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("020.fs", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
+ ASSERT(fs)
  
  gShader = sgl::BuildShaderProgram(@objects) ; link and build the program using the specified shader objects 
  ASSERT(gShader)
@@ -121,7 +123,7 @@ If sgl::Init()
 EndIf
  
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 83
+; CursorPosition = 85
 ; FirstLine = 73
 ; Folding = -
 ; EnableXP

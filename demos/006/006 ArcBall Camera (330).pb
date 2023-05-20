@@ -184,11 +184,11 @@ Procedure SetupData()
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
  
- vs = sgl::CompileShaderFromFile("006.vert.glsl", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("006.vs", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("006.frag.glsl", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("006.fs", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
@@ -412,7 +412,7 @@ Procedure Main()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
 ; CursorPosition = 190
-; FirstLine = 146
+; FirstLine = 155
 ; Folding = --
 ; EnableXP
 ; EnableUser

@@ -1,15 +1,8 @@
-﻿; This is similar to the previous one, but with the addition of two new maps, an emissive map and a normal map.
-; The emissive map is very easy to implement and adds the ability to have some parts of the object illuminated indipendently from the incoming light.
-; It's typically used to emit light from the object (hence the name)
-
-; The normal map is more complex even if the concept is simple, but it adds realism capturing how the light is supposed to be reflected with the resolution
-; of a single fragment instead of a vertex.
-; In this example if you try to enable/disable normal mapping you should notice a more realistic shimmering of the light
-; on the many metal reliefs on the box and even at the extremities of the box, when the border tend to reflect some light.
-
-; For an in depth explanation 
-; https://learnopengl.com/Advanced-Lighting/Normal-Mapping
-; https://ogldev.org/www/tutorial26/tutorial26.html
+﻿; This is juest a variant of the previous one.
+; I've added a "decal" to the box, it's nice to see how the decal is modulated with the other maps inside the fragment shader.
+; Also I used the specular map to simulate a painted decal instead of a sticker, it was not its intended use, but the data was 
+; useful for the job, since the recesses of the box are darker in the map, and in there it's more difficult for the paint to go in
+; and to reflect the light.
 
 EnableExplicit
 
@@ -21,17 +14,17 @@ IncludeFile "../../extras/RenderText_330/RenderText.pb"
 
 UseModule gl
 
-#TITLE$ = "Emissive and Normal maps (330)"
+#TITLE$ = "Decals and tricks (330)"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 1
 
 Global gWin
 Global gVSync = #VSYNC 
-Global gAmbientOn, gSpecularOn, gDiffuseOn, gNormalMappingOn
+Global gAmbientOn, gSpecularOn, gDiffuseOn, gNormalMappingOn, gDecalType, gLightColor
 Global gPulsating
 Global gShader, gLightShader
-Global gDiffuseMap, gSpecularMap, gNormalMap, gEmissiveMap, gLampTex
+Global gDiffuseMap, gSpecularMap, gNormalMap, gEmissiveMap, gLampTex, gDecal
 Global gVao, gLightVao
 Global gFon
 Global gTimer
@@ -42,6 +35,7 @@ Structure CubeVertex
  normal.vec3::vec3    ; 3 floats
  tangent.vec3::vec3   ; 3 floats
  bitangent.vec3::vec3 ; 3 floats
+ drawDecal.f
 EndStructure
  
 DataSection
@@ -54,7 +48,9 @@ DataSection
  EmissiveMap:
  IncludeBinary "../assets/scifi_box_emissive.png" 
  lamp:
- IncludeBinary "../assets/lamp.png"  
+ IncludeBinary "../assets/lamp.png"
+ decal:
+ IncludeBinary "../assets/danger.png"  
 EndDataSection
 
 Declare   CallBack_WindowRefresh (win)
@@ -162,44 +158,44 @@ Procedure SetupData()
  DataSection  
   cube_vertex_data:
   
-  ; 3 * vertex_pos + 2 * tex_coord + 3 * normals
+  ; 3 * vertex_pos + 2 * tex_coord + 3 * normals + 1 * decal
   
-  Data.f -1.0, -1.0,  1.0,   0.0, 0.0,   0.0,  0.0,  1.0 ; front 
-  Data.f  1.0, -1.0,  1.0,   1.0, 0.0,   0.0,  0.0,  1.0
-  Data.f  1.0,  1.0,  1.0,   1.0, 1.0,   0.0,  0.0,  1.0
-  Data.f -1.0,  1.0,  1.0,   0.0, 1.0,   0.0,  0.0,  1.0
+  Data.f -1.0, -1.0,  1.0,   0.0, 0.0,   0.0,  0.0,  1.0,  1.0 ; front 
+  Data.f  1.0, -1.0,  1.0,   1.0, 0.0,   0.0,  0.0,  1.0,  1.0
+  Data.f  1.0,  1.0,  1.0,   1.0, 1.0,   0.0,  0.0,  1.0,  1.0
+  Data.f -1.0,  1.0,  1.0,   0.0, 1.0,   0.0,  0.0,  1.0,  1.0
                   
-  Data.f -1.0, -1.0, -1.0,   1.0, 0.0,   0.0,  0.0, -1.0 ; back 
-  Data.f -1.0,  1.0, -1.0,   1.0, 1.0,   0.0,  0.0, -1.0
-  Data.f  1.0,  1.0, -1.0,   0.0, 1.0,   0.0,  0.0, -1.0
-  Data.f  1.0, -1.0, -1.0,   0.0, 0.0,   0.0,  0.0, -1.0
-                    
-  Data.f -1.0,  1.0, -1.0,   0.0, 1.0,   0.0,  1.0,  0.0 ; top
-  Data.f -1.0,  1.0,  1.0,   0.0, 0.0,   0.0,  1.0,  0.0
-  Data.f  1.0,  1.0,  1.0,   1.0, 0.0,   0.0,  1.0,  0.0
-  Data.f  1.0,  1.0, -1.0,   1.0, 1.0,   0.0,  1.0,  0.0
+  Data.f -1.0, -1.0, -1.0,   1.0, 0.0,   0.0,  0.0, -1.0,  1.0 ; back 
+  Data.f -1.0,  1.0, -1.0,   1.0, 1.0,   0.0,  0.0, -1.0,  1.0
+  Data.f  1.0,  1.0, -1.0,   0.0, 1.0,   0.0,  0.0, -1.0,  1.0
+  Data.f  1.0, -1.0, -1.0,   0.0, 0.0,   0.0,  0.0, -1.0,  1.0
                   
-  Data.f -1.0, -1.0, -1.0,   0.0, 0.0,   0.0, -1.0,  0.0 ; bottom
-  Data.f  1.0, -1.0, -1.0,   1.0, 0.0,   0.0, -1.0,  0.0
-  Data.f  1.0, -1.0,  1.0,   1.0, 1.0,   0.0, -1.0,  0.0
-  Data.f -1.0, -1.0,  1.0,   0.0, 1.0,   0.0, -1.0,  0.0
+  Data.f -1.0,  1.0, -1.0,   0.0, 1.0,   0.0,  1.0,  0.0,  0.0 ; top
+  Data.f -1.0,  1.0,  1.0,   0.0, 0.0,   0.0,  1.0,  0.0,  0.0
+  Data.f  1.0,  1.0,  1.0,   1.0, 0.0,   0.0,  1.0,  0.0,  0.0
+  Data.f  1.0,  1.0, -1.0,   1.0, 1.0,   0.0,  1.0,  0.0,  0.0
                   
-  Data.f  1.0, -1.0, -1.0,   1.0, 0.0,   1.0,  0.0,  0.0 ; right
-  Data.f  1.0,  1.0, -1.0,   1.0, 1.0,   1.0,  0.0,  0.0
-  Data.f  1.0,  1.0,  1.0,   0.0, 1.0,   1.0,  0.0,  0.0
-  Data.f  1.0, -1.0,  1.0,   0.0, 0.0,   1.0,  0.0,  0.0
+  Data.f -1.0, -1.0, -1.0,   0.0, 0.0,   0.0, -1.0,  0.0,  0.0 ; bottom
+  Data.f  1.0, -1.0, -1.0,   1.0, 0.0,   0.0, -1.0,  0.0,  0.0
+  Data.f  1.0, -1.0,  1.0,   1.0, 1.0,   0.0, -1.0,  0.0,  0.0
+  Data.f -1.0, -1.0,  1.0,   0.0, 1.0,   0.0, -1.0,  0.0,  0.0
                   
-  Data.f -1.0, -1.0, -1.0,   0.0, 0.0,  -1.0,  0.0,  0.0 ; left
-  Data.f -1.0, -1.0,  1.0,   1.0, 0.0,  -1.0,  0.0,  0.0
-  Data.f -1.0,  1.0,  1.0,   1.0, 1.0,  -1.0,  0.0,  0.0
-  Data.f -1.0,  1.0, -1.0,   0.0, 1.0,  -1.0,  0.0,  0.0
+  Data.f  1.0, -1.0, -1.0,   1.0, 0.0,   1.0,  0.0,  0.0,  0.0 ; right
+  Data.f  1.0,  1.0, -1.0,   1.0, 1.0,   1.0,  0.0,  0.0,  0.0
+  Data.f  1.0,  1.0,  1.0,   0.0, 1.0,   1.0,  0.0,  0.0,  0.0
+  Data.f  1.0, -1.0,  1.0,   0.0, 0.0,   1.0,  0.0,  0.0,  0.0
+                  
+  Data.f -1.0, -1.0, -1.0,   0.0, 0.0,  -1.0,  0.0,  0.0,  0.0 ; left
+  Data.f -1.0, -1.0,  1.0,   1.0, 0.0,  -1.0,  0.0,  0.0,  0.0
+  Data.f -1.0,  1.0,  1.0,   1.0, 1.0,  -1.0,  0.0,  0.0,  0.0
+  Data.f -1.0,  1.0, -1.0,   0.0, 1.0,  -1.0,  0.0,  0.0,  0.0
  EndDataSection
 
  ; this time we copy the vertex data in an array of structures to be able to manipulate them more easily (update the tangents)
  
  Dim vertex_cube.CubeVertex(23) ; 6 faces * 4 quads  
  Restore cube_vertex_data
- Protected.f x, y, z
+ Protected.f x, y, z, decal.f
  Protected i
  
  For i = 0 To 23 ; 24 vertices
@@ -211,6 +207,9 @@ Procedure SetupData()
     
     Read.f x : Read.f y : Read.f z 
     vec3::Set(vertex_cube(i)\normal, x, y, z)
+    
+    Read.f decal
+    vertex_cube(i)\drawDecal = decal
     
     vec3::Zero(vertex_cube(i)\tangent)
     
@@ -260,23 +259,26 @@ Procedure SetupData()
  ; vertex buffer
  glGenBuffers_(1, @vbo)
  glBindBuffer_(#GL_ARRAY_BUFFER, vbo)
- ; 24 vertices made by 14 floats each
- glBufferData_(#GL_ARRAY_BUFFER, 24 * 14 * SizeOf(Float), vertex_cube(), #GL_STATIC_DRAW)
+ ; 24 vertices made by 15 floats each
+ glBufferData_(#GL_ARRAY_BUFFER, 24 * 15 * SizeOf(Float), vertex_cube(), #GL_STATIC_DRAW)
 
  glEnableVertexAttribArray_(0) ; point coords
- glVertexAttribPointer_(0, 3, #GL_FLOAT, #GL_FALSE, 14 * SizeOf(Float), 0)
+ glVertexAttribPointer_(0, 3, #GL_FLOAT, #GL_FALSE, 15 * SizeOf(Float), 0)
  
  glEnableVertexAttribArray_(1) ; texture coord
- glVertexAttribPointer_(1, 2, #GL_FLOAT, #GL_FALSE, 14 * SizeOf(Float), 3 * SizeOf(Float))
+ glVertexAttribPointer_(1, 2, #GL_FLOAT, #GL_FALSE, 15 * SizeOf(Float), 3 * SizeOf(Float))
 
  glEnableVertexAttribArray_(2) ; normals
- glVertexAttribPointer_(2, 3, #GL_FLOAT, #GL_FALSE, 14 * SizeOf(Float), 5 * SizeOf(Float))
+ glVertexAttribPointer_(2, 3, #GL_FLOAT, #GL_FALSE, 15 * SizeOf(Float), 5 * SizeOf(Float))
  
  glEnableVertexAttribArray_(3) ; tangents
- glVertexAttribPointer_(3, 3, #GL_FLOAT, #GL_FALSE, 14 * SizeOf(Float), 8 * SizeOf(Float))
+ glVertexAttribPointer_(3, 3, #GL_FLOAT, #GL_FALSE, 15 * SizeOf(Float), 8 * SizeOf(Float))
 
  glEnableVertexAttribArray_(4) ; bitangents
- glVertexAttribPointer_(4, 3, #GL_FLOAT, #GL_FALSE, 14 * SizeOf(Float), 11 * SizeOf(Float))
+ glVertexAttribPointer_(4, 3, #GL_FLOAT, #GL_FALSE, 15 * SizeOf(Float), 11 * SizeOf(Float))
+
+ glEnableVertexAttribArray_(5) ; drawDecal 
+ glVertexAttribPointer_(5, 1, #GL_FLOAT, #GL_FALSE, 15 * SizeOf(Float), 14 * SizeOf(Float))
 
  ; index buffer
  glGenBuffers_(1, @ibo)
@@ -314,23 +316,22 @@ Procedure SetupData()
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
  
- vs = sgl::CompileShaderFromFile("010.phong.vs", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("011.phong.vs", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("010.phong.fs", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("011.phong.fs", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
  gShader = sgl::BuildShaderProgram(@objects) ; link and build the program using the specified shader objects 
  ASSERT(gShader)
  
-
- vs = sgl::CompileShaderFromFile("010.light.vs", #GL_VERTEX_SHADER) 
+ vs = sgl::CompileShaderFromFile("011.light.vs", #GL_VERTEX_SHADER) 
  sgl::AddShaderObject(@objects, vs) 
  ASSERT(vs)
  
- fs = sgl::CompileShaderFromFile("010.light.fs", #GL_FRAGMENT_SHADER) 
+ fs = sgl::CompileShaderFromFile("011.light.fs", #GL_FRAGMENT_SHADER) 
  sgl::AddShaderObject(@objects, fs) 
  ASSERT(fs)
  
@@ -345,6 +346,7 @@ Procedure SetupData()
  gNormalMap = CatchTexture(?NormalMap) 
  gEmissiveMap = CatchTexture(?EmissiveMap) 
  gLampTex = CatchTexture(?lamp)
+ gDecal = CatchTexture(?decal)
   
  ; Timers
  
@@ -408,7 +410,7 @@ Procedure Render()
  Protected delta.f
  Protected distance.f = 5.0
  Protected u_model, u_view, u_projection
- Protected u_light, u_material, u_lamp, u_eye, u_NormalMapping
+ Protected u_light, u_material, u_lamp, u_eye, u_NormalMapping, u_decal
  
  Protected.m4x4::m4x4 model, projection, view
  Protected.vec3::vec3 eye, lampColor
@@ -459,20 +461,46 @@ Procedure Render()
  Material\emissiveMap = 3 ; texture unit 3
  Material\shiness = 32.0
  
- vec3::Set(Light\vEmissiveColor,   1.0, 1.0, 0.0)
+ ; the first value is 2.0 to let a larger area to be influenced by the color when multiplied by the emissive mask in the shader
+ ; (more of the blurred weak pixels will be enhanced)
+ vec3::Set(Light\vEmissiveColor, 2.0, 0.3, 0.3)
  
  If gAmbientOn         
-    glClearColor_(0.3, 0.3, 0.35, 1.0)
-    vec3::Set(Light\vAmbientColor,    0.4, 0.4, 0.4)
-    vec3::Set(Light\vDiffuseColor,    0.45, 0.45, 0.45)    
-    vec3::Set(Light\vSpecularColor,   0.5, 0.5, 0.5)
-    vec3::Set(lampColor, 1.0, 1.0, 1.0)
+    Select gLightColor
+        Case 0 ; white
+            glClearColor_(0.3, 0.3, 0.35, 1.0)
+            vec3::Set(Light\vAmbientColor,    0.4, 0.4, 0.4)        
+            vec3::Set(Light\vDiffuseColor,    0.45, 0.45, 0.45)    
+            vec3::Set(Light\vSpecularColor,   0.5, 0.5, 0.5)    
+        Case 1 ; red-dish
+            glClearColor_(0.20, 0.15, 0.15, 1.0)
+            vec3::Set(Light\vAmbientColor,    0.35, 0.15, 0.15)
+            vec3::Set(Light\vDiffuseColor,    0.6, 0.1, 0.1)
+            vec3::Set(Light\vSpecularColor,   0.4, 0.3, 0.3)            
+        Case 2 ; green-ish
+            glClearColor_(0.15, 0.18, 0.15, 1.0)
+            vec3::Set(Light\vAmbientColor,    0.3, 0.4, 0.3)
+            vec3::Set(Light\vDiffuseColor,    0.1, 0.5, 0.1)
+            vec3::Set(Light\vSpecularColor,   0.2, 0.5, 0.3)
+        Case 3 ; blue-ish
+            glClearColor_(0.15, 0.15, 0.25, 1.0)
+            vec3::Set(Light\vAmbientColor,    0.25, 0.25, 0.4)
+            vec3::Set(Light\vDiffuseColor,    0.1, 0.1, 0.5)
+            vec3::Set(Light\vSpecularColor,   0.2, 0.2, 0.5)
+        Case 4 ; yellow-ish
+            glClearColor_(0.2, 0.2, 0.15, 1.0)
+            vec3::Set(Light\vAmbientColor,    0.4, 0.4, 0.1)
+            vec3::Set(Light\vDiffuseColor,    0.6, 0.6, 0.1)
+            vec3::Set(Light\vSpecularColor,   0.3, 0.3, 0.15)            
+    EndSelect        
+    
+    vec3::Add(Light\vAmbientColor, Light\vDiffuseColor, lampColor)
  Else    
     glClearColor_(0.15, 0.15, 0.2, 1.0)
     vec3::Set(Light\vAmbientColor,    0.2, 0.2, 0.25)
     vec3::Set(Light\vDiffuseColor,    0.0, 0.0, 0.0)
     vec3::Set(Light\vSpecularColor,   0.0, 0.0, 0.0)
-    vec3::Set(lampColor, 0.1, 0.1, 0.1)
+    vec3::Add(Light\vAmbientColor, Light\vDiffuseColor, lampColor)
  EndIf
  
  If gSpecularOn = 0
@@ -585,10 +613,19 @@ Procedure Render()
  
  u_material = sgl::GetUniformLocation(gShader, "u_material.shiness")
  sgl::SetUniformFloat(u_material, Material\shiness)
+
+ glActiveTexture_(#GL_TEXTURE4)
+ glBindTexture_(#GL_TEXTURE_2D, gDecal)
+ 
+ u_decal = sgl::GetUniformLocation(gShader, "u_decal.decal")
+ sgl::SetUniformLong(u_decal, 4)
+
+ u_decal = sgl::GetUniformLocation(gShader, "u_decal.type")
+ sgl::SetUniformFloat(u_decal, gDecalType)
  
  glBindVertexArray_(gVao) 
  glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) 
-
+ 
  ; this section is for the LIGHT
 
  ; model (the light will orbit around the origin)
@@ -646,8 +683,26 @@ Procedure Render()
  EndIf 
  RenderText::Render(gWin, gFon, text$, x, y, color)
 
- If gAmbientOn     
-     x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+ If gAmbientOn
+     x = 1 : y - RenderText::GetFontHeight(gFon) * 2.0
+     If gLightColor = 0
+        text$ = "Light [C]olor is White."
+     EndIf 
+     If gLightColor = 1
+        text$ = "Light [C]olor is Red-dish."
+     EndIf 
+     If gLightColor = 2
+        text$ = "Light [C]olor is Green-ish."
+     EndIf 
+     If gLightColor = 3
+        text$ = "Light [C]olor is Blue-ish."
+     EndIf 
+     If gLightColor = 4
+        text$ = "Light [C]olor is Yellow-ish."
+     EndIf      
+     RenderText::Render(gWin, gFon, text$, x, y, color)     
+
+     x = 1 : y - RenderText::GetFontHeight(gFon) * 2.0
      If gSpecularOn = 0 
         text$ = "[S]pecular lighting is OFF"
      Else
@@ -672,13 +727,26 @@ Procedure Render()
      RenderText::Render(gWin, gFon, text$, x, y, color)     
  EndIf
  
- x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+ x = 1 : y - RenderText::GetFontHeight(gFon) * 2
  If gPulsating = 0 
     text$ = "[P]ulsating light is OFF"
  Else
     text$ = "[P]ulsating light is ON"
  EndIf 
  RenderText::Render(gWin, gFon, text$, x, y, color)
+
+ x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+ If gDecalType = 0
+    text$ = "Decal [T]ype is NONE."
+ EndIf 
+ If gDecalType = 1
+    text$ = "Decal [T]ype is sticker."
+ EndIf 
+ If gDecalType = 2
+    text$ = "Decal [T]ype is painted."
+ EndIf  
+ RenderText::Render(gWin, gFon, text$, x, y, color)
+
 
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0) 
@@ -696,6 +764,8 @@ Procedure MainLoop()
  gSpecularOn = 1
  gNormalMappingOn = 1
  gPulsating = 1
+ gDecalType = 1
+ gLightColor = 0
  
  While sgl::WindowShouldClose(gWin) = 0
  
@@ -710,6 +780,14 @@ Procedure MainLoop()
     
     If sgl::GetKeyPress(sgl::#Key_P)
         gPulsating ! 1        
+    EndIf
+    
+    If sgl::GetKeyPress(sgl::#Key_T)        
+        gDecalType = math::Cycle(gDecalType + 1, 0, 2)
+    EndIf
+    
+    If sgl::GetKeyPress(sgl::#Key_C)        
+        gLightColor = math::Cycle(gLightColor + 1, 0,4)
     EndIf
 
     If sgl::GetKeyPress(sgl::#Key_L)
@@ -750,12 +828,13 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 464
-; FirstLine = 435
+; CursorPosition = 470
+; FirstLine = 437
 ; Folding = ---
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = C:\Users\luis\Desktop\Share\sgl\010\normal_map.exe
+; Executable = C:\Users\luis\Desktop\Share\sgl\011\decals.exe
 ; CPU = 1
 ; CompileSourceDirectory
+; Compiler = PureBasic 6.01 LTS (Windows - x64)
