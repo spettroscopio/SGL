@@ -211,14 +211,13 @@ sgl::DestroyWindow(win)
 sgl::Shutdown()
 
 logfile::Close(lf)
-
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; IDE Options = PureBasic 6.01 LTS (Linux - x64)
 ; CursorPosition = 176
-; FirstLine = 128
+; FirstLine = 132
 ; Folding = -
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = \\MAXWELL\Share\sgl\sysinfo.exe
+; Executable = /mnt/WIN10/Users/luis/Desktop/Share/sgl/sysinfo/sysinfo
 ; CPU = 1
 ; CompileSourceDirectory

@@ -863,6 +863,8 @@ Procedure.i Init()
 
  UseJPEGImageEncoder() 
  UseJPEGImageDecoder()
+ 
+ UseZipPacker()
 
  Protected err = glfwLoad::Load()
 
@@ -2933,13 +2935,309 @@ EndProcedure
 
 ;- [ FONTS ]
 
+Procedure.i LoadBitmapFontData (file$)
+;> Load a PNG image and a complementary XML and returns a pointer to a populated BitmapFontData.
+; See SaveBitmapFontData()
+
+; file$ is the filename of the font file, if no extension is specified .zip is used.
+; example: "C:\bitmapped\arial-10-bold" will result in "arial-10-bold.zip"
+
+ Protected *bmf.BitmapFontData
+ Protected zip, entry$, entries
+ Protected bufsize, *bufPNG, *bufXML
+ Protected baseName$, extension$, pathOnly$, fullPathName$ 
+ Protected versionToken, code, range, ranges, first, last
+ Protected xml, main, node
+     
+ baseName$ = GetFilePart(file$, #PB_FileSystem_NoExtension)
+ extension$ = GetExtensionPart(file$) 
+ pathOnly$ = GetPathPart(file$)
+ 
+ If extension$ = #Empty$
+    extension$ = "zip"
+ EndIf
+ 
+ fullPathName$ = pathOnly$ + baseName$ + "." + extension$
+     
+ *bmf = AllocateStructure(BitmapFontData)
+ If *bmf =  0 : Goto exit : EndIf
+ 
+ zip = OpenPack(#PB_Any, fullPathName$, #PB_PackerPlugin_Zip)
+ If zip = 0 : Goto exit: EndIf
+
+ If ExaminePack(zip) = 0 : Goto exit : EndIf
+ 
+ While NextPackEntry(zip)
+    entry$ = PackEntryName(zip)
+ 
+    If LCase(GetExtensionPart(entry$)) = "png"
+        entries + 1
+        bufsize = PackEntrySize(zip)
+        
+        *bufPNG = AllocateMemory(bufsize)
+        If *bufPNG = 0 : Goto exit : EndIf
+        
+        If UncompressPackMemory(zip, *bufPNG, bufsize) = -1
+            Goto exit
+        EndIf
+        
+        *bmf\image = CatchImage(#PB_Any, *bufPNG)      
+        
+        If IsImage(*bmf\image) = 0
+            Goto exit
+        EndIf
+        
+        FreeMemory(*bufPNG) : *bufPNG = 0
+    EndIf
+    
+    If LCase(GetExtensionPart(entry$)) = "xml"           
+        entries + 1
+        
+        bufsize = PackEntrySize(zip)
+
+        *bufXML = AllocateMemory(bufsize)
+        If *bufXML = 0 : Goto exit : EndIf
+        
+        If UncompressPackMemory(zip, *bufXML, bufsize) = -1
+            Goto exit
+        EndIf
+
+        xml = CatchXML(#PB_Any, *bufXML, bufsize)
+        If xml = 0 : Goto exit : EndIf
+        
+        FreeMemory(*bufXML) : *bufXML = 0
+           
+        If XMLStatus(xml) <> #PB_XML_Success : Goto exit : EndIf 
+      
+        main  = MainXMLNode(xml)        
+      
+        If GetXMLNodeName(main) <> "SGL-BMF" : Goto exit : EndIf
+        versionToken = Val(GetXMLAttribute(main, "version")) * 100 
+        If versionToken  <> 100 : Goto exit : EndIf 
+     
+        node = ChildXMLNode(main, 1) 
+        If GetXMLNodeName(node) <> "Name" : Goto exit : EndIf
+        *bmf\fontName$ = GetXMLNodeText(node)
+    
+        node = ChildXMLNode(main, 2) 
+        If GetXMLNodeName(node) <> "Size" : Goto exit : EndIf
+        *bmf\fontSize = Val(GetXMLNodeText(node))
+    
+        node = ChildXMLNode(main, 3) 
+        If GetXMLNodeName(node) <> "Italic" : Goto exit : EndIf
+        *bmf\italic = Val(GetXMLNodeText(node))
+    
+        node = ChildXMLNode(main, 4) 
+        If GetXMLNodeName(node) <> "Bold" : Goto exit : EndIf
+        *bmf\bold = Val(GetXMLNodeText(node))
+    
+        ; block char 
+        node = ChildXMLNode(main, 5) 
+        If GetXMLNodeName(node) <> "Block" : Goto exit : EndIf
+    
+        *bmf\block\char = Val(GetXMLAttribute(node, "code"))
+        *bmf\block\x = Val(GetXMLAttribute(node, "x"))
+        *bmf\block\y = Val(GetXMLAttribute(node, "y"))
+        *bmf\block\w = Val(GetXMLAttribute(node, "w"))
+        *bmf\block\h = Val(GetXMLAttribute(node, "h"))
+        *bmf\block\xOffset = Val(GetXMLAttribute(node, "xo"))
+
+        node = ChildXMLNode(main, 6) 
+        If GetXMLNodeName(node) <> "yoffs" : Goto exit : EndIf
+        *bmf\yOffset = Val(GetXMLNodeText(node))
+    
+        node = ChildXMLNode(main, 7) 
+        If GetXMLNodeName(node) <> "Ranges" : Goto exit : EndIf
+        ranges = Val(GetXMLNodeText(node)) - 1
+      
+        Dim *bmf\ranges(ranges)
+     
+        For range = 0 To ranges
+            node = NextXMLNode(node)
+            If GetXMLNodeName(node) <> "Range" : Goto exit : EndIf
+        
+            first = Val(GetXMLAttribute(node, "first"))
+            last = Val(GetXMLAttribute(node, "last"))    
+            If first <= 0 Or last <= 0 : Goto exit : EndIf
+        
+            Dim *bmf\ranges(range)\Glyphs(last - first)
+        
+            *bmf\ranges(range)\firstChar = first
+            *bmf\ranges(range)\lastChar = last
+        
+            For code = first To last
+                node = NextXMLNode(node)
+                If Val(GetXMLAttribute(node, "code")) <> code : Goto exit : EndIf
+                
+                *bmf\ranges(range)\Glyphs(code - first)\x = Val(GetXMLAttribute(node, "x"))
+                *bmf\ranges(range)\Glyphs(code - first)\y = Val(GetXMLAttribute(node, "y"))
+                *bmf\ranges(range)\Glyphs(code - first)\w = Val(GetXMLAttribute(node, "w"))
+                *bmf\ranges(range)\Glyphs(code - first)\h = Val(GetXMLAttribute(node, "h"))
+                *bmf\ranges(range)\Glyphs(code - first)\xOffset = Val(GetXMLAttribute(node, "xoffs"))
+            Next
+        Next
+     
+        FreeXML(xml)    
+    EndIf
+ Wend
+ 
+ ClosePack(zip) : zip = 0
+ 
+ If entries = 2 ; both png and xml have been retrieved 
+    ProcedureReturn *bmf
+ EndIf
+  
+ exit: 
+
+ If *bufPNG : FreeMemory(*bufPNG) : EndIf
+ If *bufXML : FreeMemory(*bufXML) : EndIf
+ If IsXML(xml) : FreeXML(xml) : EndIf 
+ If zip : ClosePack(zip) : EndIf
+ 
+ If *bmf 
+    If IsImage(*bmf\image) : FreeImage(*bmf\image): EndIf
+    FreeStructure(*bmf)
+ EndIf
+ 
+ ProcedureReturn 0
+EndProcedure
+
+Procedure.i SaveBitmapFontData (file$, *bmf.BitmapFontData)
+;> Saves a PNG image and a complementary XML file with the mapping of the chars inside the image.
+; See LoadFontBitmapData()
+
+; file$ is the filename of the font file, if no extension is specified .zip is used.
+; example: "C:\bitmapped\arial-10-bold" will result in "arial-10-bold.zip"
+
+ Protected baseName$, extension$, pathOnly$, fullPathName$
+ Protected *bufXML, *bufPNG , bufSize, zip 
+ Protected code, range, ranges, first, last
+ Protected xml, main, child
+ 
+ ASSERT(*bmf)
+ 
+ baseName$ = GetFilePart(file$, #PB_FileSystem_NoExtension)
+ extension$ = GetExtensionPart(file$) 
+ pathOnly$ = GetPathPart(file$)
+ 
+ If extension$ = #Empty$
+    extension$ = "zip"
+ EndIf
+ 
+ fullPathName$ = pathOnly$ + baseName$ + "." + extension$
+ 
+ If IsImage(*bmf\image) = 0
+    ProcedureReturn 0
+ EndIf
+ 
+ zip = CreatePack(#PB_Any, fullPathName$, #PB_PackerPlugin_Zip)
+ If zip = 0 : Goto exit: EndIf
+ 
+ *bufPNG = EncodeImage(*bmf\image, #PB_ImagePlugin_PNG)
+ If *bufPNG  = 0 : Goto exit : EndIf
+
+ bufSize = MemorySize(*bufPNG)
+
+ If AddPackMemory(zip, *bufPNG, bufSize, *bmf\fontName$ + ".png") = 0
+     Goto exit
+ EndIf
+
+ FreeMemory(*bufPNG) : *bufPNG = 0
+
+ ranges = ArraySize(*bmf\ranges()) + 1
+
+ xml = CreateXML(#PB_Any) 
+
+ If xml = 0 : Goto exit: EndIf
+ 
+ main = CreateXMLNode(RootXMLNode(xml), "SGL-BMF")
+ SetXMLAttribute(main , "version", "1.00")
+    
+ child = CreateXMLNode(main, "Name") 
+ SetXMLNodeText(child, *bmf\fontName$)
+ child = CreateXMLNode(main, "Size") 
+ SetXMLNodeText(child, Str(*bmf\fontSize))
+ child = CreateXMLNode(main, "Italic")
+ SetXMLNodeText(child, Str(*bmf\italic))
+ child = CreateXMLNode(main, "Bold")
+ SetXMLNodeText(child, Str(*bmf\bold))
+
+ child = CreateXMLNode(main, "Block") 
+ SetXMLAttribute(child , "code", Str(*bmf\block\char))
+ SetXMLAttribute(child , "x", Str(*bmf\block\x))
+ SetXMLAttribute(child , "y", Str(*bmf\block\y))
+ SetXMLAttribute(child , "w", Str(*bmf\block\w))
+ SetXMLAttribute(child , "h", Str(*bmf\block\h))
+ SetXMLAttribute(child , "xo", Str(*bmf\block\xOffset))
+
+ child = CreateXMLNode(main, "yoffs") 
+ SetXMLNodeText(child, Str(*bmf\yOffset))
+
+ child = CreateXMLNode(main, "Ranges") 
+ SetXMLNodeText(child, Str(ranges))
+    
+ For range = 0 To ranges - 1
+    first = *bmf\ranges(range)\firstChar       
+    last = *bmf\ranges(range)\lastChar
+        
+    child = CreateXMLNode(main, "Range")
+    SetXMLAttribute(child, "first", Str(first))
+    SetXMLAttribute(child, "last", Str(last))
+        
+    For code = first To last
+        child = CreateXMLNode(main, "Char") 
+        SetXMLAttribute(child , "code", Str(code))
+        SetXMLAttribute(child , "x", Str(*bmf\ranges(range)\Glyphs(code - first)\x))
+        SetXMLAttribute(child , "y", Str(*bmf\ranges(range)\Glyphs(code - first)\y))
+        SetXMLAttribute(child , "w", Str(*bmf\ranges(range)\Glyphs(code - first)\w))
+        SetXMLAttribute(child , "h", Str(*bmf\ranges(range)\Glyphs(code - first)\h))
+        SetXMLAttribute(child , "xoffs", Str(*bmf\ranges(range)\Glyphs(code - first)\xOffset))        
+    Next
+ Next
+    
+ FormatXML(xml, #PB_XML_ReFormat)
+    
+ bufSize = ExportXMLSize(xml)   
+ If bufSize = 0 : Goto exit : EndIf
+    
+ *bufXML = AllocateMemory(bufSize)
+ If *bufXML =  0 : Goto exit : EndIf
+ 
+ ExportXML(xml, *bufXML, bufSize)
+    
+ If AddPackMemory(zip, *bufXML, bufSize, *bmf\fontName$ + ".xml") = 0
+    Goto exit
+ EndIf
+    
+ FreeMemory(*bufXML) : *bufXML = 0
+    
+ FreeXML(xml) 
+ 
+ ClosePack(zip) : zip = 0
+
+ ProcedureReturn 1
+
+ exit: 
+ 
+ If *bufPNG : FreeMemory(*bufPNG) : EndIf
+ If *bufXML : FreeMemory(*bufXML) : EndIf
+ If IsXML(xml) : FreeXML(xml) : EndIf
+ If zip : ClosePack(zip) : DeleteFile(fullPathName$) : EndIf
+ 
+ ProcedureReturn 0
+EndProcedure
+
 Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), width, height)
 ;> Returns an allocated BitmapFontData structure which can be used to display bitmapped fonts, or 0 in case of error.
-; This function creates the bitmap font at runtime.  
+; This function creates the bitmap font on the fly at runtime without the need of an external BMF.
+; But keep in mind even using the same identical font on Windows and Linux the actual rendering will not be 100% the same and
+; there will be still some differences in size.
+; If you need a font to be rendered exactly the same on both platform is probably better to use a BMF.
+; See LoadFontBitmapData()
 
 ; fontName$ is the name of the font
 ; fontSize is the size in points
-; fontFlags are the PB constants used for LoadFont(), typically nothing or #PB_Font_Bold or #PB_Font_Italic
+; fontFlags are the PB constants used for LoadFont(), typically #Null or #PB_Font_Bold or #PB_Font_Italic
 ; ranges is an array of ranges of unicode chars to be included in the bitmap font 
 ; width, height are the dimensions of the image (and later texture) 
 
@@ -2948,13 +3246,13 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
  Protected hDC, image, x, y, highestRow, highestFont
  Protected char$, char, gw, gh
  Protected font, *bmf.BitmapFontData
- Protected range, rangeSize, rangesCount = ArraySize(ranges())
+ Protected range, rangeSize, ranges = ArraySize(ranges())
  
  font = LoadFont(#PB_Any, fontName$, fontSize, fontFlags)
  
  If font = 0 : Goto exit : EndIf 
  
- image = CreateImage(#PB_Any, width, height, 32, #PB_Image_Transparent) 
+ image = CreateImage(#PB_Any, width, height, 32, #PB_Image_Transparent)
  
  If image = 0 : Goto exit : EndIf
  
@@ -2977,8 +3275,8 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
   gh = TextHeight(" ")
   Box(x, y, gw, gh)
   
-  ; unicode for the special blocky char set to an arbitrary -1
-  *bmf\block\char = -1 
+  ; unicode for the special blocky char set to an arbitrary 0, it's not referenced by its code anyway
+  *bmf\block\char = 0
   *bmf\block\x = x
   *bmf\block\y = y
   *bmf\block\w = gw
@@ -2989,7 +3287,7 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
 
   ; now we process the requested unicode ranges 
   
-  For range = 0 To rangesCount
+  For range = 0 To ranges
   
     ; calc the size of the current range
     rangeSize = *bmf\ranges(range)\lastChar - *bmf\ranges(range)\firstChar
@@ -3128,12 +3426,12 @@ Procedure.i CompileShader (string$, shaderType)
  ProcedureReturn 0
 EndProcedure
 
-Procedure.i CompileShaderFromFile (file$, shaderType) 
+Procedure.i CompileShaderFromFile (file$, shaderType)
 ;> Compile a shader from file and returns its handle or 0 in case of error.
 
 ; Invokes CallBack_Error() if the shader cannot be successfully compiled.
  
- Protected fh, fmt, source$
+ Protected fh, fmt, source$, shader
  
  fh = ReadFile(#PB_Any, file$)
  
@@ -3141,7 +3439,11 @@ Procedure.i CompileShaderFromFile (file$, shaderType)
     fmt = ReadStringFormat(fh)
     source$ = ReadString(fh, fmt | #PB_File_IgnoreEOL)    
     CloseFile(fh)    
-    ProcedureReturn CompileShader (source$, shaderType)
+    shader = CompileShader (source$, shaderType)
+    If shader = 0
+        CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "CompileShaderFromFile() failed for " + file$)
+    EndIf
+    ProcedureReturn shader
  EndIf
 
  ProcedureReturn 0
@@ -3305,10 +3607,10 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 3290
-; FirstLine = 3257
-; Folding = -------------------------------
-; Markers = 61,99,1485,1551
+; CursorPosition = 3234
+; FirstLine = 3229
+; Folding = --------------------------------
+; Markers = 2937,3104
 ; EnableXP
 ; EnableUser
 ; UseMainFile = examples\001 Minimal.pb

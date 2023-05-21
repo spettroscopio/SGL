@@ -61,7 +61,7 @@ Procedure Startup()
 EndProcedure
 
 Procedure ShutDown() 
- RenderText::DestroyFont(gFon) 
+ RenderText::DestroyBitmapFont(gFon) 
  sgl::Shutdown()
 EndProcedure
 
@@ -93,7 +93,7 @@ Procedure Render()
     ; enable the line below to see the "blocks" signaling the missing glyphs
     ; ranges(2)\lastChar   = $0440
            
-    gFon = RenderText::CreateFont("Consolas", 12, #Null, ranges(), 384, 384)
+    gFon = RenderText::CreateBitmapFont("Arial", 12, #Null, ranges(), 384, 384)
     
     ASSERT(gFon)
     
@@ -159,8 +159,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 8
-; FirstLine = 4
+; CursorPosition = 95
+; FirstLine = 91
 ; Folding = --
 ; Optimizer
 ; EnableXP

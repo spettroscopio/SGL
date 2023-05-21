@@ -356,7 +356,7 @@ Procedure SetupData()
  ; Latin (ascii)
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128               
- gFon = RenderText::CreateFont("Consolas", 10, #Null, ranges(), 256, 256) 
+ gFon = RenderText::CreateFont("Arial", 10, #Null, ranges(), 256, 256) 
  ASSERT(gFon)
   
 EndProcedure
@@ -750,8 +750,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 464
-; FirstLine = 435
+; CursorPosition = 358
+; FirstLine = 326
 ; Folding = ---
 ; Optimizer
 ; EnableXP

@@ -205,7 +205,7 @@ Procedure SetupContext()
         ranges(0)\firstChar  = 32
         ranges(0)\lastChar   = 128    
                 
-        gFon = RenderText::CreateFont("Consolas", 10, #Null, ranges(), 256, 256)
+        gFon = RenderText::CreateFont("Arial", 10, #Null, ranges(), 256, 256)
                   
         gTimer = sgl::CreateTimer()
         
@@ -361,8 +361,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 163
-; FirstLine = 129
+; CursorPosition = 207
+; FirstLine = 203
 ; Folding = --
 ; EnableXP
 ; EnableUser

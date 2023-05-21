@@ -65,13 +65,12 @@ Procedure Startup()
          
         If sgl::IsDebugContext() = 0 Or sgl::EnableDebugOutput()  = 0 
             Debug "OpenGL debug output is not available !"
-        EndIf   
-                 
+        EndIf              
                                     
         ranges(0)\firstChar = 32
         ranges(0)\lastChar = 128
         
-        *gFonInfo = RenderText::CreateFont("Consolas", 12, #Null, ranges(), 256, 256)
+        *gFonInfo = RenderText::CreateFont("Arial", 12, #Null, ranges(), 256, 256)
         
         ASSERT(*gFonInfo)
        
@@ -302,9 +301,7 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 181
-; FirstLine = 144
+; IDE Options = PureBasic 6.01 LTS (Windows - x64)
 ; Folding = --
 ; Optimizer
 ; EnableXP

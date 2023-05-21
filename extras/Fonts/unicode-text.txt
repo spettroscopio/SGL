@@ -1,4 +1,4 @@
-Tested with the font Consolas.
+Tested with the font Arial.
 
 Some latin text (ASCII) in the range (32-128).
 
