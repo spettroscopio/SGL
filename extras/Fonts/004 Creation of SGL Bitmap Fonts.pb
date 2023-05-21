@@ -8,15 +8,15 @@ IncludeFile "../../sgl.pb"
 
 ; font to be registered, if any
 #FONT_FILE_DIR$     = "./fonts/" 
-#FONT_FILE$         = ""
+#FONT_FILE$         = "Neuropolitical.otf"
 
 ; font to be converted to BMF
-#FONT_NAME$         = "Arial"
-#FONT_SIZE          = 12
+#FONT_NAME$         = "Neuropolitical"
+#FONT_SIZE          = 14
 
 ; the name of the resulting BMF
 #BMF_FILE_DIR$      = "./bmf-test/"
-#BMF_FILE_NAME$     = "arial-12-unicode"
+#BMF_FILE_NAME$     = "neuropolitical-14"
 
 If #FONT_FILE$ <> #Empty$
     If RegisterFontFile(#FONT_FILE_DIR$ + #FONT_FILE$) = 0
@@ -28,21 +28,13 @@ EndIf
 If sgl::Init()
     Define *bmf.sgl::BitmapFontData
     
-    Dim ranges.sgl::BitmapFontRange(2)
+    Dim ranges.sgl::BitmapFontRange(0)
     
     ; Latin (ascii)
     ranges(0)\firstChar  = 32
     ranges(0)\lastChar   = 128    
     
-    ; Greek
-    ranges(1)\firstChar  = $0370
-    ranges(1)\lastChar   = $03FF    
-    
-    ; Cyrillic
-    ranges(2)\firstChar  = $0400
-    ranges(2)\lastChar   = $04FF
-
-    *bmf = sgl::CreateBitmapFontData(#FONT_NAME$, #FONT_SIZE, #Null, ranges(), 320, 320)
+    *bmf = sgl::CreateBitmapFontData(#FONT_NAME$, #FONT_SIZE, #Null, ranges(), 256, 256)
     
     If *bmf = 0
         Debug "Bitmap too small ..."
@@ -60,9 +52,9 @@ exit:
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 17
-; FirstLine = 12
+; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; CursorPosition = 36
+; FirstLine = 4
 ; EnableXP
 ; EnableUser
 ; CPU = 1

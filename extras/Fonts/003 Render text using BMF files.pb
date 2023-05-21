@@ -78,8 +78,7 @@ Procedure Render()
  If firstRun
     firstRun = 0
                
-    gFon = RenderText::LoadBitmapFont("./bmf/arial-12-unicode")
-    
+    gFon = RenderText::LoadBitmapFont("./bmf/arial-12-unicode")       
     ASSERT(gFon)
     
     ; read the UTF-8 file
@@ -102,7 +101,7 @@ Procedure Render()
   
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
  
- vec3::Set(color, 1.0, 1.0, 1.0)
+ vec3::Set(color, 0.8, 0.9, 1.0)
  
  fntHeight = RenderText::GetFontHeight(gFon)
  
@@ -142,8 +141,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 10
+; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; CursorPosition = 103
+; FirstLine = 68
 ; Folding = --
 ; Optimizer
 ; EnableXP

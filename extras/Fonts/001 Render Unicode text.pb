@@ -117,7 +117,7 @@ Procedure Render()
   
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
  
- vec3::Set(color, 1.0, 1.0, 1.0)
+ vec3::Set(color, 0.8, 0.9, 1.0)
  
  fntHeight = RenderText::GetFontHeight(gFon)
  
@@ -159,8 +159,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 95
-; FirstLine = 91
+; CursorPosition = 119
+; FirstLine = 94
 ; Folding = --
 ; Optimizer
 ; EnableXP
