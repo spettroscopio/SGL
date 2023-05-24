@@ -65,9 +65,9 @@ EndProcedure
 
 Procedure ShutDown() 
  sgl::DestroyTimer(gTimerFPS)
- RenderText::DestroyFont(gFon1) 
- RenderText::DestroyFont(gFon2) 
- RenderText::DestroyFont(gFon3) 
+ RenderText::DestroyBitmapFont(gFon1) 
+ RenderText::DestroyBitmapFont(gFon2) 
+ RenderText::DestroyBitmapFont(gFon3) 
  sgl::Shutdown()
 EndProcedure
 
@@ -151,15 +151,15 @@ Procedure MainLoop()
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128
  
- gFon1 = RenderText::CreateFont("Consolas", 12, #Null, ranges(), 256, 256)
+ gFon1 = RenderText::CreateBitmapFont("Consolas", 12, #Null, ranges(), 256, 256)
  
  ASSERT(gFon1)
  
- gFon2 = RenderText::CreateFont("Monaco", 16, #Null, ranges(), 256, 256)
+ gFon2 = RenderText::CreateBitmapFont("Monaco", 16, #Null, ranges(), 256, 256)
 
  ASSERT(gFon2)
  
- gFon3 = RenderText::CreateFont("Arial", 20, #Null, ranges(), 256, 256)
+ gFon3 = RenderText::CreateBitmapFont("Arial", 20, #Null, ranges(), 256, 256)
  
  ASSERT(gFon3)
  
@@ -189,8 +189,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 163
-; FirstLine = 115
+; CursorPosition = 69
+; FirstLine = 63
 ; Folding = --
 ; Optimizer
 ; EnableXP

@@ -70,7 +70,7 @@ Procedure Startup()
         ranges(0)\firstChar = 32
         ranges(0)\lastChar = 128
         
-        *gFonInfo = RenderText::CreateFont("Arial", 12, #Null, ranges(), 256, 256)
+        *gFonInfo = RenderText::CreateBitmapFont("Arial", 12, #Null, ranges(), 256, 256)
         
         ASSERT(*gFonInfo)
        
@@ -85,8 +85,8 @@ Procedure Startup()
 EndProcedure
 
 Procedure ShutDown() 
- RenderText::DestroyFont(*gFonInfo) 
- RenderText::DestroyFont(*gFonCurrent) 
+ RenderText::DestroyBitmapFont(*gFonInfo) 
+ RenderText::DestroyBitmapFont(*gFonCurrent) 
  sgl::Shutdown()
 EndProcedure
 
@@ -238,12 +238,12 @@ Procedure MainLoop()
                
             *oldFont = *gFonCurrent                              
                                       
-            *gFonCurrent = RenderText::CreateFont(currFont$, currSize, #Null, ranges(), #ATLAS_SIZE, #ATLAS_SIZE)
+            *gFonCurrent = RenderText::CreateBitmapFont(currFont$, currSize, #Null, ranges(), #ATLAS_SIZE, #ATLAS_SIZE)
             
             ASSERT(*gFonCurrent)                    
             
             If *oldFont
-                RenderText::DestroyFont(*oldFont)
+                RenderText::DestroyBitmapFont(*oldFont)
             EndIf
         EndIf
         
@@ -273,12 +273,12 @@ Procedure MainLoop()
             
             currFont$ = GetFilePart(currFont$, #PB_FileSystem_NoExtension)
             
-            *gFonCurrent = RenderText::CreateFont(currFont$, currSize, #Null, ranges(), #ATLAS_SIZE, #ATLAS_SIZE)
+            *gFonCurrent = RenderText::CreateBitmapFont(currFont$, currSize, #Null, ranges(), #ATLAS_SIZE, #ATLAS_SIZE)
             
             ASSERT(*gFonCurrent)
             
             If *oldFont
-                RenderText::DestroyFont(*oldFont)
+                RenderText::DestroyBitmapFont(*oldFont)
             EndIf
 
         EndIf
@@ -301,7 +301,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; CursorPosition = 280
+; FirstLine = 241
 ; Folding = --
 ; Optimizer
 ; EnableXP

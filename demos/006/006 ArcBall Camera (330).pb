@@ -205,14 +205,14 @@ Procedure SetupData()
  ; Latin (ascii)
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128               
- gFon = RenderText::CreateFont("Arial", 10, #Null, ranges(), 256, 256) 
+ gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256) 
  ASSERT(gFon)
  
  Dim ranges.sgl::BitmapFontRange(0)
  ; Latin (ascii)
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128               
- gFonHelp = RenderText::CreateFont("Arial", 10, #PB_Font_Bold, ranges(), 256, 256) 
+ gFonHelp = RenderText::CreateBitmapFont("Consolas", 10, #PB_Font_Bold, ranges(), 256, 256) 
  ASSERT(gFonHelp)
   
 EndProcedure
@@ -412,7 +412,7 @@ Procedure Main()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
 ; CursorPosition = 214
-; FirstLine = 210
+; FirstLine = 203
 ; Folding = --
 ; EnableXP
 ; EnableUser

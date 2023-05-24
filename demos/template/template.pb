@@ -79,7 +79,7 @@ Procedure SetupData()
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128
  
- gFon = RenderText::CreateFont("Arial", 10, #Null, ranges(), 256, 256)
+ gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256)
  ASSERT(gFon)
  
 EndProcedure

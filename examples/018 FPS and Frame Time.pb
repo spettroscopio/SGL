@@ -81,7 +81,7 @@ If sgl::Init()
         ranges(0)\firstChar  = 32
         ranges(0)\lastChar   = 128    
         
-        gFont = RenderText::CreateFont("Arial", 10, #Null, ranges(), 256, 256)
+        gFont = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256)
         
         ASSERT(font)
         

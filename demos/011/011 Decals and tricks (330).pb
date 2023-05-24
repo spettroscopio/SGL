@@ -358,7 +358,7 @@ Procedure SetupData()
  ; Latin (ascii)
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128               
- gFon = RenderText::CreateFont("Arial", 10, #Null, ranges(), 256, 256) 
+ gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256) 
  ASSERT(gFon)
   
 EndProcedure
@@ -827,14 +827,13 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
 ; CursorPosition = 360
-; FirstLine = 334
-; Folding = ---
+; FirstLine = 155
+; Folding = -+-
 ; Optimizer
 ; EnableXP
 ; EnableUser
 ; Executable = C:\Users\luis\Desktop\Share\sgl\011\decals.exe
 ; CPU = 1
 ; CompileSourceDirectory
-; Compiler = PureBasic 6.01 LTS (Windows - x64)

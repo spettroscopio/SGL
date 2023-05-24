@@ -297,8 +297,8 @@ Procedure.i BuildBitmapFont (*bmf.sgl::BitmapFontData)
  glGenTextures_(1, @texture)
  glBindTexture_(#GL_TEXTURE_2D, texture)
  
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_S, #GL_CLAMP)
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_T, #GL_CLAMP) 
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
  
  glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
  glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
@@ -363,8 +363,8 @@ EndDataSection
 EndModule
 
 ; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 69
-; FirstLine = 51
+; CursorPosition = 300
+; FirstLine = 285
 ; Folding = ---
 ; EnableXP
 ; EnableUser

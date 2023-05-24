@@ -137,8 +137,8 @@ Procedure Startup()
         ranges(0)\firstChar  = 32
         ranges(0)\lastChar   = 128    
                 
-        gFon1 = RenderText::CreateFont("Arial", 10, #Null, ranges(), 256, 256)
-        gFon2 = RenderText::CreateFont("Arial", 12, #Null, ranges(), 256, 256)
+        gFon1 = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256)
+        gFon2 = RenderText::CreateBitmapFont("Consolas", 12, #Null, ranges(), 256, 256)
         
         gScrollAccumX = 0 
         gScrollPixelsWidth = RenderText::GetTextWidth(gFon2, #SCROLL_TEXT$)        
@@ -163,8 +163,8 @@ EndProcedure
 Procedure ShutDown() 
  sgl::DestroyTimer(gTimerRot)
  sgl::DestroyTimer(gTimerScroll)
- RenderText::DestroyFont(gFon1) 
- RenderText::DestroyFont(gFon2) 
+ RenderText::DestroyBitmapFont(gFon1) 
+ RenderText::DestroyBitmapFont(gFon2) 
  sgl::Shutdown()
 EndProcedure
 
@@ -308,9 +308,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; IDE Options = PureBasic 6.01 LTS (Windows - x86)
 ; CursorPosition = 140
-; FirstLine = 135
+; FirstLine = 136
 ; Folding = --
 ; Optimizer
 ; EnableXP
