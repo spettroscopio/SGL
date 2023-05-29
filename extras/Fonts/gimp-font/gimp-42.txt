@@ -1,0 +1,4 @@
+ ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[{]};:'",<.>/?
+Made with GIMP
+Consolas Bold, 42 Pt, 16 Kerning
+Filters -> Alpha to Logo -> Glossy

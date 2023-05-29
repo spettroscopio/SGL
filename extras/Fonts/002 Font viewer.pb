@@ -148,9 +148,9 @@ Procedure Render()
  
  x = 1
  y = h - fntInfoHeight
- RenderText::Render(gWin, *gFonInfo, "FontName: " + *gFonCurrent\fontName$, 1, y, color1)
+ RenderText::Render(gWin, *gFonInfo, "FontName: " + *gFonCurrent\bmf\fontName$, 1, y, color1)
  y - fntInfoHeight
- RenderText::Render(gWin, *gFonInfo, "FontSize: " + *gFonCurrent\FontSize, 1, y, color1)
+ RenderText::Render(gWin, *gFonInfo, "FontSize: " + *gFonCurrent\bmf\FontSize, 1, y, color1)
  
  x = 1
  y = 1
@@ -301,9 +301,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 280
-; FirstLine = 241
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 152
+; FirstLine = 140
 ; Folding = --
 ; Optimizer
 ; EnableXP

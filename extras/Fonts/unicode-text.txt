@@ -1,5 +1,3 @@
-Tested with the font Arial.
-
 Some latin text (ASCII) in the range (32-128).
 
 Greek ($0370-$03FF): Κείμενο στα ελληνικά χωρίς προβλήματα !

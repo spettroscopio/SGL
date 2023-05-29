@@ -188,7 +188,7 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
 ; CursorPosition = 69
 ; FirstLine = 63
 ; Folding = --

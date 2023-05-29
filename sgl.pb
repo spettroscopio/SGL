@@ -45,7 +45,7 @@ DeclareC    callback_window_char (win, char)
 DeclareC    callback_window_cursor_position (win, x.d, y.d)
 DeclareC    callback_window_cursor_entering (win, entering)
 DeclareC    callback_window_mouse_button (win, button, action, mods)
-Declare.i   binary_string_lookup (Array arr$(1), key$)
+Declare.i   binary_lookup_string (Array arr$(1), key$)
 Declare.i   map_key_to_sgl (glfw_key)
 Declare.i   map_key_to_glfw (sgl_key)
 
@@ -580,29 +580,6 @@ Procedure init_keyboard()
  SGL\Keyboard\GLFW2SGL(#GLFW_KEY_MENU) = #Key_MENU
 EndProcedure
 
-Procedure.s shader_type_to_string (type)
- Protected type$
- 
- Select type
-    Case #GL_VERTEX_SHADER
-        type$ = "#GL_VERTEX_SHADER"
-    Case #GL_FRAGMENT_SHADER
-        type$ = "#GL_FRAGMENT_SHADER"
-    Case #GL_GEOMETRY_SHADER
-        type$ = "#GL_GEOMETRY_SHADER"
-    Case #GL_COMPUTE_SHADER
-        type$ = "#GL_COMPUTE_SHADER"
-    Case #GL_TESS_CONTROL_SHADER
-        type$ = "#GL_TESS_CONTROL_SHADER"
-    Case #GL_TESS_EVALUATION_SHADER
-        type$ = "#GL_TESS_EVALUATION_SHADER"
-    Default
-        type$ = "UNKNOWN"       
- EndSelect
-    
- ProcedureReturn type$
-EndProcedure
-
 Procedure apply_window_hints()
  glfwWindowHint(#GLFW_OPENGL_DEBUG_CONTEXT, SGL\hintWinOpenglDebug)
  glfwWindowHint(#GLFW_CONTEXT_VERSION_MAJOR, SGL\hintWinOpenglMajor)
@@ -645,8 +622,27 @@ Procedure apply_window_hints()
  glfwWindowHint(#GLFW_REFRESH_RATE, SGL\hintWinRefreshRate)
 EndProcedure
 
-Procedure callback_getprocaddress (func$) 
- ProcedureReturn glfwGetProcAddress(func$) 
+Procedure.s shader_type_to_string (type)
+ Protected type$
+ 
+ Select type
+    Case #GL_VERTEX_SHADER
+        type$ = "#GL_VERTEX_SHADER"
+    Case #GL_FRAGMENT_SHADER
+        type$ = "#GL_FRAGMENT_SHADER"
+    Case #GL_GEOMETRY_SHADER
+        type$ = "#GL_GEOMETRY_SHADER"
+    Case #GL_COMPUTE_SHADER
+        type$ = "#GL_COMPUTE_SHADER"
+    Case #GL_TESS_CONTROL_SHADER
+        type$ = "#GL_TESS_CONTROL_SHADER"
+    Case #GL_TESS_EVALUATION_SHADER
+        type$ = "#GL_TESS_EVALUATION_SHADER"
+    Default
+        type$ = "UNKNOWN"       
+ EndSelect
+    
+ ProcedureReturn type$
 EndProcedure
 
 Procedure split_glsl_errors (errlog$)
@@ -666,6 +662,10 @@ Procedure split_glsl_errors (errlog$)
         CALLBACK_ERROR (#SOURCE_ERROR_GLSL$, lines$(i))
     EndIf
  Next
+EndProcedure
+
+Procedure callback_getprocaddress (func$) 
+ ProcedureReturn glfwGetProcAddress(func$) 
 EndProcedure
 
 ProcedureC callback_error_glfw (err, *desc)
@@ -815,7 +815,7 @@ ProcedureC callback_window_mouse_button (win, button, action, mods)
  EndIf 
 EndProcedure
 
-Procedure.i binary_string_lookup (Array arr$(1), key$) 
+Procedure.i binary_lookup_string (Array arr$(1), key$) 
  Protected l, m, h = ArraySize(arr$()) + 1
  
  While l <= h
@@ -1441,7 +1441,7 @@ Procedure.i IsExtensionAvailable (extension$)
 ; Please note extension$ is the extension string representing the actual extension, so you must use "GL_ARB_multitexture" 
 ; to check if the extension ARB_multitexture is supported.
 
- If binary_string_lookup(SGL\ExtensionsStrings$(), extension$) <> -1
+ If binary_lookup_string(SGL\ExtensionsStrings$(), extension$) <> -1
     ProcedureReturn 1
  EndIf
  ProcedureReturn 0
@@ -2943,10 +2943,11 @@ Procedure.i LoadBitmapFontData (file$)
 ; example: "C:\bitmapped\arial-10-bold" will result in "arial-10-bold.zip"
 
  Protected *bmf.BitmapFontData
+ Protected *glyph.GlyphData
  Protected zip, entry$, entries
  Protected bufsize, *bufPNG, *bufXML
  Protected baseName$, extension$, pathOnly$, fullPathName$ 
- Protected versionToken, code, range, ranges, first, last
+ Protected versionToken, chars, i
  Protected xml, main, node
      
  baseName$ = GetFilePart(file$, #PB_FileSystem_NoExtension)
@@ -3016,65 +3017,59 @@ Procedure.i LoadBitmapFontData (file$)
         If versionToken  <> 100 : Goto exit : EndIf 
      
         node = ChildXMLNode(main, 1) 
-        If GetXMLNodeName(node) <> "Name" : Goto exit : EndIf
+        If GetXMLNodeName(node) <> "name" : Goto exit : EndIf
         *bmf\fontName$ = GetXMLNodeText(node)
     
         node = ChildXMLNode(main, 2) 
-        If GetXMLNodeName(node) <> "Size" : Goto exit : EndIf
+        If GetXMLNodeName(node) <> "size" : Goto exit : EndIf
         *bmf\fontSize = Val(GetXMLNodeText(node))
     
         node = ChildXMLNode(main, 3) 
-        If GetXMLNodeName(node) <> "Italic" : Goto exit : EndIf
+        If GetXMLNodeName(node) <> "italic" : Goto exit : EndIf
         *bmf\italic = Val(GetXMLNodeText(node))
     
         node = ChildXMLNode(main, 4) 
-        If GetXMLNodeName(node) <> "Bold" : Goto exit : EndIf
+        If GetXMLNodeName(node) <> "bold" : Goto exit : EndIf
         *bmf\bold = Val(GetXMLNodeText(node))
     
         ; block char 
         node = ChildXMLNode(main, 5) 
-        If GetXMLNodeName(node) <> "Block" : Goto exit : EndIf
+        If GetXMLNodeName(node) <> "block" : Goto exit : EndIf
     
-        *bmf\block\char = Val(GetXMLAttribute(node, "code"))
+        *bmf\block\code = -1
         *bmf\block\x = Val(GetXMLAttribute(node, "x"))
         *bmf\block\y = Val(GetXMLAttribute(node, "y"))
         *bmf\block\w = Val(GetXMLAttribute(node, "w"))
         *bmf\block\h = Val(GetXMLAttribute(node, "h"))
-        *bmf\block\xOffset = Val(GetXMLAttribute(node, "xo"))
+        *bmf\block\xOffset = Val(GetXMLAttribute(node, "xoffs"))
 
         node = ChildXMLNode(main, 6) 
         If GetXMLNodeName(node) <> "yoffs" : Goto exit : EndIf
         *bmf\yOffset = Val(GetXMLNodeText(node))
     
         node = ChildXMLNode(main, 7) 
-        If GetXMLNodeName(node) <> "Ranges" : Goto exit : EndIf
-        ranges = Val(GetXMLNodeText(node)) - 1
-      
-        Dim *bmf\ranges(ranges)
-     
-        For range = 0 To ranges
+        If GetXMLNodeName(node) <> "chars" : Goto exit : EndIf
+        chars = Val(GetXMLNodeText(node)) 
+              
+        *bmf\glyphs = sbbt::New(#PB_Integer)
+        
+        For i = 1 To chars
             node = NextXMLNode(node)
-            If GetXMLNodeName(node) <> "Range" : Goto exit : EndIf
-        
-            first = Val(GetXMLAttribute(node, "first"))
-            last = Val(GetXMLAttribute(node, "last"))    
-            If first <= 0 Or last <= 0 : Goto exit : EndIf
-        
-            Dim *bmf\ranges(range)\Glyphs(last - first)
-        
-            *bmf\ranges(range)\firstChar = first
-            *bmf\ranges(range)\lastChar = last
-        
-            For code = first To last
-                node = NextXMLNode(node)
-                If Val(GetXMLAttribute(node, "code")) <> code : Goto exit : EndIf
-                
-                *bmf\ranges(range)\Glyphs(code - first)\x = Val(GetXMLAttribute(node, "x"))
-                *bmf\ranges(range)\Glyphs(code - first)\y = Val(GetXMLAttribute(node, "y"))
-                *bmf\ranges(range)\Glyphs(code - first)\w = Val(GetXMLAttribute(node, "w"))
-                *bmf\ranges(range)\Glyphs(code - first)\h = Val(GetXMLAttribute(node, "h"))
-                *bmf\ranges(range)\Glyphs(code - first)\xOffset = Val(GetXMLAttribute(node, "xoffs"))
-            Next
+            If node = 0 : Goto exit : EndIf
+            
+            *glyph = AllocateStructure(GlyphData)
+                   
+            *glyph\code = Val(GetXMLAttribute(node, "code"))
+            *glyph\x = Val(GetXMLAttribute(node, "x"))
+            *glyph\y = Val(GetXMLAttribute(node, "y"))
+            *glyph\w = Val(GetXMLAttribute(node, "w"))
+            *glyph\h = Val(GetXMLAttribute(node, "h"))
+            *glyph\xOffset = Val(GetXMLAttribute(node, "xoffs"))
+            
+            If sbbt::Insert(*bmf\glyphs, *glyph\code, *glyph) = 0
+                CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "LoadBitmapFontData() encountered duplicated char codes.")
+                Goto exit
+            EndIf
         Next
      
         FreeXML(xml)    
@@ -3091,13 +3086,9 @@ Procedure.i LoadBitmapFontData (file$)
 
  If *bufPNG : FreeMemory(*bufPNG) : EndIf
  If *bufXML : FreeMemory(*bufXML) : EndIf
- If IsXML(xml) : FreeXML(xml) : EndIf 
+ If IsXML(xml) : FreeXML(xml) : EndIf  
+ If *bmf : DestroyBitmapFontData(*bmf) : EndIf
  If zip : ClosePack(zip) : EndIf
- 
- If *bmf 
-    If IsImage(*bmf\image) : FreeImage(*bmf\image): EndIf
-    FreeStructure(*bmf)
- EndIf
  
  ProcedureReturn 0
 EndProcedure
@@ -3111,8 +3102,8 @@ Procedure.i SaveBitmapFontData (file$, *bmf.BitmapFontData)
 
  Protected baseName$, extension$, pathOnly$, fullPathName$
  Protected *bufXML, *bufPNG , bufSize, zip 
- Protected code, range, ranges, first, last
  Protected xml, main, child
+ Protected *glyph.GlyphData
  
  ASSERT(*bmf)
  
@@ -3144,8 +3135,6 @@ Procedure.i SaveBitmapFontData (file$, *bmf.BitmapFontData)
 
  FreeMemory(*bufPNG) : *bufPNG = 0
 
- ranges = ArraySize(*bmf\ranges()) + 1
-
  xml = CreateXML(#PB_Any) 
 
  If xml = 0 : Goto exit: EndIf
@@ -3153,47 +3142,43 @@ Procedure.i SaveBitmapFontData (file$, *bmf.BitmapFontData)
  main = CreateXMLNode(RootXMLNode(xml), "SGL-BMF")
  SetXMLAttribute(main , "version", "1.00")
     
- child = CreateXMLNode(main, "Name") 
+ child = CreateXMLNode(main, "name") 
  SetXMLNodeText(child, *bmf\fontName$)
- child = CreateXMLNode(main, "Size") 
+ child = CreateXMLNode(main, "size") 
  SetXMLNodeText(child, Str(*bmf\fontSize))
- child = CreateXMLNode(main, "Italic")
+ child = CreateXMLNode(main, "italic")
  SetXMLNodeText(child, Str(*bmf\italic))
- child = CreateXMLNode(main, "Bold")
+ child = CreateXMLNode(main, "bold")
  SetXMLNodeText(child, Str(*bmf\bold))
 
- child = CreateXMLNode(main, "Block") 
- SetXMLAttribute(child , "code", Str(*bmf\block\char))
+ child = CreateXMLNode(main, "block") 
  SetXMLAttribute(child , "x", Str(*bmf\block\x))
  SetXMLAttribute(child , "y", Str(*bmf\block\y))
  SetXMLAttribute(child , "w", Str(*bmf\block\w))
  SetXMLAttribute(child , "h", Str(*bmf\block\h))
- SetXMLAttribute(child , "xo", Str(*bmf\block\xOffset))
+ SetXMLAttribute(child , "xoffs", Str(*bmf\block\xOffset))
 
  child = CreateXMLNode(main, "yoffs") 
  SetXMLNodeText(child, Str(*bmf\yOffset))
 
- child = CreateXMLNode(main, "Ranges") 
- SetXMLNodeText(child, Str(ranges))
+ child = CreateXMLNode(main, "chars") 
+ SetXMLNodeText(child, Str(sbbt::Count(*bmf\glyphs)))
+
+ sbbt::EnumStart(*bmf\glyphs)
+
+ While sbbt::EnumNext(*bmf\glyphs)
+    *glyph = sbbt::GetValue(*bmf\glyphs)
     
- For range = 0 To ranges - 1
-    first = *bmf\ranges(range)\firstChar       
-    last = *bmf\ranges(range)\lastChar
-        
-    child = CreateXMLNode(main, "Range")
-    SetXMLAttribute(child, "first", Str(first))
-    SetXMLAttribute(child, "last", Str(last))
-        
-    For code = first To last
-        child = CreateXMLNode(main, "Char") 
-        SetXMLAttribute(child , "code", Str(code))
-        SetXMLAttribute(child , "x", Str(*bmf\ranges(range)\Glyphs(code - first)\x))
-        SetXMLAttribute(child , "y", Str(*bmf\ranges(range)\Glyphs(code - first)\y))
-        SetXMLAttribute(child , "w", Str(*bmf\ranges(range)\Glyphs(code - first)\w))
-        SetXMLAttribute(child , "h", Str(*bmf\ranges(range)\Glyphs(code - first)\h))
-        SetXMLAttribute(child , "xoffs", Str(*bmf\ranges(range)\Glyphs(code - first)\xOffset))        
-    Next
- Next
+    child = CreateXMLNode(main, "char")    
+    SetXMLAttribute(child, "code", Str(*glyph\code))
+    SetXMLAttribute(child, "x", Str(*glyph\x))
+    SetXMLAttribute(child, "y", Str(*glyph\y))
+    SetXMLAttribute(child, "w", Str(*glyph\w))
+    SetXMLAttribute(child, "h", Str(*glyph\h))
+    SetXMLAttribute(child, "xoffs", Str(*glyph\xOffset))
+ Wend
+ 
+ sbbt::EnumEnd(*bmf\glyphs)
     
  FormatXML(xml, #PB_XML_ReFormat)
     
@@ -3227,7 +3212,7 @@ Procedure.i SaveBitmapFontData (file$, *bmf.BitmapFontData)
  ProcedureReturn 0
 EndProcedure
 
-Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), width, height)
+Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), width, height, spacing = 0)
 ;> Returns an allocated BitmapFontData structure which can be used to display bitmapped fonts, or 0 in case of error.
 ; This function creates the bitmap font on the fly at runtime without the need of an external BMF.
 ; But keep in mind even using the same identical font on Windows and Linux the actual rendering will not be 100% the same and
@@ -3239,14 +3224,15 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
 ; fontSize is the size in points
 ; fontFlags are the PB constants used for LoadFont(), typically #Null or #PB_Font_Bold or #PB_Font_Italic
 ; ranges is an array of ranges of unicode chars to be included in the bitmap font 
-; width, height are the dimensions of the image (and later texture) 
+; width, height are the dimensions of the image to be created (and later texture) 
+; spacing is the number of pixels to be left unused around the glyph in the vertical and horizontal directions
 
-; The function returns 0 if (width x height) result in an image too small to store all the glyphs.
+; The function returns 0 if (width x height) results in an image too small to store all the glyphs.
 
  Protected hDC, image, x, y, highestRow, highestFont
- Protected char$, char, gw, gh
- Protected font, *bmf.BitmapFontData
- Protected range, rangeSize, ranges = ArraySize(ranges())
+ Protected char$, code, gw, gh
+ Protected font, *bmf.BitmapFontData, *glyph.GlyphData
+ Protected range, ranges = ArraySize(ranges())
  
  font = LoadFont(#PB_Any, fontName$, fontSize, fontFlags)
  
@@ -3259,8 +3245,6 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
  *bmf = AllocateStructure(BitmapFontData)
  
  If *bmf = 0 : Goto exit : EndIf
- 
- CopyArray(ranges(), *bmf\ranges())
  
  hDC = StartDrawing(ImageOutput(image)) 
   DrawingFont(FontID(font))
@@ -3275,31 +3259,24 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
   gh = TextHeight(" ")
   Box(x, y, gw, gh)
   
-  ; unicode for the special blocky char set to an arbitrary 0, it's not referenced by its code anyway
-  *bmf\block\char = 0
+  ; fill up the metrics for the special BLOCK char
+  *bmf\block\code = -1
   *bmf\block\x = x
   *bmf\block\y = y
   *bmf\block\w = gw
   *bmf\block\h = gh
-  *bmf\block\xOffset = gw + 1
+  *bmf\block\xOffset = 1
    
-  x = x + gw
+  x = x + gw + spacing
 
+  *bmf\glyphs = sbbt::New(#PB_Integer)
+    
   ; now we process the requested unicode ranges 
   
   For range = 0 To ranges
-  
-    ; calc the size of the current range
-    rangeSize = *bmf\ranges(range)\lastChar - *bmf\ranges(range)\firstChar
-    
-    ASSERT(rangeSize)
-  
-    ; make space for all the glyphs in this range
-    Dim *bmf\ranges(range)\Glyphs(rangeSize) 
-    
-    For char = *bmf\ranges(range)\firstChar To *bmf\ranges(range)\lastChar
+    For code = ranges(range)\firstChar To ranges(range)\lastChar
       
-        char$ = Chr(char)
+        char$ = Chr(code)
         
         gw = TextWidth(char$)
         gh = TextHeight(char$)
@@ -3318,23 +3295,30 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
         EndIf
             
         If x + gw > width
-            y + highestRow
+            y + highestRow + spacing
             highestRow = 0
             x = 1
         EndIf
         
         DrawText(x, y, char$)
+                
+        *glyph = AllocateStructure(GlyphData)                
         
-        Protected i  = char - *bmf\ranges(range)\firstChar
+        If *glyph = 0 : Goto exit : EndIf
         
-        *bmf\ranges(range)\Glyphs(i)\char = char
-        *bmf\ranges(range)\Glyphs(i)\x = x
-        *bmf\ranges(range)\Glyphs(i)\y = y
-        *bmf\ranges(range)\Glyphs(i)\w = gw
-        *bmf\ranges(range)\Glyphs(i)\h = gh
-        *bmf\ranges(range)\Glyphs(i)\xOffset = gw + 1
+        *glyph\code = code
+        *glyph\x = x
+        *glyph\y = y
+        *glyph\w = gw
+        *glyph\h = gh
+        *glyph\xOffset = 1
+        
+        If sbbt::Insert(*bmf\glyphs, *glyph\code, *glyph) = 0
+            CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "CreateBitmapFontData() encountered duplicated char codes.")
+            Goto exit
+        EndIf
                       
-        x = x + gw
+        x = x + gw + spacing
     Next
   Next  
  StopDrawing()
@@ -3343,7 +3327,7 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
  
  *bmf\fontName$ = fontName$
  *bmf\fontSize = fontSize
- *bmf\yOffset = highestFont
+ *bmf\yOffset = highestFont + 1
  *bmf\italic = Bool(fontFlags & #PB_Font_Italic)
  *bmf\bold = Bool(fontFlags & #PB_Font_Bold)
  *bmf\image = image
@@ -3354,15 +3338,34 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
  
  If hDC : StopDrawing() : EndIf
  If image : FreeImage(image) : EndIf
- If font : FreeFont(font) : EndIf
- If *bmf : FreeStructure(*bmf) : EndIf 
+ If font : FreeFont(font) : EndIf 
+ If *bmf : DestroyBitmapFontData(*bmf) : EndIf 
  
  ProcedureReturn 0
 EndProcedure
 
 Procedure DestroyBitmapFontData (*bmf.BitmapFontData)
 ;> Release the memory allocated by CreateBitmapFontData() 
- FreeImage(*bmf\Image)
+ 
+ Protected *glyph.GlyphData
+ 
+ If IsImage(*bmf\Image)
+    FreeImage(*bmf\Image)
+ EndIf
+
+ If *bmf\glyphs
+     sbbt::EnumStart(*bmf\glyphs)
+     
+     While sbbt::EnumNext(*bmf\glyphs)
+        *glyph = sbbt::GetValue(*bmf\glyphs)
+        FreeStructure(*glyph)
+     Wend
+     
+     sbbt::EnumEnd(*bmf\glyphs)
+    
+     sbbt::Free(*bmf\glyphs)
+ EndIf
+      
  FreeStructure(*bmf)
 EndProcedure
 
@@ -3606,11 +3609,11 @@ Procedure SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f)
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 3234
-; FirstLine = 3229
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 3229
+; FirstLine = 3214
 ; Folding = --------------------------------
-; Markers = 2937,3104
+; Markers = 2937,3095
 ; EnableXP
 ; EnableUser
 ; UseMainFile = examples\001 Minimal.pb

@@ -14,16 +14,10 @@ DeclareModule RenderText
 EnableExplicit
 
 Structure BMFont
- fontName$ 
- fontSize.i
- italic.i
- bold.i
- yOffset.i
+ *bmf.sgl::BitmapFontData   
  texture.i 
  textureWidth.i
  textureHeight.i
- block.sgl::GlyphData 
- Array ranges.sgl::BitmapFontRange(0)
 EndStructure
 
 Declare.i   FindGlyph (*fon.BMFont, charCode)
@@ -54,18 +48,14 @@ Structure QuadIndices
  index.l[6]
 EndStructure
  
-Procedure.i FindGlyph (*fon.BMFont, charCode)
- Protected i
- Protected range, rangesCount = ArraySize(*fon\ranges())
+Procedure.i FindGlyph (*fon.BMFont, charCode)   
+ Protected *glyph
  
- For range = 0 To rangesCount ; massive speed gain compared to using a map 
-    If charCode >= *fon\ranges(range)\firstChar And charCode <= *fon\ranges(range)\lastChar
-        i = charCode - *fon\ranges(range)\firstChar ; instant indexing
-        ProcedureReturn @*fon\ranges(range)\Glyphs(i) ; the glyph structure for the desired char
-    EndIf
- Next
+ If sbbt::Search(*fon\bmf\glyphs, charCode, @*glyph) 
+    ProcedureReturn *glyph ; the glyph structure for the desired char
+ EndIf
  
- ProcedureReturn @*fon\block
+ ProcedureReturn @*fon\bmf\block
 EndProcedure
  
 Procedure.i GetTextWidth (*fon.BMFont, text$)
@@ -78,7 +68,7 @@ Procedure.i GetTextWidth (*fon.BMFont, text$)
     c$ = Mid(text$, i, 1)
     *glyph = FindGlyph (*fon, Asc(c$))
     If *glyph
-        width + *glyph\xOffset
+        width + *glyph\w + *glyph\xOffset
     EndIf
  Next
  
@@ -86,7 +76,7 @@ Procedure.i GetTextWidth (*fon.BMFont, text$)
 EndProcedure
 
 Procedure.i GetFontHeight (*fon.BMFont)
- ProcedureReturn *fon\yOffset
+ ProcedureReturn *fon\bmf\yOffset
 EndProcedure
 
 Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
@@ -256,7 +246,7 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
     *cursorVertex\t = yf
     *cursorVertex + SizeOf(QuadVertex)
         
-    x + *glyph\xOffset
+    x + *glyph\w + *glyph\xOffset
       
     *c + SizeOf(Character)
  Wend
@@ -276,6 +266,7 @@ EndProcedure
 
 Procedure DestroyBitmapFont (*fon.BMFont)
  glDeleteTextures_(1, @*fon\texture)
+ sgl::DestroyBitmapFontData(*fon\bmf)
  FreeStructure(*fon)
 EndProcedure
 
@@ -306,21 +297,11 @@ Procedure.i BuildBitmapFont (*bmf.sgl::BitmapFontData)
  glTexImage2D_(#GL_TEXTURE_2D, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
  glGenerateMipmap_(#GL_TEXTURE_2D)
  
- *fon\fontName$ = *bmf\fontName$
- *fon\fontSize = *bmf\fontSize
- *fon\yOffset = *bmf\yOffset
+ *fon\bmf = *bmf
  *fon\texture = texture
  *fon\textureWidth = *td\imageWidth
  *fon\textureHeight = *td\imageHeight
- *fon\italic = *bmf\italic
- *fon\bold = *bmf\bold
- 
- CopyArray(*bmf\ranges(), *fon\ranges())
- 
- CopyStructure(*bmf\block, *fon\block, sgl::GlyphData)
    
- sgl::DestroyBitmapFontData(*bmf)
- 
  sgl::DestroyTexelData(*td)
  
  ProcedureReturn *fon
@@ -335,20 +316,14 @@ Procedure.i BuildBitmapFont (*bmf.sgl::BitmapFontData)
 EndProcedure
 
 Procedure.i LoadBitmapFont (file$) 
+ Protected *bmf.sgl::BitmapFontData = sgl::LoadBitmapFontData(file$)
 
- Protected *bmf.sgl::BitmapFontData
-
- *bmf = sgl::LoadBitmapFontData(file$)
- 
  ProcedureReturn BuildBitmapFont(*bmf)
-
 EndProcedure
 
 Procedure.i CreateBitmapFont (fontName$, fontSize, fontFlags,  Array ranges.sgl::BitmapFontRange(1), width, height)
- Protected *bmf.sgl::BitmapFontData
+ Protected *bmf.sgl::BitmapFontData = sgl::CreateBitmapFontData(fontName$, fontSize, fontFlags, ranges(), width, height)
 
- *bmf = sgl::CreateBitmapFontData(fontName$, fontSize, fontFlags, ranges(), width, height)
- 
  ProcedureReturn BuildBitmapFont(*bmf)
 EndProcedure
 
@@ -362,9 +337,9 @@ EndDataSection
 
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 300
-; FirstLine = 285
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 313
+; FirstLine = 264
 ; Folding = ---
 ; EnableXP
 ; EnableUser

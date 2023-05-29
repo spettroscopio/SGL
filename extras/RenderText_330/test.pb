@@ -191,14 +191,14 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
+; IDE Options = PureBasic 6.01 LTS (Linux - x64)
 ; CursorPosition = 163
-; FirstLine = 144
+; FirstLine = 119
 ; Folding = --
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = C:\Users\luis\Desktop\Share\sgl\render_text_330.exe
+; Executable = C:/Users/luis/Desktop/Share/sgl/render_text_330.exe
 ; CPU = 1
 ; DisableDebugger
 ; CompileSourceDirectory

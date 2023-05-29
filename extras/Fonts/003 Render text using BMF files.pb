@@ -11,12 +11,12 @@ IncludeFile "../../sgl.pb"
 IncludeFile "../../extras/RenderText_210/RenderText.pb"
 
 #TITLE$ = "Render text using BMF files"
-#WIN_WIDTH = 800
-#WIN_HEIGHT = 300
+#WIN_WIDTH = 1024
+#WIN_HEIGHT = 600
 #VSYNC = 1
            
 Global gWin
-Global gFon
+Global gFon1, gFon2, gFon3
 
 Declare   CallBack_Error (source$, desc$)
 Declare   Startup()
@@ -63,7 +63,9 @@ Procedure Startup()
 EndProcedure
 
 Procedure ShutDown() 
- RenderText::DestroyBitmapFont(gFon) 
+ RenderText::DestroyBitmapFont(gFon1) 
+ RenderText::DestroyBitmapFont(gFon2)
+ RenderText::DestroyBitmapFont(gFon3)
  sgl::Shutdown()
 EndProcedure
 
@@ -78,8 +80,14 @@ Procedure Render()
  If firstRun
     firstRun = 0
                
-    gFon = RenderText::LoadBitmapFont("./bmf/arial-12-unicode")       
-    ASSERT(gFon)
+    gFon1 = RenderText::LoadBitmapFont("./bmf/arial-unicode-12")
+    ASSERT(gFon1)
+    
+    gFon2 = RenderText::LoadBitmapFont("./bmf/videophreak-16")
+    ASSERT(gFon2)
+    
+    gFon3 = RenderText::LoadBitmapFont("./bmf/gimp-42")
+    ASSERT(gFon3)
     
     ; read the UTF-8 file
     
@@ -101,19 +109,44 @@ Procedure Render()
   
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
  
- vec3::Set(color, 0.8, 0.9, 1.0)
- 
- fntHeight = RenderText::GetFontHeight(gFon)
  
  glViewport_(0, 0, w, h)
 
  x = 1
- y = h - fntHeight  
+ y = h
  
+ fntHeight = RenderText::GetFontHeight(gFon1)
+ vec3::Set(color, 0.9, 0.9, 0.0)
+ 
+ y - fntHeight 
+ RenderText::Render(gWin, gFon1, "BMF arial-unicode-12.zip", 1, y, color)
+ 
+ y - fntHeight 
+ RenderText::Render(gWin, gFon1, "This font has been rendered from a system font.", 1, y, color)
+ 
+ y - fntHeight 
  ForEach text()
-    RenderText::Render(gWin, gFon, text(), 1, y, color)   
     y - fntHeight 
+    RenderText::Render(gWin, gFon1, text(), 1, y, color)
  Next
+ 
+ fntHeight = RenderText::GetFontHeight(gFon2)
+ vec3::Set(color, 0.0, 0.9, 1.0)
+ 
+ y - fntHeight * 2
+ RenderText::Render(gWin, gFon2, "BMF videophreak-16.zip", 1, y, color)
+
+ y - fntHeight
+ RenderText::Render(gWin, gFon2, "This font has been rendered from a True Type file.", 1, y, color)
+ 
+ fntHeight = RenderText::GetFontHeight(gFon3)
+ vec3::Set(color, 1.0, 1.0, 1.0)
+ 
+ y - fntHeight * 2
+ RenderText::Render(gWin, gFon3, "BMF gimp-42.zip", 1, y, color)
+ 
+ y - fntHeight
+ RenderText::Render(gWin, gFon3, "This font has been made with GIMP.", 1, y, color)   
 
 EndProcedure
 
@@ -141,9 +174,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 103
-; FirstLine = 68
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 124
+; FirstLine = 105
 ; Folding = --
 ; Optimizer
 ; EnableXP

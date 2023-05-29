@@ -1,4 +1,4 @@
-﻿; This is juest a variant of the previous one.
+﻿; This is just a variant of the previous one.
 ; I've added a "decal" to the box, it's nice to see how the decal is modulated with the other maps inside the fragment shader.
 ; Also I used the specular map to simulate a painted decal instead of a sticker, it was not its intended use, but the data was 
 ; useful for the job, since the recesses of the box are darker in the map, and in there it's more difficult for the paint to go in
@@ -14,7 +14,7 @@ IncludeFile "../../extras/RenderText_330/RenderText.pb"
 
 UseModule gl
 
-#TITLE$ = "Decals and tricks (330)"
+#TITLE$ = "Decals (330)"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 1
@@ -827,10 +827,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 360
-; FirstLine = 155
-; Folding = -+-
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 16
+; Folding = ---
 ; Optimizer
 ; EnableXP
 ; EnableUser
