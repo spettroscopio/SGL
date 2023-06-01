@@ -35,8 +35,8 @@
 DeclareModule sbbt
 EnableExplicit
 
-#EnumAscending  = 0
-#EnumDescending = 1
+#Ascending  = 0
+#Descending = 1
 
 Declare.i   New (type) ; Allocates a new tree, specifying the type of the key as #PB_Integer or #PB_String.
 Declare     Free (t) ; Deallocates the tree releasing all memory.
@@ -44,8 +44,8 @@ Declare     Clear (t) ; Empties the tree but keeps it allocated.
 Declare.i   Count (t) ; Returns the number of nodes in the tree.
 Declare.i   Empty (t) ; Returns #True if the tree is empty.
 Declare.i   GetHeight (t) ; Returns the height of the tree: 0 for a tree with just the root node, -1 for an empty tree.
-Declare.i   EnumStart (t, dir = #EnumAscending) ; Prepares the tree to be enumerated with EnumNext() in ascending or descending order.
-Declare.i   EnumStartFrom (t, n, dir = #EnumAscending) ; Prepares the tree to be enumerated with EnumNext() in ascending or descending order starting from the specified node.
+Declare.i   EnumStart (t, dir = #Ascending) ; Prepares the tree to be enumerated with EnumNext() in ascending or descending order.
+Declare.i   EnumStartFrom (t, n, dir = #Ascending) ; Prepares the tree to be enumerated with EnumNext() in ascending or descending order starting from the specified node.
 Declare.i   EnumNext (t) ; Enumerates the next node from the tree, setting the current node to it.
 Declare     EnumEnd (t) ; Ends the current enumeration sequence.
 Declare.i   Insert (t, key, value = 0) ; Inserts a new node in the tree (if not already present) with key and optionally assigning a value to it.
@@ -614,7 +614,7 @@ Procedure.i GetHeight (t)
  ProcedureReturn TreeHeight(*t\root)
 EndProcedure
 
-Procedure.i EnumStart (t, dir = #EnumAscending) 
+Procedure.i EnumStart (t, dir = #Ascending) 
 ;> Prepares the tree to be enumerated with EnumNext() in ascending or descending order.
 
 ; Returns 1 if ready to enumerate, 0 if the tree is empty.
@@ -623,7 +623,7 @@ Procedure.i EnumStart (t, dir = #EnumAscending)
  
  Protected *t.SbbtObj = t
 
- If(dir = #EnumAscending Or dir = #EnumDescending) 
+ If(dir = #Ascending Or dir = #Descending) 
      If *t\TotalNodes  
          *t\CurrentNode = 0
          *t\EnumDirection = dir
@@ -634,7 +634,7 @@ Procedure.i EnumStart (t, dir = #EnumAscending)
  ProcedureReturn 0
 EndProcedure
 
-Procedure.i EnumStartFrom (t, n, dir = #EnumAscending) 
+Procedure.i EnumStartFrom (t, n, dir = #Ascending) 
 ;> Prepares the tree to be enumerated with EnumNext() in ascending or descending order starting from the specified node.
 
 ; Returns 1 if ready to enumerate, 0 if the tree is empty.
@@ -643,7 +643,7 @@ Procedure.i EnumStartFrom (t, n, dir = #EnumAscending)
  Protected *t.SbbtObj = t
  Protected *n.SbbtNode = n
  
- If(dir = #EnumAscending Or dir = #EnumDescending) 
+ If(dir = #Ascending Or dir = #Descending) 
      If *t\TotalNodes  
          *t\CurrentNode = n
          *t\EnumDirection = dir
@@ -661,7 +661,7 @@ Procedure.i EnumNext (t)
  
  Protected *t.SbbtObj = t
 
- If *t\EnumDirection = #EnumAscending
+ If *t\EnumDirection = #Ascending
     ProcedureReturn EnumNextAscending (*t)
  Else
     ProcedureReturn EnumNextDescending (*t)
@@ -1158,8 +1158,8 @@ EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 19
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 645
 ; Folding = PAA9--------
 ; EnableXP
 ; EnableUser

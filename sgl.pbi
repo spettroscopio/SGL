@@ -438,7 +438,6 @@ EndEnumeration
 
 ;- Declares
 
-
 ; [ CORE ]
 
 Declare.i   Init() ; Initialize the SGL library.
@@ -568,6 +567,7 @@ Declare.s   GetCpuName() ; Returns a string describing the CPU model and brand.
 Declare.i   GetLogicalCpuCores () ; Returns the number of logical CPU cores as reported by the OS.
 Declare.q   GetTotalMemory() ; Returns the size of the total memory available in the system in bytes.
 Declare.q   GetFreeMemory() ; Returns the size of the free memory available in the system in bytes.
+Declare.i   GetSysInfo (Array sysInfo$(1)) ; Retrieves a lot of info about the system configuration and its OpenGL capabilities, useful for logging.
 
 ; [ IMAGES ]
 
@@ -599,8 +599,8 @@ Declare.f   GetFrameTime() ; Returns the average frame time sampled in the last 
 
 ; [ FONTS ]
 
-Declare.i   LoadBitmapFontData (file$) ; Load a PNG image and a complementary XML and returns a pointer to a populated BitmapFontData.
-Declare.i   SaveBitmapFontData (file$, *bmf.BitmapFontData) ; Saves a PNG image and a complementary XML file with the mapping of the chars inside the image.
+Declare.i   LoadBitmapFontData (file$) ; Load a PNG image and a complementary XML file from a zip file and returns a pointer to a populated BitmapFontData.
+Declare.i   SaveBitmapFontData (file$, *bmf.BitmapFontData) ; Saves a zip file containing a PNG image and a complementary XML file with the mapping of the chars.
 Declare.i   CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), width, height, spacing = 0) ; Returns an allocated BitmapFontData structure which can be used to display bitmapped fonts, or 0 in case of error.
 Declare.i   CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spacing = 0) ; Returns an allocated BitmapFontData structure which can be used to display bitmapped fonts, or 0 in case of error.
 Declare     DestroyBitmapFontData (*bmf.BitmapFontData) ; Release the memory allocated by CreateBitmapFontData()
@@ -630,8 +630,8 @@ Declare     SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f) ; Pass a uniform
 EndDeclareModule
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 629
-; FirstLine = 581
+; CursorPosition = 628
+; FirstLine = 535
 ; Folding = -----
 ; Markers = 439
 ; EnableXP

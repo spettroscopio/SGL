@@ -1,0 +1,1027 @@
+00:13:13 : Logfile started on 01-Jun-2023, 00:13:13
+00:13:13 : SGL 0.9.0 x86 Windows Static ASM (Optimize ON) (PB 6.02)
+00:13:13 : GLFW 3.3.8 Win32 WGL EGL OSMesa VisualC
+00:13:13 : 
+00:13:13 : OS: Windows 10 x64 (10.0.19045)
+00:13:13 : CPU: AMD Ryzen 5 3600 6-Core Processor
+00:13:13 : Total Memory: 32 GB
+00:13:13 : Free Memory: 27 GB
+00:13:13 : Timer resolution: 100 ns
+00:13:13 : 
+00:13:13 : Vendor: ATI Technologies Inc.
+00:13:13 : Renderer: AMD Radeon RX 6700 XT 4.6.0 Compatibility Profile Context 23.4.3.230420
+00:13:13 : OpenGL context version: 4.6
+00:13:13 : OpenGL profile: COMPATIBLE
+00:13:13 : Shading Language: 4.60
+00:13:13 : Debug context: Yes
+00:13:13 : #GL_MAX_TEXTURE_SIZE : 16384
+00:13:13 : #GL_MAX_TEXTURE_UNITS (fixed pipeline): 8
+00:13:13 : #GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS : 160
+00:13:13 : #GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS : 32
+00:13:13 : #GL_MAX_TEXTURE_IMAGE_UNITS : 32
+00:13:13 : #GL_MAX_VERTEX_ATTRIBS : 32
+00:13:13 : #GL_MAX_VARYING_FLOATS : 64
+00:13:13 : #GL_MAX_VERTEX_UNIFORM_COMPONENTS : 8000
+00:13:13 : #GL_MAX_FRAGMENT_UNIFORM_COMPONENTS : 8000
+00:13:13 : 
+00:13:13 : Monitor #1 Generic PnP Monitor (1920x1200, 24 bits, 60 Hz)
+00:13:13 : Monitor #1 DPI scaling factor: 1.00 x 1.00
+00:13:13 : Monitor #1 Video modes: 
+00:13:13 : Mode 01: 720 x 400, 24 bits (60 Hz)
+00:13:13 : Mode 02: 720 x 400, 24 bits (70 Hz)
+00:13:13 : Mode 03: 640 x 480, 24 bits (59 Hz)
+00:13:13 : Mode 04: 640 x 480, 24 bits (60 Hz)
+00:13:13 : Mode 05: 640 x 480, 24 bits (75 Hz)
+00:13:13 : Mode 06: 720 x 480, 24 bits (59 Hz)
+00:13:13 : Mode 07: 720 x 480, 24 bits (60 Hz)
+00:13:13 : Mode 08: 800 x 600, 24 bits (60 Hz)
+00:13:13 : Mode 09: 800 x 600, 24 bits (75 Hz)
+00:13:13 : Mode 10: 1024 x 768, 24 bits (60 Hz)
+00:13:13 : Mode 11: 1024 x 768, 24 bits (75 Hz)
+00:13:13 : Mode 12: 1280 x 720, 24 bits (50 Hz)
+00:13:13 : Mode 13: 1280 x 720, 24 bits (59 Hz)
+00:13:13 : Mode 14: 1280 x 720, 24 bits (60 Hz)
+00:13:13 : Mode 15: 1152 x 864, 24 bits (60 Hz)
+00:13:13 : Mode 16: 1152 x 864, 24 bits (75 Hz)
+00:13:13 : Mode 17: 1280 x 800, 24 bits (60 Hz)
+00:13:13 : Mode 18: 1280 x 800, 24 bits (75 Hz)
+00:13:13 : Mode 19: 1280 x 1024, 24 bits (60 Hz)
+00:13:13 : Mode 20: 1280 x 1024, 24 bits (75 Hz)
+00:13:13 : Mode 21: 1600 x 1000, 24 bits (60 Hz)
+00:13:13 : Mode 22: 1680 x 1050, 24 bits (23 Hz)
+00:13:13 : Mode 23: 1680 x 1050, 24 bits (24 Hz)
+00:13:13 : Mode 24: 1680 x 1050, 24 bits (50 Hz)
+00:13:13 : Mode 25: 1680 x 1050, 24 bits (59 Hz)
+00:13:13 : Mode 26: 1680 x 1050, 24 bits (60 Hz)
+00:13:13 : Mode 27: 1600 x 1200, 24 bits (60 Hz)
+00:13:13 : Mode 28: 1920 x 1080, 24 bits (23 Hz)
+00:13:13 : Mode 29: 1920 x 1080, 24 bits (24 Hz)
+00:13:13 : Mode 30: 1920 x 1080, 24 bits (50 Hz)
+00:13:13 : Mode 31: 1920 x 1080, 24 bits (59 Hz)
+00:13:13 : Mode 32: 1920 x 1080, 24 bits (60 Hz)
+00:13:13 : Mode 33: 1920 x 1200, 24 bits (60 Hz)
+00:13:13 : 
+00:13:13 : Available OpenGL functions:
+00:13:13 : 120  -> glDrawRangeElements ($656F77D0)
+00:13:13 : 120  -> glTexImage3D ($656F77F0)
+00:13:13 : 120  -> glTexSubImage3D ($656F7810)
+00:13:13 : 120  -> glCopyTexSubImage3D ($656F7830)
+00:13:13 : 130  -> glActiveTexture ($656F7850)
+00:13:13 : 130  -> glSampleCoverage ($656F7870)
+00:13:13 : 130  -> glCompressedTexImage3D ($656F78A0)
+00:13:13 : 130  -> glCompressedTexImage2D ($656F78C0)
+00:13:13 : 130  -> glCompressedTexImage1D ($656F78E0)
+00:13:13 : 130  -> glCompressedTexSubImage3D ($656F7900)
+00:13:13 : 130  -> glCompressedTexSubImage2D ($656F7920)
+00:13:13 : 130  -> glCompressedTexSubImage1D ($656F7940)
+00:13:13 : 130  -> glGetCompressedTexImage ($656F7960)
+00:13:13 : 130* -> glClientActiveTexture ($656F7980)
+00:13:13 : 130* -> glMultiTexCoord1d ($656F79A0)
+00:13:13 : 130* -> glMultiTexCoord1dv ($656F79E0)
+00:13:13 : 130* -> glMultiTexCoord1f ($656F7A00)
+00:13:13 : 130* -> glMultiTexCoord1fv ($656F7A30)
+00:13:13 : 130* -> glMultiTexCoord1i ($656F7A50)
+00:13:13 : 130* -> glMultiTexCoord1iv ($656F7A70)
+00:13:13 : 130* -> glMultiTexCoord1s ($656F7A90)
+00:13:13 : 130* -> glMultiTexCoord1sv ($656F7AB0)
+00:13:13 : 130* -> glMultiTexCoord2d ($656F7AD0)
+00:13:13 : 130* -> glMultiTexCoord2dv ($656F7B10)
+00:13:13 : 130* -> glMultiTexCoord2f ($656F7B30)
+00:13:13 : 130* -> glMultiTexCoord2fv ($656F7B70)
+00:13:13 : 130* -> glMultiTexCoord2i ($656F7B90)
+00:13:13 : 130* -> glMultiTexCoord2iv ($656F7BB0)
+00:13:13 : 130* -> glMultiTexCoord2s ($656F7BD0)
+00:13:13 : 130* -> glMultiTexCoord2sv ($656F7BF0)
+00:13:13 : 130* -> glMultiTexCoord3d ($656F7C10)
+00:13:13 : 130* -> glMultiTexCoord3dv ($656F7C60)
+00:13:13 : 130* -> glMultiTexCoord3f ($656F7C80)
+00:13:13 : 130* -> glMultiTexCoord3fv ($656F7CD0)
+00:13:13 : 130* -> glMultiTexCoord3i ($656F7CF0)
+00:13:13 : 130* -> glMultiTexCoord3iv ($656F7D10)
+00:13:13 : 130* -> glMultiTexCoord3s ($656F7D30)
+00:13:13 : 130* -> glMultiTexCoord3sv ($656F7D50)
+00:13:13 : 130* -> glMultiTexCoord4d ($656F7D70)
+00:13:13 : 130* -> glMultiTexCoord4dv ($656F7DD0)
+00:13:13 : 130* -> glMultiTexCoord4f ($656F7DF0)
+00:13:13 : 130* -> glMultiTexCoord4fv ($656F7E50)
+00:13:13 : 130* -> glMultiTexCoord4i ($656F7E70)
+00:13:13 : 130* -> glMultiTexCoord4iv ($656F7E90)
+00:13:13 : 130* -> glMultiTexCoord4s ($656F7EB0)
+00:13:13 : 130* -> glMultiTexCoord4sv ($656F7ED0)
+00:13:13 : 130* -> glLoadTransposeMatrixf ($656F7EF0)
+00:13:13 : 130* -> glLoadTransposeMatrixd ($656F7F10)
+00:13:13 : 130* -> glMultTransposeMatrixf ($656F7F30)
+00:13:13 : 130* -> glMultTransposeMatrixd ($656F7F50)
+00:13:13 : 140  -> glBlendFuncSeparate ($656F7F70)
+00:13:13 : 140  -> glMultiDrawArrays ($656F7F90)
+00:13:13 : 140  -> glMultiDrawElements ($656F7FB0)
+00:13:13 : 140  -> glPointParameterf ($656F7FD0)
+00:13:13 : 140  -> glPointParameterfv ($656F8000)
+00:13:13 : 140  -> glPointParameteri ($656F8020)
+00:13:13 : 140  -> glPointParameteriv ($656F8040)
+00:13:13 : 140  -> glBlendColor ($656F8640)
+00:13:13 : 140  -> glBlendEquation ($656F86A0)
+00:13:13 : 140* -> glFogCoordf ($656F8060)
+00:13:13 : 140* -> glFogCoordfv ($656F8090)
+00:13:13 : 140* -> glFogCoordd ($656F80B0)
+00:13:13 : 140* -> glFogCoorddv ($656F80E0)
+00:13:13 : 140* -> glFogCoordPointer ($656F8100)
+00:13:13 : 140* -> glSecondaryColor3b ($656F8120)
+00:13:13 : 140* -> glSecondaryColor3bv ($656F8140)
+00:13:13 : 140* -> glSecondaryColor3d ($656F8160)
+00:13:13 : 140* -> glSecondaryColor3dv ($656F81B0)
+00:13:13 : 140* -> glSecondaryColor3f ($656F81D0)
+00:13:13 : 140* -> glSecondaryColor3fv ($656F8220)
+00:13:13 : 140* -> glSecondaryColor3i ($656F8240)
+00:13:13 : 140* -> glSecondaryColor3iv ($656F8260)
+00:13:13 : 140* -> glSecondaryColor3s ($656F8280)
+00:13:13 : 140* -> glSecondaryColor3sv ($656F82A0)
+00:13:13 : 140* -> glSecondaryColor3ub ($656F82C0)
+00:13:13 : 140* -> glSecondaryColor3ubv ($656F82E0)
+00:13:13 : 140* -> glSecondaryColor3ui ($656F8300)
+00:13:13 : 140* -> glSecondaryColor3uiv ($656F8320)
+00:13:13 : 140* -> glSecondaryColor3us ($656F8340)
+00:13:13 : 140* -> glSecondaryColor3usv ($656F8360)
+00:13:13 : 140* -> glSecondaryColorPointer ($656F8380)
+00:13:13 : 140* -> glWindowPos2d ($656F83A0)
+00:13:13 : 140* -> glWindowPos2dv ($656F83E0)
+00:13:13 : 140* -> glWindowPos2f ($656F8400)
+00:13:13 : 140* -> glWindowPos2fv ($656F8440)
+00:13:13 : 140* -> glWindowPos2i ($656F8460)
+00:13:13 : 140* -> glWindowPos2iv ($656F8480)
+00:13:13 : 140* -> glWindowPos2s ($656F84A0)
+00:13:13 : 140* -> glWindowPos2sv ($656F84C0)
+00:13:13 : 140* -> glWindowPos3d ($656F84E0)
+00:13:13 : 140* -> glWindowPos3dv ($656F8530)
+00:13:13 : 140* -> glWindowPos3f ($656F8550)
+00:13:13 : 140* -> glWindowPos3fv ($656F85A0)
+00:13:13 : 140* -> glWindowPos3i ($656F85C0)
+00:13:13 : 140* -> glWindowPos3iv ($656F85E0)
+00:13:13 : 140* -> glWindowPos3s ($656F8600)
+00:13:13 : 140* -> glWindowPos3sv ($656F8620)
+00:13:13 : 150  -> glGenQueries ($656F86C0)
+00:13:13 : 150  -> glDeleteQueries ($656F86E0)
+00:13:13 : 150  -> glIsQuery ($656F8700)
+00:13:13 : 150  -> glBeginQuery ($656F8720)
+00:13:13 : 150  -> glEndQuery ($656F8740)
+00:13:13 : 150  -> glGetQueryiv ($656F8760)
+00:13:13 : 150  -> glGetQueryObjectiv ($656F8780)
+00:13:13 : 150  -> glGetQueryObjectuiv ($656F87A0)
+00:13:13 : 150  -> glBindBuffer ($656F87C0)
+00:13:13 : 150  -> glDeleteBuffers ($656F87E0)
+00:13:13 : 150  -> glGenBuffers ($656F8800)
+00:13:13 : 150  -> glIsBuffer ($656F8820)
+00:13:13 : 150  -> glBufferData ($656F8840)
+00:13:13 : 150  -> glBufferSubData ($656F8860)
+00:13:13 : 150  -> glGetBufferSubData ($656F8880)
+00:13:13 : 150  -> glMapBuffer ($656F88A0)
+00:13:13 : 150  -> glUnmapBuffer ($656F88C0)
+00:13:13 : 150  -> glGetBufferParameteriv ($656F88E0)
+00:13:13 : 150  -> glGetBufferPointerv ($656F8900)
+00:13:13 : 200  -> glBlendEquationSeparate ($656F8920)
+00:13:13 : 200  -> glDrawBuffers ($656F8940)
+00:13:13 : 200  -> glStencilOpSeparate ($656F8960)
+00:13:13 : 200  -> glStencilFuncSeparate ($656F8980)
+00:13:13 : 200  -> glStencilMaskSeparate ($656F89A0)
+00:13:13 : 200  -> glAttachShader ($656F89C0)
+00:13:13 : 200  -> glBindAttribLocation ($656F89E0)
+00:13:13 : 200  -> glCompileShader ($656F8A00)
+00:13:13 : 200  -> glCreateProgram ($656F8A20)
+00:13:13 : 200  -> glCreateShader ($656F8A40)
+00:13:13 : 200  -> glDeleteProgram ($656F8A60)
+00:13:13 : 200  -> glDeleteShader ($656F8A80)
+00:13:13 : 200  -> glDetachShader ($656F8AA0)
+00:13:13 : 200  -> glDisableVertexAttribArray ($656F8AC0)
+00:13:13 : 200  -> glEnableVertexAttribArray ($656F8AE0)
+00:13:13 : 200  -> glGetActiveAttrib ($656F8B00)
+00:13:13 : 200  -> glGetActiveUniform ($656F8B20)
+00:13:13 : 200  -> glGetAttachedShaders ($656F8B40)
+00:13:13 : 200  -> glGetAttribLocation ($656F8B60)
+00:13:13 : 200  -> glGetProgramiv ($656F8B80)
+00:13:13 : 200  -> glGetProgramInfoLog ($656F8BA0)
+00:13:13 : 200  -> glGetShaderiv ($656F8BC0)
+00:13:13 : 200  -> glGetShaderInfoLog ($656F8BE0)
+00:13:13 : 200  -> glGetShaderSource ($656F8C00)
+00:13:13 : 200  -> glGetUniformLocation ($656F8C20)
+00:13:13 : 200  -> glGetUniformfv ($656F8C40)
+00:13:13 : 200  -> glGetUniformiv ($656F8C60)
+00:13:13 : 200  -> glGetVertexAttribdv ($656F8CA0)
+00:13:13 : 200  -> glGetVertexAttribfv ($656F8CC0)
+00:13:13 : 200  -> glGetVertexAttribiv ($656F8CE0)
+00:13:13 : 200  -> glGetVertexAttribPointerv ($656F8D00)
+00:13:13 : 200  -> glIsProgram ($656F8D20)
+00:13:13 : 200  -> glIsShader ($656F8D40)
+00:13:13 : 200  -> glLinkProgram ($656F8D60)
+00:13:13 : 200  -> glShaderSource ($656F8D80)
+00:13:13 : 200  -> glUseProgram ($656F8DA0)
+00:13:13 : 200  -> glUniform1f ($656F8DC0)
+00:13:13 : 200  -> glUniform2f ($656F8DF0)
+00:13:13 : 200  -> glUniform3f ($656F8E30)
+00:13:13 : 200  -> glUniform4f ($656F8E80)
+00:13:13 : 200  -> glUniform1i ($656F8EE0)
+00:13:13 : 200  -> glUniform2i ($656F8F00)
+00:13:13 : 200  -> glUniform3i ($656F8F20)
+00:13:13 : 200  -> glUniform4i ($656F8F40)
+00:13:13 : 200  -> glUniform1fv ($656F8FE0)
+00:13:13 : 200  -> glUniform2fv ($656F9000)
+00:13:13 : 200  -> glUniform3fv ($656F9020)
+00:13:13 : 200  -> glUniform4fv ($656F9040)
+00:13:13 : 200  -> glUniform1iv ($656F9060)
+00:13:13 : 200  -> glUniform2iv ($656F9080)
+00:13:13 : 200  -> glUniform3iv ($656F90A0)
+00:13:13 : 200  -> glUniform4iv ($656F90C0)
+00:13:13 : 200  -> glUniformMatrix2fv ($656F9160)
+00:13:13 : 200  -> glUniformMatrix3fv ($656F9180)
+00:13:13 : 200  -> glUniformMatrix4fv ($656F91A0)
+00:13:13 : 200  -> glValidateProgram ($656F9280)
+00:13:13 : 200  -> glVertexAttrib1d ($656F92A0)
+00:13:13 : 200  -> glVertexAttrib1dv ($656F92E0)
+00:13:13 : 200  -> glVertexAttrib1f ($656F93A0)
+00:13:13 : 200  -> glVertexAttrib1fv ($656F93D0)
+00:13:13 : 200  -> glVertexAttrib1s ($656F9300)
+00:13:13 : 200  -> glVertexAttrib1sv ($656F9320)
+00:13:13 : 200  -> glVertexAttrib2d ($656F9340)
+00:13:13 : 200  -> glVertexAttrib2dv ($656F9380)
+00:13:13 : 200  -> glVertexAttrib2f ($656F93F0)
+00:13:13 : 200  -> glVertexAttrib2fv ($656F9430)
+00:13:13 : 200  -> glVertexAttrib2s ($656F94C0)
+00:13:13 : 200  -> glVertexAttrib2sv ($656F94E0)
+00:13:13 : 200  -> glVertexAttrib3d ($656F9500)
+00:13:13 : 200  -> glVertexAttrib3dv ($656F9550)
+00:13:13 : 200  -> glVertexAttrib3f ($656F9450)
+00:13:13 : 200  -> glVertexAttrib3fv ($656F94A0)
+00:13:13 : 200  -> glVertexAttrib3s ($656F9570)
+00:13:13 : 200  -> glVertexAttrib3sv ($656F9590)
+00:13:13 : 200  -> glVertexAttrib4Nbv ($656F95B0)
+00:13:13 : 200  -> glVertexAttrib4Niv ($656F95D0)
+00:13:13 : 200  -> glVertexAttrib4Nsv ($656F95F0)
+00:13:13 : 200  -> glVertexAttrib4Nub ($656F9610)
+00:13:13 : 200  -> glVertexAttrib4Nubv ($656F9630)
+00:13:13 : 200  -> glVertexAttrib4Nuiv ($656F9650)
+00:13:13 : 200  -> glVertexAttrib4Nusv ($656F9670)
+00:13:13 : 200  -> glVertexAttrib4bv ($656F9690)
+00:13:13 : 200  -> glVertexAttrib4d ($656F96B0)
+00:13:13 : 200  -> glVertexAttrib4dv ($656F9710)
+00:13:13 : 200  -> glVertexAttrib4f ($656F9730)
+00:13:13 : 200  -> glVertexAttrib4fv ($656F9790)
+00:13:13 : 200  -> glVertexAttrib4iv ($656F97B0)
+00:13:13 : 200  -> glVertexAttrib4s ($656F97F0)
+00:13:13 : 200  -> glVertexAttrib4sv ($656F9810)
+00:13:13 : 200  -> glVertexAttrib4ubv ($656F9830)
+00:13:13 : 200  -> glVertexAttrib4uiv ($656F97D0)
+00:13:13 : 200  -> glVertexAttrib4usv ($656F9850)
+00:13:13 : 200  -> glVertexAttribPointer ($656F9870)
+00:13:13 : 210  -> glUniformMatrix2x3fv ($656F91C0)
+00:13:13 : 210  -> glUniformMatrix3x2fv ($656F91E0)
+00:13:13 : 210  -> glUniformMatrix2x4fv ($656F9200)
+00:13:13 : 210  -> glUniformMatrix4x2fv ($656F9220)
+00:13:13 : 210  -> glUniformMatrix3x4fv ($656F9240)
+00:13:13 : 210  -> glUniformMatrix4x3fv ($656F9260)
+00:13:13 : 300  -> glColorMaski ($656F98D0)
+00:13:13 : 300  -> glGetBooleani_v ($656F98F0)
+00:13:13 : 300  -> glGetIntegeri_v ($656F9910)
+00:13:13 : 300  -> glEnablei ($656F9930)
+00:13:13 : 300  -> glDisablei ($656F9950)
+00:13:13 : 300  -> glIsEnabledi ($656F9970)
+00:13:13 : 300  -> glBeginTransformFeedback ($656F9990)
+00:13:13 : 300  -> glEndTransformFeedback ($656F99B0)
+00:13:13 : 300  -> glBindBufferRange ($656F99D0)
+00:13:13 : 300  -> glBindBufferBase ($656F99F0)
+00:13:13 : 300  -> glTransformFeedbackVaryings ($656F9A10)
+00:13:13 : 300  -> glGetTransformFeedbackVarying ($656F9A30)
+00:13:13 : 300  -> glClampColor ($656F9A50)
+00:13:13 : 300  -> glBeginConditionalRender ($656F9A70)
+00:13:13 : 300  -> glEndConditionalRender ($656F9A90)
+00:13:13 : 300  -> glVertexAttribIPointer ($656F9AB0)
+00:13:13 : 300  -> glGetVertexAttribIiv ($656F9AD0)
+00:13:13 : 300  -> glGetVertexAttribIuiv ($656F9AF0)
+00:13:13 : 300  -> glVertexAttribI1i ($656F9B10)
+00:13:13 : 300  -> glVertexAttribI2i ($656F9B30)
+00:13:13 : 300  -> glVertexAttribI3i ($656F9B50)
+00:13:13 : 300  -> glVertexAttribI4i ($656F9C90)
+00:13:13 : 300  -> glVertexAttribI1ui ($656F9B70)
+00:13:13 : 300  -> glVertexAttribI2ui ($656F9B90)
+00:13:13 : 300  -> glVertexAttribI3ui ($656F9BB0)
+00:13:13 : 300  -> glVertexAttribI4ui ($656F9CD0)
+00:13:13 : 300  -> glVertexAttribI1iv ($656F9BD0)
+00:13:13 : 300  -> glVertexAttribI2iv ($656F9BF0)
+00:13:13 : 300  -> glVertexAttribI3iv ($656F9C10)
+00:13:13 : 300  -> glVertexAttribI4iv ($656F9CB0)
+00:13:13 : 300  -> glVertexAttribI1uiv ($656F9C30)
+00:13:13 : 300  -> glVertexAttribI2uiv ($656F9C50)
+00:13:13 : 300  -> glVertexAttribI3uiv ($656F9C70)
+00:13:13 : 300  -> glVertexAttribI4uiv ($656F9CF0)
+00:13:13 : 300  -> glVertexAttribI4bv ($656F9D10)
+00:13:13 : 300  -> glVertexAttribI4sv ($656F9D30)
+00:13:13 : 300  -> glVertexAttribI4ubv ($656F9D50)
+00:13:13 : 300  -> glVertexAttribI4usv ($656F9D70)
+00:13:13 : 300  -> glGetUniformuiv ($656F8C80)
+00:13:13 : 300  -> glBindFragDataLocation ($656F9D90)
+00:13:13 : 300  -> glGetFragDataLocation ($656F9DB0)
+00:13:13 : 300  -> glUniform1ui ($656F8F60)
+00:13:13 : 300  -> glUniform2ui ($656F8F80)
+00:13:13 : 300  -> glUniform3ui ($656F8FA0)
+00:13:13 : 300  -> glUniform4ui ($656F8FC0)
+00:13:13 : 300  -> glUniform1uiv ($656F90E0)
+00:13:13 : 300  -> glUniform2uiv ($656F9100)
+00:13:13 : 300  -> glUniform3uiv ($656F9120)
+00:13:13 : 300  -> glUniform4uiv ($656F9140)
+00:13:13 : 300  -> glTexParameterIiv ($656F9DD0)
+00:13:13 : 300  -> glTexParameterIuiv ($656F9DF0)
+00:13:13 : 300  -> glGetTexParameterIiv ($656F9E30)
+00:13:13 : 300  -> glGetTexParameterIuiv ($656F9E10)
+00:13:13 : 300  -> glClearBufferiv ($656F9E50)
+00:13:13 : 300  -> glClearBufferuiv ($656F9E70)
+00:13:13 : 300  -> glClearBufferfv ($656F9E90)
+00:13:13 : 300  -> glClearBufferfi ($656F9EB0)
+00:13:13 : 300  -> glGetStringi ($656F9EF0)
+00:13:13 : 300  -> glIsRenderbuffer ($656F9F40)
+00:13:13 : 300  -> glBindRenderbuffer ($656F9F60)
+00:13:13 : 300  -> glDeleteRenderbuffers ($656F9F80)
+00:13:13 : 300  -> glGenRenderbuffers ($656F9FA0)
+00:13:13 : 300  -> glRenderbufferStorage ($656F9FC0)
+00:13:13 : 300  -> glGetRenderbufferParameteriv ($656F9FE0)
+00:13:13 : 300  -> glIsFramebuffer ($656FA000)
+00:13:13 : 300  -> glBindFramebuffer ($656FA020)
+00:13:13 : 300  -> glDeleteFramebuffers ($656FA040)
+00:13:13 : 300  -> glGenFramebuffers ($656FA060)
+00:13:13 : 300  -> glCheckFramebufferStatus ($656FA080)
+00:13:13 : 300  -> glFramebufferTexture1D ($656FA0A0)
+00:13:13 : 300  -> glFramebufferTexture2D ($656FA0C0)
+00:13:13 : 300  -> glFramebufferTexture3D ($656FA0E0)
+00:13:13 : 300  -> glFramebufferRenderbuffer ($656FA100)
+00:13:13 : 300  -> glGetFramebufferAttachmentParameteriv ($656FA120)
+00:13:13 : 300  -> glGenerateMipmap ($656FA140)
+00:13:13 : 300  -> glBlitFramebuffer ($656FA160)
+00:13:13 : 300  -> glRenderbufferStorageMultisample ($656FA180)
+00:13:13 : 300  -> glFramebufferTextureLayer ($656FA1A0)
+00:13:13 : 300  -> glMapBufferRange ($656FA1C0)
+00:13:13 : 300  -> glFlushMappedBufferRange ($656FA1E0)
+00:13:13 : 300  -> glBindVertexArray ($656FA200)
+00:13:13 : 300  -> glDeleteVertexArrays ($656FA220)
+00:13:13 : 300  -> glGenVertexArrays ($656FA240)
+00:13:13 : 300  -> glIsVertexArray ($656FA260)
+00:13:13 : 310  -> glDrawArraysInstanced ($656FA280)
+00:13:13 : 310  -> glDrawElementsInstanced ($656FA2A0)
+00:13:13 : 310  -> glTexBuffer ($656FA2C0)
+00:13:13 : 310  -> glPrimitiveRestartIndex ($656FA2E0)
+00:13:13 : 310  -> glCopyBufferSubData ($656FA300)
+00:13:13 : 310  -> glGetUniformIndices ($656FA320)
+00:13:13 : 310  -> glGetActiveUniformsiv ($656FA340)
+00:13:13 : 310  -> glGetActiveUniformName ($656FA360)
+00:13:13 : 310  -> glGetUniformBlockIndex ($656FA380)
+00:13:13 : 310  -> glGetActiveUniformBlockiv ($656FA3A0)
+00:13:13 : 310  -> glGetActiveUniformBlockName ($656FA3C0)
+00:13:13 : 310  -> glUniformBlockBinding ($656FA3E0)
+00:13:13 : 320  -> glDrawElementsBaseVertex ($656FA400)
+00:13:13 : 320  -> glDrawRangeElementsBaseVertex ($656FA420)
+00:13:13 : 320  -> glDrawElementsInstancedBaseVertex ($656FA440)
+00:13:13 : 320  -> glMultiDrawElementsBaseVertex ($656FA460)
+00:13:13 : 320  -> glProvokingVertex ($656FA480)
+00:13:13 : 320  -> glFenceSync ($656FA4A0)
+00:13:13 : 320  -> glIsSync ($656FA4C0)
+00:13:13 : 320  -> glDeleteSync ($656FA4E0)
+00:13:13 : 320  -> glClientWaitSync ($656FA500)
+00:13:13 : 320  -> glWaitSync ($656FA530)
+00:13:13 : 320  -> glGetInteger64v ($656FA560)
+00:13:13 : 320  -> glGetSynciv ($656FA580)
+00:13:13 : 320  -> glGetInteger64i_v ($656FA5A0)
+00:13:13 : 320  -> glGetBufferParameteri64v ($656FA5C0)
+00:13:13 : 320  -> glFramebufferTexture ($656FA5E0)
+00:13:13 : 320  -> glTexImage2DMultisample ($656FA600)
+00:13:13 : 320  -> glTexImage3DMultisample ($656FA620)
+00:13:13 : 320  -> glGetMultisamplefv ($656FA640)
+00:13:13 : 320  -> glSampleMaski ($656FA660)
+00:13:13 : 330  -> glBindFragDataLocationIndexed ($656FA680)
+00:13:13 : 330  -> glGetFragDataIndex ($656FA6A0)
+00:13:13 : 330  -> glGenSamplers ($656FA6C0)
+00:13:13 : 330  -> glDeleteSamplers ($656FA6E0)
+00:13:13 : 330  -> glIsSampler ($656FA700)
+00:13:13 : 330  -> glBindSampler ($656FA720)
+00:13:13 : 330  -> glSamplerParameteri ($656FA740)
+00:13:13 : 330  -> glSamplerParameteriv ($656FA760)
+00:13:13 : 330  -> glSamplerParameterf ($656FA780)
+00:13:13 : 330  -> glSamplerParameterfv ($656FA7C0)
+00:13:13 : 330  -> glSamplerParameterIiv ($656FA820)
+00:13:13 : 330  -> glSamplerParameterIuiv ($656FA840)
+00:13:13 : 330  -> glGetSamplerParameteriv ($656FA7E0)
+00:13:13 : 330  -> glGetSamplerParameterIiv ($656FA860)
+00:13:13 : 330  -> glGetSamplerParameterfv ($656FA800)
+00:13:13 : 330  -> glGetSamplerParameterIuiv ($656FA880)
+00:13:13 : 330  -> glQueryCounter ($656FA8A0)
+00:13:13 : 330  -> glGetQueryObjecti64v ($656FA8C0)
+00:13:13 : 330  -> glGetQueryObjectui64v ($656FA8E0)
+00:13:13 : 330  -> glVertexAttribDivisor ($656FA900)
+00:13:13 : 330  -> glVertexAttribP1ui ($656FA920)
+00:13:13 : 330  -> glVertexAttribP1uiv ($656FA940)
+00:13:13 : 330  -> glVertexAttribP2ui ($656FA960)
+00:13:13 : 330  -> glVertexAttribP2uiv ($656FA980)
+00:13:13 : 330  -> glVertexAttribP3ui ($656FA9A0)
+00:13:13 : 330  -> glVertexAttribP3uiv ($656FA9C0)
+00:13:13 : 330  -> glVertexAttribP4ui ($656FA9E0)
+00:13:13 : 330  -> glVertexAttribP4uiv ($656FAA00)
+00:13:13 : 400  -> glMinSampleShading ($656FADE0)
+00:13:13 : 400  -> glBlendEquationi ($656FAE10)
+00:13:13 : 400  -> glBlendEquationSeparatei ($656FAE30)
+00:13:13 : 400  -> glBlendFunci ($656FAE50)
+00:13:13 : 400  -> glBlendFuncSeparatei ($656FAE70)
+00:13:13 : 400  -> glDrawArraysIndirect ($656FAE90)
+00:13:13 : 400  -> glDrawElementsIndirect ($656FAEB0)
+00:13:13 : 400  -> glUniform1d ($656FAED0)
+00:13:13 : 400  -> glUniform2d ($656FAFF0)
+00:13:13 : 400  -> glUniform3d ($656FB030)
+00:13:13 : 400  -> glUniform4d ($656FB080)
+00:13:13 : 400  -> glUniform1dv ($656FAF10)
+00:13:13 : 400  -> glUniform2dv ($656FAF30)
+00:13:13 : 400  -> glUniform3dv ($656FAF50)
+00:13:13 : 400  -> glUniform4dv ($656FAF70)
+00:13:13 : 400  -> glUniformMatrix2dv ($656FAF90)
+00:13:13 : 400  -> glUniformMatrix3dv ($656FAFB0)
+00:13:13 : 400  -> glUniformMatrix4dv ($656FAFD0)
+00:13:13 : 400  -> glUniformMatrix2x3dv ($656FB0E0)
+00:13:13 : 400  -> glUniformMatrix2x4dv ($656FB100)
+00:13:13 : 400  -> glUniformMatrix3x2dv ($656FB120)
+00:13:13 : 400  -> glUniformMatrix3x4dv ($656FB140)
+00:13:13 : 400  -> glUniformMatrix4x2dv ($656FB160)
+00:13:13 : 400  -> glUniformMatrix4x3dv ($656FB180)
+00:13:13 : 400  -> glGetUniformdv ($656FB1A0)
+00:13:13 : 400  -> glGetSubroutineUniformLocation ($656FB1C0)
+00:13:13 : 400  -> glGetSubroutineIndex ($656FB1E0)
+00:13:13 : 400  -> glGetActiveSubroutineUniformiv ($656FB200)
+00:13:13 : 400  -> glGetActiveSubroutineUniformName ($656FB220)
+00:13:13 : 400  -> glGetActiveSubroutineName ($656FB240)
+00:13:13 : 400  -> glUniformSubroutinesuiv ($656FB260)
+00:13:13 : 400  -> glGetUniformSubroutineuiv ($656FB280)
+00:13:13 : 400  -> glGetProgramStageiv ($656FB2A0)
+00:13:13 : 400  -> glPatchParameteri ($656FB2C0)
+00:13:13 : 400  -> glPatchParameterfv ($656FB2E0)
+00:13:13 : 400  -> glBindTransformFeedback ($656FB300)
+00:13:13 : 400  -> glDeleteTransformFeedbacks ($656FB320)
+00:13:13 : 400  -> glGenTransformFeedbacks ($656FB340)
+00:13:13 : 400  -> glIsTransformFeedback ($656FB360)
+00:13:13 : 400  -> glPauseTransformFeedback ($656FB380)
+00:13:13 : 400  -> glResumeTransformFeedback ($656FB3A0)
+00:13:13 : 400  -> glDrawTransformFeedback ($656FB3C0)
+00:13:13 : 400  -> glDrawTransformFeedbackStream ($656FB3E0)
+00:13:13 : 400  -> glBeginQueryIndexed ($656FB400)
+00:13:13 : 400  -> glEndQueryIndexed ($656FB420)
+00:13:13 : 400  -> glGetQueryIndexediv ($656FB440)
+00:13:13 : 410  -> glReleaseShaderCompiler ($656FB460)
+00:13:13 : 410  -> glShaderBinary ($656FB480)
+00:13:13 : 410  -> glGetShaderPrecisionFormat ($656FB4A0)
+00:13:13 : 410  -> glDepthRangef ($656FB4C0)
+00:13:13 : 410  -> glClearDepthf ($656FB500)
+00:13:13 : 410  -> glGetProgramBinary ($656FB530)
+00:13:13 : 410  -> glProgramBinary ($656FB550)
+00:13:13 : 410  -> glProgramParameteri ($656FB570)
+00:13:13 : 410  -> glUseProgramStages ($656FB590)
+00:13:13 : 410  -> glActiveShaderProgram ($656FB5B0)
+00:13:13 : 410  -> glCreateShaderProgramv ($656FB5D0)
+00:13:13 : 410  -> glBindProgramPipeline ($656FB5F0)
+00:13:13 : 410  -> glDeleteProgramPipelines ($656FB610)
+00:13:13 : 410  -> glGenProgramPipelines ($656FB630)
+00:13:13 : 410  -> glIsProgramPipeline ($656FB650)
+00:13:13 : 410  -> glGetProgramPipelineiv ($656FB670)
+00:13:13 : 410  -> glProgramUniform1i ($656FB6D0)
+00:13:13 : 410  -> glProgramUniform1iv ($656FB6F0)
+00:13:13 : 410  -> glProgramUniform1f ($656FB710)
+00:13:13 : 410  -> glProgramUniform1fv ($656FB750)
+00:13:13 : 410  -> glProgramUniform1d ($656FB770)
+00:13:13 : 410  -> glProgramUniform1dv ($656FB7B0)
+00:13:13 : 410  -> glProgramUniform1ui ($656FB7D0)
+00:13:13 : 410  -> glProgramUniform1uiv ($656FB7F0)
+00:13:13 : 410  -> glProgramUniform2i ($656FB810)
+00:13:13 : 410  -> glProgramUniform2iv ($656FB830)
+00:13:13 : 410  -> glProgramUniform2f ($656FB850)
+00:13:13 : 410  -> glProgramUniform2fv ($656FB8A0)
+00:13:13 : 410  -> glProgramUniform2d ($656FB8C0)
+00:13:13 : 410  -> glProgramUniform2dv ($656FB910)
+00:13:13 : 410  -> glProgramUniform2ui ($656FB930)
+00:13:13 : 410  -> glProgramUniform2uiv ($656FB950)
+00:13:13 : 410  -> glProgramUniform3i ($656FB970)
+00:13:13 : 410  -> glProgramUniform3iv ($656FB990)
+00:13:13 : 410  -> glProgramUniform3f ($656FB9B0)
+00:13:13 : 410  -> glProgramUniform3fv ($656FBA00)
+00:13:13 : 410  -> glProgramUniform3d ($656FBA20)
+00:13:13 : 410  -> glProgramUniform3dv ($656FBA80)
+00:13:13 : 410  -> glProgramUniform3ui ($656FBAA0)
+00:13:13 : 410  -> glProgramUniform3uiv ($656FBAC0)
+00:13:13 : 410  -> glProgramUniform4i ($656FBAE0)
+00:13:13 : 410  -> glProgramUniform4iv ($656FBB00)
+00:13:13 : 410  -> glProgramUniform4f ($656FBB20)
+00:13:13 : 410  -> glProgramUniform4fv ($656FBB80)
+00:13:13 : 410  -> glProgramUniform4d ($656FBBA0)
+00:13:13 : 410  -> glProgramUniform4dv ($656FBC00)
+00:13:13 : 410  -> glProgramUniform4ui ($656FBC20)
+00:13:13 : 410  -> glProgramUniform4uiv ($656FBC40)
+00:13:13 : 410  -> glProgramUniformMatrix2fv ($656FBC60)
+00:13:13 : 410  -> glProgramUniformMatrix3fv ($656FBC80)
+00:13:13 : 410  -> glProgramUniformMatrix4fv ($656FBCA0)
+00:13:13 : 410  -> glProgramUniformMatrix2dv ($656FBCC0)
+00:13:13 : 410  -> glProgramUniformMatrix3dv ($656FBCE0)
+00:13:13 : 410  -> glProgramUniformMatrix4dv ($656FBD00)
+00:13:13 : 410  -> glProgramUniformMatrix2x3fv ($656FBD20)
+00:13:13 : 410  -> glProgramUniformMatrix3x2fv ($656FBD40)
+00:13:13 : 410  -> glProgramUniformMatrix2x4fv ($656FBD60)
+00:13:13 : 410  -> glProgramUniformMatrix4x2fv ($656FBD80)
+00:13:13 : 410  -> glProgramUniformMatrix3x4fv ($656FBDA0)
+00:13:13 : 410  -> glProgramUniformMatrix4x3fv ($656FBDC0)
+00:13:13 : 410  -> glProgramUniformMatrix2x3dv ($656FBDE0)
+00:13:13 : 410  -> glProgramUniformMatrix3x2dv ($656FBE00)
+00:13:13 : 410  -> glProgramUniformMatrix2x4dv ($656FBE20)
+00:13:13 : 410  -> glProgramUniformMatrix4x2dv ($656FBE40)
+00:13:13 : 410  -> glProgramUniformMatrix3x4dv ($656FBE60)
+00:13:13 : 410  -> glProgramUniformMatrix4x3dv ($656FBE80)
+00:13:13 : 410  -> glValidateProgramPipeline ($656FB690)
+00:13:13 : 410  -> glGetProgramPipelineInfoLog ($656FB6B0)
+00:13:13 : 410  -> glVertexAttribL1d ($656FBEA0)
+00:13:13 : 410  -> glVertexAttribL2d ($656FBEE0)
+00:13:13 : 410  -> glVertexAttribL3d ($656FBF20)
+00:13:13 : 410  -> glVertexAttribL4d ($656FBF70)
+00:13:13 : 410  -> glVertexAttribL1dv ($656FBFD0)
+00:13:13 : 410  -> glVertexAttribL2dv ($656FBFF0)
+00:13:13 : 410  -> glVertexAttribL3dv ($656FC010)
+00:13:13 : 410  -> glVertexAttribL4dv ($656FC030)
+00:13:13 : 410  -> glVertexAttribLPointer ($656FC050)
+00:13:13 : 410  -> glGetVertexAttribLdv ($656FC070)
+00:13:13 : 410  -> glViewportArrayv ($656FC090)
+00:13:13 : 410  -> glViewportIndexedf ($656FC0B0)
+00:13:13 : 410  -> glViewportIndexedfv ($656FC110)
+00:13:13 : 410  -> glScissorArrayv ($656FC130)
+00:13:13 : 410  -> glScissorIndexed ($656FC150)
+00:13:13 : 410  -> glScissorIndexedv ($656FC170)
+00:13:13 : 410  -> glDepthRangeArrayv ($656FC190)
+00:13:13 : 410  -> glDepthRangeIndexed ($656FC1B0)
+00:13:13 : 410  -> glGetFloati_v ($656FC1F0)
+00:13:13 : 410  -> glGetDoublei_v ($656FC210)
+00:13:13 : 420  -> glDrawArraysInstancedBaseInstance ($656FC230)
+00:13:13 : 420  -> glDrawElementsInstancedBaseInstance ($656FC250)
+00:13:13 : 420  -> glDrawElementsInstancedBaseVertexBaseInstance ($656FC270)
+00:13:13 : 420  -> glGetActiveAtomicCounterBufferiv ($656FC2B0)
+00:13:13 : 420  -> glBindImageTexture ($656FC2D0)
+00:13:13 : 420  -> glMemoryBarrier ($656FC2F0)
+00:13:13 : 420  -> glTexStorage1D ($656FC310)
+00:13:13 : 420  -> glTexStorage2D ($656FC330)
+00:13:13 : 420  -> glTexStorage3D ($656FC350)
+00:13:13 : 420  -> glDrawTransformFeedbackInstanced ($656FC370)
+00:13:13 : 420  -> glDrawTransformFeedbackStreamInstanced ($656FC390)
+00:13:13 : 430  -> glClearBufferData ($656FC3B0)
+00:13:13 : 430  -> glClearBufferSubData ($656FC3D0)
+00:13:13 : 430  -> glDispatchCompute ($656FC3F0)
+00:13:13 : 430  -> glDispatchComputeIndirect ($656FC410)
+00:13:13 : 430  -> glCopyImageSubData ($656FC430)
+00:13:13 : 430  -> glFramebufferParameteri ($656FC450)
+00:13:13 : 430  -> glGetFramebufferParameteriv ($656FC470)
+00:13:13 : 430  -> glGetInternalformati64v ($656FC490)
+00:13:13 : 430  -> glInvalidateTexSubImage ($656FC4B0)
+00:13:13 : 430  -> glInvalidateTexImage ($656FC4D0)
+00:13:13 : 430  -> glInvalidateBufferSubData ($656FC4F0)
+00:13:13 : 430  -> glInvalidateBufferData ($656FC510)
+00:13:13 : 430  -> glInvalidateFramebuffer ($656FC530)
+00:13:13 : 430  -> glInvalidateSubFramebuffer ($656FC550)
+00:13:13 : 430  -> glMultiDrawArraysIndirect ($656FC570)
+00:13:13 : 430  -> glMultiDrawElementsIndirect ($656FC590)
+00:13:13 : 430  -> glGetProgramInterfaceiv ($656FC5B0)
+00:13:13 : 430  -> glGetProgramResourceIndex ($656FC5D0)
+00:13:13 : 430  -> glGetProgramResourceName ($656FC5F0)
+00:13:13 : 430  -> glGetProgramResourceiv ($656FC610)
+00:13:13 : 430  -> glGetProgramResourceLocation ($656FC630)
+00:13:13 : 430  -> glGetProgramResourceLocationIndex ($656FC650)
+00:13:13 : 430  -> glShaderStorageBlockBinding ($656FC670)
+00:13:13 : 430  -> glTexBufferRange ($656FC690)
+00:13:13 : 430  -> glTexStorage2DMultisample ($656FC6B0)
+00:13:13 : 430  -> glTexStorage3DMultisample ($656FC6D0)
+00:13:13 : 430  -> glTextureView ($656FC6F0)
+00:13:13 : 430  -> glBindVertexBuffer ($656FC710)
+00:13:13 : 430  -> glVertexAttribFormat ($656FC730)
+00:13:13 : 430  -> glVertexAttribIFormat ($656FC750)
+00:13:13 : 430  -> glVertexAttribLFormat ($656FC770)
+00:13:13 : 430  -> glVertexAttribBinding ($656FC790)
+00:13:13 : 430  -> glVertexBindingDivisor ($656FC7B0)
+00:13:13 : 430  -> glDebugMessageControl ($656FC7D0)
+00:13:13 : 430  -> glDebugMessageInsert ($656FC7F0)
+00:13:13 : 430  -> glDebugMessageCallback ($656FC810)
+00:13:13 : 430  -> glGetDebugMessageLog ($656FC830)
+00:13:13 : 430  -> glPushDebugGroup ($656FC850)
+00:13:13 : 430  -> glPopDebugGroup ($656FC870)
+00:13:13 : 430  -> glObjectLabel ($656FC890)
+00:13:13 : 430  -> glGetObjectLabel ($656FC8B0)
+00:13:13 : 430  -> glObjectPtrLabel ($656FC8D0)
+00:13:13 : 430  -> glGetObjectPtrLabel ($656FC8F0)
+00:13:13 : 440  -> glBufferStorage ($656FC910)
+00:13:13 : 440  -> glClearTexImage ($656FC970)
+00:13:13 : 440  -> glClearTexSubImage ($656FC990)
+00:13:13 : 440  -> glBindBuffersBase ($656FC930)
+00:13:13 : 440  -> glBindBuffersRange ($656FC950)
+00:13:13 : 440  -> glBindTextures ($656FC9B0)
+00:13:13 : 440  -> glBindSamplers ($656FC9D0)
+00:13:13 : 440  -> glBindImageTextures ($656FC9F0)
+00:13:13 : 440  -> glBindVertexBuffers ($656FCA10)
+00:13:13 : 450  -> glClipControl ($656FCA30)
+00:13:13 : 450  -> glCreateTransformFeedbacks ($656FCA50)
+00:13:13 : 450  -> glTransformFeedbackBufferBase ($656FCA70)
+00:13:13 : 450  -> glTransformFeedbackBufferRange ($656FCA90)
+00:13:13 : 450  -> glGetTransformFeedbackiv ($656FCAB0)
+00:13:13 : 450  -> glGetTransformFeedbacki_v ($656FCAD0)
+00:13:13 : 450  -> glGetTransformFeedbacki64_v ($656FCAF0)
+00:13:13 : 450  -> glCreateBuffers ($656FCB10)
+00:13:13 : 450  -> glNamedBufferStorage ($656FCB30)
+00:13:13 : 450  -> glNamedBufferData ($656FCB50)
+00:13:13 : 450  -> glNamedBufferSubData ($656FCB70)
+00:13:13 : 450  -> glCopyNamedBufferSubData ($656FCB90)
+00:13:13 : 450  -> glClearNamedBufferData ($656FCBB0)
+00:13:13 : 450  -> glClearNamedBufferSubData ($656FCBD0)
+00:13:13 : 450  -> glMapNamedBuffer ($656FCBF0)
+00:13:13 : 450  -> glMapNamedBufferRange ($656FCC10)
+00:13:13 : 450  -> glUnmapNamedBuffer ($656FCC30)
+00:13:13 : 450  -> glFlushMappedNamedBufferRange ($656FCC50)
+00:13:13 : 450  -> glGetNamedBufferParameteriv ($656FCC70)
+00:13:13 : 450  -> glGetNamedBufferParameteri64v ($656FCC90)
+00:13:13 : 450  -> glGetNamedBufferPointerv ($656FCCB0)
+00:13:13 : 450  -> glGetNamedBufferSubData ($656FCCD0)
+00:13:13 : 450  -> glCreateFramebuffers ($656FCCF0)
+00:13:13 : 450  -> glNamedFramebufferRenderbuffer ($656FCD10)
+00:13:13 : 450  -> glNamedFramebufferParameteri ($656FCD50)
+00:13:13 : 450  -> glNamedFramebufferTexture ($656FCD30)
+00:13:13 : 450  -> glNamedFramebufferTextureLayer ($656FCD70)
+00:13:13 : 450  -> glNamedFramebufferDrawBuffer ($656FCD90)
+00:13:13 : 450  -> glNamedFramebufferDrawBuffers ($656FCDB0)
+00:13:13 : 450  -> glNamedFramebufferReadBuffer ($656FCDD0)
+00:13:13 : 450  -> glInvalidateNamedFramebufferData ($656FCDF0)
+00:13:13 : 450  -> glInvalidateNamedFramebufferSubData ($656FCE10)
+00:13:13 : 450  -> glClearNamedFramebufferiv ($656FCE50)
+00:13:13 : 450  -> glClearNamedFramebufferuiv ($656FCE70)
+00:13:13 : 450  -> glClearNamedFramebufferfv ($656FCE90)
+00:13:13 : 450  -> glClearNamedFramebufferfi ($656FCEB0)
+00:13:13 : 450  -> glBlitNamedFramebuffer ($656FCEF0)
+00:13:13 : 450  -> glCheckNamedFramebufferStatus ($656FCF10)
+00:13:13 : 450  -> glGetNamedFramebufferParameteriv ($656FCE30)
+00:13:13 : 450  -> glGetNamedFramebufferAttachmentParameteriv ($656FCF30)
+00:13:13 : 450  -> glCreateRenderbuffers ($656FCF50)
+00:13:13 : 450  -> glNamedRenderbufferStorage ($656FCF70)
+00:13:13 : 450  -> glNamedRenderbufferStorageMultisample ($656FCF90)
+00:13:13 : 450  -> glGetNamedRenderbufferParameteriv ($656FCFB0)
+00:13:13 : 450  -> glCreateTextures ($656FCFD0)
+00:13:13 : 450  -> glTextureBuffer ($656FCFF0)
+00:13:13 : 450  -> glTextureBufferRange ($656FD010)
+00:13:13 : 450  -> glTextureStorage1D ($656FD030)
+00:13:13 : 450  -> glTextureStorage2D ($656FD050)
+00:13:13 : 450  -> glTextureStorage3D ($656FD070)
+00:13:13 : 450  -> glTextureStorage2DMultisample ($656FD0F0)
+00:13:13 : 450  -> glTextureStorage3DMultisample ($656FD110)
+00:13:13 : 450  -> glTextureSubImage1D ($656FD090)
+00:13:13 : 450  -> glTextureSubImage2D ($656FD0B0)
+00:13:13 : 450  -> glTextureSubImage3D ($656FD0D0)
+00:13:13 : 450  -> glCompressedTextureSubImage1D ($656FD150)
+00:13:13 : 450  -> glCompressedTextureSubImage2D ($656FD130)
+00:13:13 : 450  -> glCompressedTextureSubImage3D ($656FD170)
+00:13:13 : 450  -> glCopyTextureSubImage1D ($656FD190)
+00:13:13 : 450  -> glCopyTextureSubImage2D ($656FD1B0)
+00:13:13 : 450  -> glCopyTextureSubImage3D ($656FD1D0)
+00:13:13 : 450  -> glTextureParameterf ($656FD1F0)
+00:13:13 : 450  -> glTextureParameterfv ($656FD230)
+00:13:13 : 450  -> glTextureParameteri ($656FD250)
+00:13:13 : 450  -> glTextureParameterIiv ($656FD270)
+00:13:13 : 450  -> glTextureParameterIuiv ($656FD290)
+00:13:13 : 450  -> glTextureParameteriv ($656FD2B0)
+00:13:13 : 450  -> glGenerateTextureMipmap ($656FD2D0)
+00:13:13 : 450  -> glBindTextureUnit ($656FD2F0)
+00:13:13 : 450  -> glGetTextureImage ($656FD310)
+00:13:13 : 450  -> glGetCompressedTextureImage ($656FD330)
+00:13:13 : 450  -> glGetTextureLevelParameterfv ($656FD350)
+00:13:13 : 450  -> glGetTextureLevelParameteriv ($656FD370)
+00:13:13 : 450  -> glGetTextureParameterfv ($656FD390)
+00:13:13 : 450  -> glGetTextureParameterIiv ($656FD3B0)
+00:13:13 : 450  -> glGetTextureParameterIuiv ($656FD3D0)
+00:13:13 : 450  -> glGetTextureParameteriv ($656FD3F0)
+00:13:13 : 450  -> glCreateVertexArrays ($656FD410)
+00:13:13 : 450  -> glDisableVertexArrayAttrib ($656FD430)
+00:13:13 : 450  -> glEnableVertexArrayAttrib ($656FD450)
+00:13:13 : 450  -> glVertexArrayElementBuffer ($656FD470)
+00:13:13 : 450  -> glVertexArrayVertexBuffer ($656FD490)
+00:13:13 : 450  -> glVertexArrayVertexBuffers ($656FD4B0)
+00:13:13 : 450  -> glVertexArrayAttribBinding ($656FD4D0)
+00:13:13 : 450  -> glVertexArrayAttribFormat ($656FD4F0)
+00:13:13 : 450  -> glVertexArrayAttribIFormat ($656FD510)
+00:13:13 : 450  -> glVertexArrayAttribLFormat ($656FD530)
+00:13:13 : 450  -> glVertexArrayBindingDivisor ($656FD550)
+00:13:13 : 450  -> glGetVertexArrayiv ($656FD570)
+00:13:13 : 450  -> glGetVertexArrayIndexediv ($656FD590)
+00:13:13 : 450  -> glGetVertexArrayIndexed64iv ($656FD5B0)
+00:13:13 : 450  -> glCreateSamplers ($656FD5D0)
+00:13:13 : 450  -> glCreateProgramPipelines ($656FD5F0)
+00:13:13 : 450  -> glCreateQueries ($656FD610)
+00:13:13 : 450  -> glGetQueryBufferObjecti64v ($656FD630)
+00:13:13 : 450  -> glGetQueryBufferObjectiv ($656FD650)
+00:13:13 : 450  -> glGetQueryBufferObjectui64v ($656FD670)
+00:13:13 : 450  -> glGetQueryBufferObjectuiv ($656FD690)
+00:13:13 : 450  -> glMemoryBarrierByRegion ($656FD6B0)
+00:13:13 : 450  -> glGetTextureSubImage ($656FDBE0)
+00:13:13 : 450  -> glGetCompressedTextureSubImage ($656FDC00)
+00:13:13 : 450  -> glGetGraphicsResetStatus ($656FD6F0)
+00:13:13 : 450  -> glGetnCompressedTexImage ($656FD710)
+00:13:13 : 450  -> glGetnTexImage ($656FD730)
+00:13:13 : 450  -> glGetnUniformdv ($656FD750)
+00:13:13 : 450  -> glGetnUniformfv ($656FD770)
+00:13:13 : 450  -> glGetnUniformiv ($656FD790)
+00:13:13 : 450  -> glGetnUniformuiv ($656FD7B0)
+00:13:13 : 450  -> glReadnPixels ($656FD6D0)
+00:13:13 : 450  -> glGetnMapdv ($656FD7D0)
+00:13:13 : 450  -> glGetnMapfv ($656FD7F0)
+00:13:13 : 450  -> glGetnMapiv ($656FD810)
+00:13:13 : 450  -> glGetnPixelMapfv ($656FD830)
+00:13:13 : 450  -> glGetnPixelMapuiv ($656FD850)
+00:13:13 : 450  -> glGetnPixelMapusv ($656FD870)
+00:13:13 : 450  -> glGetnPolygonStipple ($656FD890)
+00:13:13 : 450  -> glGetnColorTable ($656FD8B0)
+00:13:13 : 450  -> glGetnConvolutionFilter ($656FD8D0)
+00:13:13 : 450  -> glGetnSeparableFilter ($656FD8F0)
+00:13:13 : 450  -> glGetnHistogram ($656FD910)
+00:13:13 : 450  -> glGetnMinmax ($656FD930)
+00:13:13 : 450  -> glTextureBarrier ($656FD950)
+00:13:13 : 460  -> glSpecializeShader ($656FDAA0)
+00:13:13 : 460  -> glMultiDrawArraysIndirectCount ($656FDAC0)
+00:13:13 : 460  -> glMultiDrawElementsIndirectCount ($656FDAE0)
+00:13:13 : 460  -> glPolygonOffsetClamp ($656FDB00)
+00:13:13 : 681 functions imported, 0 missing.
+00:13:13 : 
+00:13:13 : Available OpenGL extensions:
+00:13:13 : GL_AMD_blend_minmax_factor
+00:13:13 : GL_AMD_depth_clamp_separate
+00:13:13 : GL_AMD_gpu_shader_half_float
+00:13:13 : GL_AMD_gpu_shader_int16
+00:13:13 : GL_AMD_gpu_shader_int64
+00:13:13 : GL_AMD_pinned_memory
+00:13:13 : GL_AMD_sample_positions
+00:13:13 : GL_AMD_shader_trinary_minmax
+00:13:13 : GL_ARB_ES2_compatibility
+00:13:13 : GL_ARB_ES3_compatibility
+00:13:13 : GL_ARB_arrays_of_arrays
+00:13:13 : GL_ARB_base_instance
+00:13:13 : GL_ARB_bindless_texture
+00:13:13 : GL_ARB_blend_func_extended
+00:13:13 : GL_ARB_buffer_storage
+00:13:13 : GL_ARB_clear_buffer_object
+00:13:13 : GL_ARB_clear_texture
+00:13:13 : GL_ARB_clip_control
+00:13:13 : GL_ARB_color_buffer_float
+00:13:13 : GL_ARB_compatibility
+00:13:13 : GL_ARB_compute_shader
+00:13:13 : GL_ARB_conditional_render_inverted
+00:13:13 : GL_ARB_conservative_depth
+00:13:13 : GL_ARB_copy_buffer
+00:13:13 : GL_ARB_copy_image
+00:13:13 : GL_ARB_cull_distance
+00:13:13 : GL_ARB_debug_output
+00:13:13 : GL_ARB_depth_buffer_float
+00:13:13 : GL_ARB_depth_clamp
+00:13:13 : GL_ARB_depth_texture
+00:13:13 : GL_ARB_derivative_control
+00:13:13 : GL_ARB_direct_state_access
+00:13:13 : GL_ARB_draw_buffers
+00:13:13 : GL_ARB_draw_buffers_blend
+00:13:13 : GL_ARB_draw_elements_base_vertex
+00:13:13 : GL_ARB_draw_indirect
+00:13:13 : GL_ARB_draw_instanced
+00:13:13 : GL_ARB_enhanced_layouts
+00:13:13 : GL_ARB_explicit_attrib_location
+00:13:13 : GL_ARB_explicit_uniform_location
+00:13:13 : GL_ARB_fragment_coord_conventions
+00:13:13 : GL_ARB_fragment_layer_viewport
+00:13:13 : GL_ARB_fragment_program
+00:13:13 : GL_ARB_fragment_program_shadow
+00:13:13 : GL_ARB_fragment_shader
+00:13:13 : GL_ARB_framebuffer_no_attachments
+00:13:13 : GL_ARB_framebuffer_object
+00:13:13 : GL_ARB_framebuffer_sRGB
+00:13:13 : GL_ARB_geometry_shader4
+00:13:13 : GL_ARB_get_program_binary
+00:13:13 : GL_ARB_get_texture_sub_image
+00:13:13 : GL_ARB_gl_spirv
+00:13:13 : GL_ARB_gpu_shader5
+00:13:13 : GL_ARB_gpu_shader_fp64
+00:13:13 : GL_ARB_gpu_shader_int64
+00:13:13 : GL_ARB_half_float_pixel
+00:13:13 : GL_ARB_half_float_vertex
+00:13:13 : GL_ARB_indirect_parameters
+00:13:13 : GL_ARB_instanced_arrays
+00:13:13 : GL_ARB_internalformat_query
+00:13:13 : GL_ARB_internalformat_query2
+00:13:13 : GL_ARB_invalidate_subdata
+00:13:13 : GL_ARB_map_buffer_range
+00:13:13 : GL_ARB_multi_bind
+00:13:13 : GL_ARB_multi_draw_indirect
+00:13:13 : GL_ARB_multisample
+00:13:13 : GL_ARB_multitexture
+00:13:13 : GL_ARB_occlusion_query
+00:13:13 : GL_ARB_occlusion_query2
+00:13:13 : GL_ARB_parallel_shader_compile
+00:13:13 : GL_ARB_pipeline_statistics_query
+00:13:13 : GL_ARB_pixel_buffer_object
+00:13:13 : GL_ARB_point_parameters
+00:13:13 : GL_ARB_point_sprite
+00:13:13 : GL_ARB_polygon_offset_clamp
+00:13:13 : GL_ARB_post_depth_coverage
+00:13:13 : GL_ARB_program_interface_query
+00:13:13 : GL_ARB_query_buffer_object
+00:13:13 : GL_ARB_robustness
+00:13:13 : GL_ARB_sample_shading
+00:13:13 : GL_ARB_sampler_objects
+00:13:13 : GL_ARB_seamless_cube_map
+00:13:13 : GL_ARB_separate_shader_objects
+00:13:13 : GL_ARB_shader_atomic_counters
+00:13:13 : GL_ARB_shader_ballot
+00:13:13 : GL_ARB_shader_bit_encoding
+00:13:13 : GL_ARB_shader_clock
+00:13:13 : GL_ARB_shader_draw_parameters
+00:13:13 : GL_ARB_shader_group_vote
+00:13:13 : GL_ARB_shader_image_load_store
+00:13:13 : GL_ARB_shader_image_size
+00:13:13 : GL_ARB_shader_objects
+00:13:13 : GL_ARB_shader_precision
+00:13:13 : GL_ARB_shader_stencil_export
+00:13:13 : GL_ARB_shader_storage_buffer_object
+00:13:13 : GL_ARB_shader_subroutine
+00:13:13 : GL_ARB_shader_texture_image_samples
+00:13:13 : GL_ARB_shader_texture_lod
+00:13:13 : GL_ARB_shader_viewport_layer_array
+00:13:13 : GL_ARB_shading_language_100
+00:13:13 : GL_ARB_shading_language_420pack
+00:13:13 : GL_ARB_shadow
+00:13:13 : GL_ARB_shadow_ambient
+00:13:13 : GL_ARB_sparse_buffer
+00:13:13 : GL_ARB_sparse_texture
+00:13:13 : GL_ARB_spirv_extensions
+00:13:13 : GL_ARB_stencil_texturing
+00:13:13 : GL_ARB_sync
+00:13:13 : GL_ARB_tessellation_shader
+00:13:13 : GL_ARB_texture_barrier
+00:13:13 : GL_ARB_texture_border_clamp
+00:13:13 : GL_ARB_texture_buffer_object
+00:13:13 : GL_ARB_texture_buffer_range
+00:13:13 : GL_ARB_texture_compression
+00:13:13 : GL_ARB_texture_compression_bptc
+00:13:13 : GL_ARB_texture_compression_rgtc
+00:13:13 : GL_ARB_texture_cube_map
+00:13:13 : GL_ARB_texture_cube_map_array
+00:13:13 : GL_ARB_texture_env_add
+00:13:13 : GL_ARB_texture_env_combine
+00:13:13 : GL_ARB_texture_env_dot3
+00:13:13 : GL_ARB_texture_filter_anisotropic
+00:13:13 : GL_ARB_texture_filter_minmax
+00:13:13 : GL_ARB_texture_float
+00:13:13 : GL_ARB_texture_gather
+00:13:13 : GL_ARB_texture_multisample
+00:13:13 : GL_ARB_texture_multisample_no_array
+00:13:13 : GL_ARB_texture_non_power_of_two
+00:13:13 : GL_ARB_texture_rectangle
+00:13:13 : GL_ARB_texture_rg
+00:13:13 : GL_ARB_texture_rgb10_a2ui
+00:13:13 : GL_ARB_texture_stencil8
+00:13:13 : GL_ARB_texture_storage
+00:13:13 : GL_ARB_texture_storage_multisample
+00:13:13 : GL_ARB_texture_swizzle
+00:13:13 : GL_ARB_texture_view
+00:13:13 : GL_ARB_timer_query
+00:13:13 : GL_ARB_transform_feedback
+00:13:13 : GL_ARB_transform_feedback2
+00:13:13 : GL_ARB_transform_feedback3
+00:13:13 : GL_ARB_transform_feedback_instanced
+00:13:13 : GL_ARB_transform_feedback_overflow_query
+00:13:13 : GL_ARB_transpose_matrix
+00:13:13 : GL_ARB_uniform_buffer_object
+00:13:13 : GL_ARB_vertex_array_object
+00:13:13 : GL_ARB_vertex_attrib_64bit
+00:13:13 : GL_ARB_vertex_attrib_binding
+00:13:13 : GL_ARB_vertex_buffer_object
+00:13:13 : GL_ARB_vertex_program
+00:13:13 : GL_ARB_vertex_shader
+00:13:13 : GL_ARB_viewport_array
+00:13:13 : GL_ARB_window_pos
+00:13:13 : GL_ATI_draw_buffers
+00:13:13 : GL_ATI_meminfo
+00:13:13 : GL_ATI_separate_stencil
+00:13:13 : GL_ATI_shader_texture_lod
+00:13:13 : GL_ATI_texture_env_combine3
+00:13:13 : GL_EXT_abgr
+00:13:13 : GL_EXT_bgra
+00:13:13 : GL_EXT_blend_color
+00:13:13 : GL_EXT_blend_equation_separate
+00:13:13 : GL_EXT_blend_func_separate
+00:13:13 : GL_EXT_blend_minmax
+00:13:13 : GL_EXT_blend_subtract
+00:13:13 : GL_EXT_clip_cull_distance
+00:13:13 : GL_EXT_color_buffer_half_float
+00:13:13 : GL_EXT_compiled_vertex_array
+00:13:13 : GL_EXT_copy_buffer
+00:13:13 : GL_EXT_copy_image
+00:13:13 : GL_EXT_debug_label
+00:13:13 : GL_EXT_depth_bounds_test
+00:13:13 : GL_EXT_direct_state_access
+00:13:13 : GL_EXT_draw_buffers2
+00:13:13 : GL_EXT_draw_buffers_indexed
+00:13:13 : GL_EXT_draw_range_elements
+00:13:13 : GL_EXT_fog_coord
+00:13:13 : GL_EXT_framebuffer_blit
+00:13:13 : GL_EXT_framebuffer_multisample
+00:13:13 : GL_EXT_framebuffer_object
+00:13:13 : GL_EXT_framebuffer_sRGB
+00:13:13 : GL_EXT_geometry_point_size
+00:13:13 : GL_EXT_geometry_shader4
+00:13:13 : GL_EXT_gpu_program_parameters
+00:13:13 : GL_EXT_gpu_shader4
+00:13:13 : GL_EXT_gpu_shader5
+00:13:13 : GL_EXT_memory_object
+00:13:13 : GL_EXT_memory_object_win32
+00:13:13 : GL_EXT_multi_draw_arrays
+00:13:13 : GL_EXT_nonuniform_qualifier
+00:13:13 : GL_EXT_packed_depth_stencil
+00:13:13 : GL_EXT_packed_pixels
+00:13:13 : GL_EXT_pixel_buffer_object
+00:13:13 : GL_EXT_point_parameters
+00:13:13 : GL_EXT_polygon_offset_clamp
+00:13:13 : GL_EXT_provoking_vertex
+00:13:13 : GL_EXT_render_snorm
+00:13:13 : GL_EXT_sRGB_write_control
+00:13:13 : GL_EXT_secondary_color
+00:13:13 : GL_EXT_semaphore
+00:13:13 : GL_EXT_semaphore_win32
+00:13:13 : GL_EXT_shader_image_load_store
+00:13:13 : GL_EXT_shader_integer_mix
+00:13:13 : GL_EXT_shader_io_blocks
+00:13:13 : GL_EXT_shadow_funcs
+00:13:13 : GL_EXT_stencil_wrap
+00:13:13 : GL_EXT_tessellation_point_size
+00:13:13 : GL_EXT_tessellation_shader
+00:13:13 : GL_EXT_texture3D
+00:13:13 : GL_EXT_texture_array
+00:13:13 : GL_EXT_texture_border_clamp
+00:13:13 : GL_EXT_texture_buffer
+00:13:13 : GL_EXT_texture_buffer_object
+00:13:13 : GL_EXT_texture_compression_bptc
+00:13:13 : GL_EXT_texture_compression_latc
+00:13:13 : GL_EXT_texture_compression_rgtc
+00:13:13 : GL_EXT_texture_compression_s3tc
+00:13:13 : GL_EXT_texture_edge_clamp
+00:13:13 : GL_EXT_texture_env_add
+00:13:13 : GL_EXT_texture_env_combine
+00:13:13 : GL_EXT_texture_env_dot3
+00:13:13 : GL_EXT_texture_filter_anisotropic
+00:13:13 : GL_EXT_texture_format_BGRA8888
+00:13:13 : GL_EXT_texture_integer
+00:13:13 : GL_EXT_texture_lod
+00:13:13 : GL_EXT_texture_lod_bias
+00:13:13 : GL_EXT_texture_object
+00:13:13 : GL_EXT_texture_rectangle
+00:13:13 : GL_EXT_texture_sRGB
+00:13:13 : GL_EXT_texture_sRGB_R8
+00:13:13 : GL_EXT_texture_sRGB_RG8
+00:13:13 : GL_EXT_texture_sRGB_decode
+00:13:13 : GL_EXT_texture_shared_exponent
+00:13:13 : GL_EXT_texture_snorm
+00:13:13 : GL_EXT_texture_storage
+00:13:13 : GL_EXT_timer_query
+00:13:13 : GL_EXT_transform_feedback
+00:13:13 : GL_EXT_vertex_array
+00:13:13 : GL_KHR_blend_equation_advanced
+00:13:13 : GL_KHR_blend_equation_advanced_coherent
+00:13:13 : GL_KHR_debug
+00:13:13 : GL_KHR_no_error
+00:13:13 : GL_KHR_parallel_shader_compile
+00:13:13 : GL_KHR_robust_buffer_access_behavior
+00:13:13 : GL_KHR_robustness
+00:13:13 : GL_NV_blend_square
+00:13:13 : GL_NV_copy_image
+00:13:13 : GL_NV_depth_buffer_float
+00:13:13 : GL_NV_float_buffer
+00:13:13 : GL_NV_primitive_restart
+00:13:13 : GL_NV_shader_atomic_int64
+00:13:13 : GL_NV_texture_barrier
+00:13:13 : GL_OES_EGL_image
+00:13:13 : GL_OES_draw_texture
+00:13:13 : GL_OVR_multiview
+00:13:13 : GL_OVR_multiview2
+00:13:13 : GL_OVR_multiview_multisampled_render_to_texture
+00:13:13 : GL_S3_s3tc
+00:13:13 : WGL_AMD_gpu_association
+00:13:13 : WGL_ARB_buffer_region
+00:13:13 : WGL_ARB_context_flush_control
+00:13:13 : WGL_ARB_create_context
+00:13:13 : WGL_ARB_create_context_no_error
+00:13:13 : WGL_ARB_create_context_profile
+00:13:13 : WGL_ARB_framebuffer_sRGB
+00:13:13 : WGL_ARB_make_current_read
+00:13:13 : WGL_ARB_multisample
+00:13:13 : WGL_ARB_pbuffer
+00:13:13 : WGL_ARB_pixel_format
+00:13:13 : WGL_ARB_pixel_format_float
+00:13:13 : WGL_ARB_render_texture
+00:13:13 : WGL_EXT_create_context_es2_profile
+00:13:13 : WGL_EXT_swap_control
+00:13:13 : WGL_EXT_swap_control_tear
+00:13:13 : WGL_I3D_genlock
+00:13:13 : WGL_NV_DX_interop
+00:13:13 : WGL_NV_DX_interop2
+00:13:13 : WGL_NV_swap_group
+00:13:13 : 277 extensions found.
+00:13:13 : Logfile closed on 01-Jun-2023, 00:13:13

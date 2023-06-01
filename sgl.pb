@@ -112,6 +112,8 @@ Structure SGL_OBJ
   
  Array ExtensionsStrings$(0) ; cached extensions strings 
  
+ List sysInfo$() ; stores temporarily data retrieved by GetSysInfo()
+ 
  fpCallBack_Error.CallBack_Error
  fpCallBack_WindowClose.CallBack_WindowClose
  fpCallBack_WindowPos.CallBack_WindowPos
@@ -668,6 +670,15 @@ Procedure callback_getprocaddress (func$)
  ProcedureReturn glfwGetProcAddress(func$) 
 EndProcedure
 
+Procedure callback_enum_opengl_funcs (glver$, func$, *func) 
+ AddElement(SGL\sysInfo$()) 
+ If *func    
+    SGL\sysInfo$() = str::PadRight(glver$, 4) + " -> " + func$ + " ($" + Hex(*func) + ")"    
+ Else       
+    SGL\sysInfo$() = str::PadRight(glver$, 4) + " -> " + func$ + " [ NOT FOUND ]"
+ EndIf 
+EndProcedure
+
 ProcedureC callback_error_glfw (err, *desc)
  If SGL\fpCallBack_Error 
     SGL\fpCallBack_Error(#SOURCE_ERROR_GLFW$, PeekS(*desc, -1, #PB_UTF8) + " (ErrCode = " + Str(err) + ") ")
@@ -1004,7 +1015,6 @@ EndProcedure
 Procedure RegisterErrorCallBack (*fp)
 ;> Registers a callback to get runtime error messages from the library.
 ; Can and should be called before Init().   
-; *fp = 0 is equivalent to unregistering the callback
  SGL\fpCallBack_Error = *fp
 EndProcedure
 
@@ -2248,6 +2258,211 @@ Procedure.q GetFreeMemory()
  ProcedureReturn sys::GetFreeMemory()
 EndProcedure
 
+Procedure.i GetSysInfo (Array sysInfo$(1))
+;> Retrieves a lot of info about the system configuration and its OpenGL capabilities, useful for logging.
+; The array is redimensioned inside the procedure and filled with the system info.
+; Returns the number of lines stored in the array.
+
+; ATTENTION:
+; This function creates a temporary context setting it as the current one and resets the windows hints to their default values.
+; The temporary context is destroyed before returning to the caller.
+
+ Protected temp, i
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = sgl::GetSglVersion() 
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = sgl::GetGlfwVersion()
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = ""
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "OS: " + sgl::GetOS()
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "CPU: " + sgl::GetCpuName()
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Total Memory: " + str::FormatBytes(sgl::GetTotalMemory(), str::#FormatBytes_Memory, 0)
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Free Memory: " + str::FormatBytes(sgl::GetFreeMemory(), str::#FormatBytes_Memory, 0)
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() =  "Timer resolution: " + sgl::GetTimerResolutionString()
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = ""
+ 
+ sgl::SetWindowHint(sgl::#HINT_WIN_VISIBLE, 0)
+ sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_MAJOR, 1)
+ sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_MINOR, 0)
+ sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_PROFILE, sgl::#PROFILE_ANY)
+ sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_DEBUG, 1)
+ 
+ Protected win = sgl::CreateWindow(128, 128, "")
+
+ sgl::MakeContextCurrent(win)
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Vendor: " + sgl::GetVendor()
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Renderer: " + sgl::GetRenderer()
+
+ Protected maj, min
+ 
+ sgl::GetContextVersion(@maj, @min)
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "OpenGL context version: " + Str(maj) + "." + Str(min)
+
+ Protected profile = sgl::GetContextProfile()
+
+ Select profile 
+    Case sgl::#PROFILE_COMPATIBLE
+        AddElement(SGL\sysInfo$())
+        SGL\sysInfo$() = "OpenGL profile: COMPATIBLE"
+    Case sgl::#PROFILE_CORE
+        AddElement(SGL\sysInfo$())
+        SGL\sysInfo$() = "OpenGL profile: CORE"
+ EndSelect
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Shading Language: " + sgl::GetShadingLanguage()
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Debug context: " + std::IIFs(sgl::IsDebugContext(), "Yes", "No")
+
+ glGetIntegerv_(#GL_MAX_TEXTURE_SIZE, @temp)
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "#GL_MAX_TEXTURE_SIZE : " + Str(temp)
+
+ glGetIntegerv_(#GL_MAX_TEXTURE_UNITS, @temp)
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "#GL_MAX_TEXTURE_UNITS (fixed pipeline): " + Str(temp)
+
+ If sgl::GetContextVersionToken() >= 200
+    glGetIntegerv_(#GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS : " + Str(temp)
+    
+    glGetIntegerv_(#GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS : " + Str(temp)
+    
+    glGetIntegerv_(#GL_MAX_TEXTURE_IMAGE_UNITS, @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_TEXTURE_IMAGE_UNITS : " + Str(temp)
+    
+    glGetIntegerv_(#GL_MAX_VERTEX_ATTRIBS, @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_VERTEX_ATTRIBS : " + Str(temp)
+    
+    glGetIntegerv_(#GL_MAX_VARYING_FLOATS, @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_VARYING_FLOATS : " + Str(temp)
+    
+    glGetIntegerv_(#GL_MAX_VERTEX_UNIFORM_COMPONENTS, @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_VERTEX_UNIFORM_COMPONENTS : " + Str(temp)
+    
+    glGetIntegerv_(#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS , @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS : " + Str(temp)    
+ EndIf
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = ""
+
+ Protected Dim monitors(0)
+ Protected vmode.sgl::VideoMode
+ 
+ Protected mon, monitors = sgl::GetMonitors (monitors())
+
+ For mon = 1 To monitors
+    sgl::GetVideoMode(monitors(mon-1), @vmode)
+    
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "Monitor #" + mon + " " + sgl::GetMonitorName(monitors(mon-1)) + str::Sprintf(" (%ix%i, %i bits, %i Hz)", @vmode\width, @vmode\height, @vmode\depth, @vmode\freq)
+    
+    Protected.f xf, yf
+    
+    sgl::GetMonitorContentScale(monitors(mon-1), @xf, @yf)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = str::Sprintf("Monitor #%i DPI scaling factor: %.2f x %.2f", @mon, @xf, @yf)
+    
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = str::Sprintf("Monitor #%i Video modes: ", @mon)    
+        
+    Protected Dim vmodes.sgl::VideoMode(0)
+    Protected modes = sgl::GetVideoModes(monitors(mon-1), vmodes())
+    
+    For i = 1 To modes
+        AddElement(SGL\sysInfo$())
+        SGL\sysInfo$() = str::Sprintf("Mode %'02i: %i x %i, %i bits (%i Hz)", @i, @vmodes(i-1)\width, @vmodes(i-1)\height, @vmodes(i-1)\depth, @vmodes(i-1)\freq)        
+    Next 
+ Next
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = ""
+
+ glLoad::RegisterCallBack(glLoad::#CallBack_EnumFuncs, @callback_enum_opengl_funcs())
+                                
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Available OpenGL functions:"
+
+ If glLoad::Load () = 0
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = glLoad::GetErrString()    
+ EndIf
+ 
+ Protected GoodProcsCount, BadProcsCount
+ 
+ glLoad::GetProcsCount(@GoodProcsCount, @BadProcsCount)
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = Str(GoodProcsCount) + " functions imported, " + Str(BadProcsCount) + " missing."            
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = ""
+ 
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = "Available OpenGL extensions:"
+
+ Protected extensions = sgl::LoadExtensionsStrings()
+
+ For i = 0 To extensions - 1
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = sgl::GetExtensionString(i)     
+ Next
+
+ AddElement(SGL\sysInfo$())
+ SGL\sysInfo$() = Str(extensions) + " extensions found." 
+
+ ResetWindowHints()
+
+ sgl::DestroyWindow(win)
+
+ i = ListSize(SGL\sysInfo$())
+ 
+ Dim sysInfo$(i-1)
+ 
+ i = 0
+ 
+ ForEach SGL\sysInfo$()
+    sysInfo$(i) = SGL\sysInfo$()
+    i + 1
+ Next
+ 
+ ClearList(SGL\sysInfo$())
+ 
+ ProcedureReturn i
+  
+EndProcedure
+
 ;- [ IMAGES ]
 
 Procedure.i IsPowerOfTwo (value)
@@ -2974,11 +3189,11 @@ EndProcedure
 ;- [ FONTS ]
 
 Procedure.i LoadBitmapFontData (file$)
-;> Load a PNG image and a complementary XML and returns a pointer to a populated BitmapFontData.
+;> Load a PNG image and a complementary XML file from a zip file and returns a pointer to a populated BitmapFontData.
 ; See SaveBitmapFontData()
 
 ; file$ is the filename of the font file, if no extension is specified .zip is used.
-; example: "C:\bitmapped\arial-10-bold" will result in "arial-10-bold.zip"
+; example: "C:\bitmapped\arial-10" will result in "arial-10.zip"
 
  Protected *bmf.BitmapFontData
  Protected *glyph.GlyphData
@@ -3132,11 +3347,11 @@ Procedure.i LoadBitmapFontData (file$)
 EndProcedure
 
 Procedure.i SaveBitmapFontData (file$, *bmf.BitmapFontData)
-;> Saves a PNG image and a complementary XML file with the mapping of the chars inside the image.
-; See LoadFontBitmapData()
+;> Saves a zip file containing a PNG image and a complementary XML file with the mapping of the chars.
+; See LoadBitmapFontData()
 
 ; file$ is the filename of the font file, if no extension is specified .zip is used.
-; example: "C:\bitmapped\arial-10-bold" will result in "arial-10-bold.zip"
+; example: "C:\bitmapped\arial-10" will result in "arial-10.zip"
 
  Protected baseName$, extension$, pathOnly$, fullPathName$
  Protected *bufXML, *bufPNG , bufSize, zip 
@@ -3388,18 +3603,22 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
 
 ; file$ is the name of the image file containing the strip of chars
 ; fontSize is the size in points
-; width, height are the dimensions of the image to be created
+; width, height are the dimensions of the image to be created and later to be used as a texture
 ; spacing is the number of pixels to be left unused around the glyph in the vertical and horizontal directions
 ;
 ; The function returns 0 if (width x height) results in an image too small to store all the glyphs.
+; The BitmapFontData structure can be used as it is to render chars on screen but this function is intended to be used to 
+; create BMF files from a strip of bitmapped chars.
 
 ; The strip image and text files must observe these rules:
+;
 ; The image must contain an alpha channel filled with zeros where the chars glyphs are not present
 ; The start of the first and the end of the last sub image must coincide with the start and end of the strip
 ; Glyphs must be separated by at least one vertical line of zeros in the alpha channel
 ; A space char (ascii 32) must always be present in the .txt
 ; Only the first line of the text file is used, the rest can be used for remarks.
-; See gimp-font\gimp-42.png and gimp-font\gimp-42.txt for an example.
+;
+; See sgl\extras\Fonts\gimp-font for an example of imput data for this function.
 
  Protected gw, gh, x, y, i
  Protected hDC, image, highestRow, highestFont
@@ -3419,7 +3638,7 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
  
  stripChars$ = ReadString(txtFile)
  stripCharsCount = Len(stripChars$)
- CloseFile(txtFile)
+ CloseFile(txtFile) 
  
  Dim glyphs.GlyphFromStrip(stripCharsCount - 1)
  
@@ -3446,13 +3665,13 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
  
  For i = 0 To stripCharsCount - 1
     hDC = StartDrawing(ImageOutput(imgStrip))
-    DrawingMode(#PB_2DDrawing_AllChannels)
+     DrawingMode(#PB_2DDrawing_AllChannels)
   
-    stripX = find_some_alpha_vertically(stripX, stripHeight, stripWidth) 
-    stripCharStart = stripX
+     stripX = find_some_alpha_vertically(stripX, stripHeight, stripWidth) 
+     stripCharStart = stripX
     
-    stripX = find_zero_alpha_vertically(stripX, stripHeight, stripWidth) 
-    stripCharEnd = stripX
+     stripX = find_zero_alpha_vertically(stripX, stripHeight, stripWidth) 
+     stripCharEnd = stripX
  
     StopDrawing()
     
@@ -3465,12 +3684,10 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
     stripX + 1
  Next
  
- *bmf = AllocateStructure(BitmapFontData)
- 
+ *bmf = AllocateStructure(BitmapFontData) 
  If *bmf = 0 : Goto exit : EndIf
 
- image = CreateImage(#PB_Any, width, height, 32, #PB_Image_Transparent)
- 
+ image = CreateImage(#PB_Any, width, height, 32, #PB_Image_Transparent) 
  If image = 0 : Goto exit : EndIf
 
  hDC = StartDrawing(ImageOutput(image)) 
@@ -3555,8 +3772,8 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
  *bmf\fontName$ = fontName$
  *bmf\fontSize = fontSize
  *bmf\yOffset = highestFont + 2
- *bmf\italic = 0
- *bmf\bold = 0
+ *bmf\italic = 0 ; always zero
+ *bmf\bold = 0  ; always zero
  *bmf\image = image
 
  ProcedureReturn *bmf
@@ -3566,7 +3783,7 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
  If hDC : StopDrawing() : EndIf
  If IsImage(imgStrip) : FreeImage(imgStrip): EndIf
  If IsImage(image) : FreeImage(image) : EndIf
- If txtFile : CloseFile(txtFile): EndIf
+ If IsFile(txtFile) : CloseFile(txtFile): EndIf
  If *bmf : DestroyBitmapFontData(*bmf) : EndIf
  
  ProcedureReturn 0
@@ -3838,11 +4055,10 @@ Procedure SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f)
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 3444
-; FirstLine = 3441
-; Folding = --------------------------------
-; Markers = 2975,3133
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 2442
+; FirstLine = 2429
+; Folding = ---------------------------------
 ; EnableXP
 ; EnableUser
 ; UseMainFile = examples\001 Minimal.pb

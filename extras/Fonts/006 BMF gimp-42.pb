@@ -22,7 +22,7 @@ If sgl::Init()
     
     Define out$ = #BMF_FILE_DIR$ + #BMF_FILE_NAME$ + #BMF_FILE_EXT$
          
-    *bmf = sgl::CreateBitmapFontDataFromStrip (#BITMAP_STRIP$, #FONT_SIZE, 512, 512, 1)
+    *bmf = sgl::CreateBitmapFontDataFromStrip (#BITMAP_STRIP$, #FONT_SIZE, 512, 384, 1)
     
     If *bmf = 0
         Debug "Bitmap too small ..."
@@ -35,7 +35,7 @@ If sgl::Init()
         Debug "Something went wrong ..."
     EndIf
     
-    ;sgl::DestroyBitmapFontData(*bmf)
+    sgl::DestroyBitmapFontData(*bmf)
 exit:    
     sgl::Shutdown()
 EndIf
