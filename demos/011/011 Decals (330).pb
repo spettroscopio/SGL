@@ -684,7 +684,7 @@ Procedure Render()
  RenderText::Render(gWin, gFon, text$, x, y, color)
 
  If gAmbientOn
-     x = 1 : y - RenderText::GetFontHeight(gFon) * 2.0
+     x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
      If gLightColor = 0
         text$ = "Light [C]olor is White."
      EndIf 
@@ -702,7 +702,7 @@ Procedure Render()
      EndIf      
      RenderText::Render(gWin, gFon, text$, x, y, color)     
 
-     x = 1 : y - RenderText::GetFontHeight(gFon) * 2.0
+     x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
      If gSpecularOn = 0 
         text$ = "[S]pecular lighting is OFF"
      Else
@@ -828,8 +828,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 784
-; FirstLine = 735
+; CursorPosition = 740
+; FirstLine = 691
 ; Folding = ---
 ; Optimizer
 ; EnableXP

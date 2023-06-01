@@ -135,7 +135,6 @@ EndProcedure
 
 Procedure GetMatrix (*Quat.quat, *Destinationmatrix.m4x4::m4x4)
 ;> Convert the quaternion to an OpenGL 4x4 matrix.
-
  Normalize(*Quat, *Quat)
   
  *Destinationmatrix\float[0]  = 1.0 - (2.0 * *Quat\float[2] * *Quat\float[2]) - (2.0 * *Quat\float[3] * *Quat\float[3])
@@ -159,7 +158,7 @@ EndProcedure
 
 Procedure RotateVec (*Vector.vec3::vec3,  *RotationAxis.vec3::vec3, angle.f, *RotatedVector.vec3::vec3)
 ;> Rotates a point vector around the axis RotationAxis by angle degrees.
-; You can specify Vector in place of RotatedVector
+; You can specify Vector in place of RotatedVector.
 
  Protected.quat::quat VecAsQuat
  Protected.quat::quat Versor, ConjugatedVersor, Rotated
@@ -200,9 +199,9 @@ CompilerEndIf
 
 
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 128
-; FirstLine = 108
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 160
+; FirstLine = 52
 ; Folding = ---
 ; Markers = 15
 ; EnableXP

@@ -9,7 +9,6 @@ Structure vec3
  z.f
 EndStructure
 
-
 Declare     Set (*Vector.vec3, x.f, y.f, z.f) ; Set the x, y, z components of Vector.
 Declare     Dump (*Vector.vec3, desc$ = "") ; Returns a string representation of Vector.
 Declare     Zero (*Vector.vec3) ; Set Vector to (0.0, 0.0, 0.0)
@@ -25,9 +24,9 @@ Declare     Negate (*Vector.vec3, *NegatedVector.vec3) ; Sets NegatedVector to t
 Declare     Normalize (*Vector.vec3, *UnitVector.vec3) ; Sets UnitVector to the normalized version of Vector.
 Declare     Scale (*Vector.vec3, scalar.f, *ScaledVector.vec3) ; Sets ScaledVector to the scaled version of Vector.
 Declare.f   DotProduct (*VectorA.vec3, *VectorB.vec3) ; Returns the dot product of the two vectors.
-Declare     CrossProduct (*VectorA.vec3, *VectorB.vec3, *CrossVector.vec3)
 Declare.f   Angle (*VectorA.vec3, *VectorB.vec3) ; Returns the angle formed by the two vectors.
 Declare.f   Colinearity (*VectorA.vec3, *VectorB.vec3) ; Returns a signed scalar approaching 1.0 the more the vectors are colinear, and 0.0 the more are ortogonal.
+Declare     CrossProduct (*VectorA.vec3, *VectorB.vec3, *CrossVector.vec3)
 Declare     PointAlongVector (*PointA.vec3, *PointB.vec3, distance.f, *PointAlong.vec3) ; Calculate the point along the vector going from PointA to PointB at the specified distance from PointA.
 
 EndDeclareModule
@@ -145,13 +144,6 @@ Procedure.f DotProduct (*VectorA.vec3, *VectorB.vec3)
  ProcedureReturn (*VectorA\x * *VectorB\x + *VectorA\y * *VectorB\y + *VectorA\z * *VectorB\z)
 EndProcedure
 
-Procedure CrossProduct (*VectorA.vec3, *VectorB.vec3, *CrossVector.vec3)
-; Calculate the cross product between VectorA and VectorB resulting in the ortogonal vector CrossVector.
- *CrossVector\x = *VectorA\y * *VectorB\z - *VectorA\z * *VectorB\y
- *CrossVector\y = *VectorA\z * *VectorB\x - *VectorA\x * *VectorB\z
- *CrossVector\z = *VectorA\x * *VectorB\y - *VectorA\y * *VectorB\x
-EndProcedure
-
 Procedure.f Angle (*VectorA.vec3, *VectorB.vec3)
 ;> Returns the angle formed by the two vectors.
 ; https://www.omnicalculator.com/math/angle-between-two-vectors
@@ -169,6 +161,13 @@ Procedure.f Colinearity (*VectorA.vec3, *VectorB.vec3)
  Normalize(*VectorA, vuA)
  Normalize(*VectorB, vuB) 
  ProcedureReturn DotProduct(vuA, vuB)
+EndProcedure
+
+Procedure CrossProduct (*VectorA.vec3, *VectorB.vec3, *CrossVector.vec3)
+; Calculate the cross product between VectorA and VectorB resulting in the ortogonal vector CrossVector.
+ *CrossVector\x = *VectorA\y * *VectorB\z - *VectorA\z * *VectorB\y
+ *CrossVector\y = *VectorA\z * *VectorB\x - *VectorA\x * *VectorB\z
+ *CrossVector\z = *VectorA\x * *VectorB\y - *VectorA\y * *VectorB\x
 EndProcedure
 
 Procedure PointAlongVector (*PointA.vec3, *PointB.vec3, distance.f, *PointAlong.vec3)
@@ -192,9 +191,8 @@ EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 11
-; FirstLine = 2
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 30
 ; Folding = ----
 ; Markers = 11
 ; EnableXP

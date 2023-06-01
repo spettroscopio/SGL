@@ -25,7 +25,6 @@ Declare     Scale (*Vector.vec2, scalar.f, *ScaledVector.vec2) ; Sets ScaledVect
 Declare.f   DotProduct (*VectorA.vec2, *VectorB.vec2) ; Returns the dot product of the two vectors.
 Declare.f   Angle (*VectorA.vec2, *VectorB.vec2) ; Returns the angle formed by the two vectors.
 Declare.f   Colinearity (*VectorA.vec2, *VectorB.vec2) ; Returns a signed scalar approaching 1.0 the more the vectors are colinear, and 0.0 the more are ortogonal.
-
 Declare     PointAlongVector (*PointA.vec2, *PointB.vec2, distance.f, *PointAlong.vec2) ; Calculate the point along the vector going from PointA to PointB at the specified distance from PointA.
 Declare.f   Projection (*VectorA.vec2, *VectorB.vec2) ; Returns the signed length of the projection of VectorA on VectorB.
 Declare     Reflect (*VectorA.vec2, *VectorB.vec2, *ReflectedVector.vec2) ; Sets ReflectedVector to the normalized vector corresponding to the reflection of VectorA on VectorB.
@@ -75,7 +74,6 @@ Procedure Copy (*Vector.vec2, *DestinationVector.vec2)
  *DestinationVector\x = *Vector\x
  *DestinationVector\y = *Vector\y
 EndProcedure
-
 
 Procedure Add (*VectorA.vec2, *VectorB.vec2, *SumVector.vec2)
 ;> Add VectorA to VectorB and store the result in SumVector.
@@ -390,9 +388,9 @@ vec2::TransformWorldToLocal(Origin, UnitAxisX, UnitAxisY, pw, pl)
 vec2::Dump(pl) ; (2.02, 1.01)
 
 CompilerEndIf
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 156
-; FirstLine = 125
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 172
+; FirstLine = 166
 ; Folding = -----
 ; Markers = 10
 ; EnableXP
