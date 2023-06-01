@@ -1,7 +1,7 @@
 # SGL (Simple GL)
 SGL for PureBasic.<br>
 SGL is a module built on top of GLFW, and it is intended to take care of all the recurring tasks required when writing with OpenGL code.<br>
-It works on Windows and Linux.<br>
+It works on Windows (32/64 bits) and Linux (64 bits).<br>
 <br>
 You can have a quick idea of the API by looking at the declares contained [here](https://github.com/spettroscopio/SGL/blob/main/sgl.pbi).
 
@@ -19,5 +19,8 @@ The repository is organized this way:
 | inc | Supporting includes of various nature, for example debugging, matrices, vectors, etc. |
 
 Keep in mind this is a work in progress even if it has all the features I seem to require at the moment.<br>
-I count on keep adding examples and demos in time.<br>
-You can ask questions, make suggestions or just telling me if this helped you in some way [here](https://).
+My idea is now to start using this to build a simple 2D game engine, just to learn something more about game programming.<br>
+Maybe in the future even a 3D one, who knows !<br>
+Still, I would probably keep adding examples and demos to this repository when I need to experiment with some code or idea.<br>
+
+Maybe someone else would find this useful.
