@@ -23,4 +23,4 @@ My idea is now to start using this to build a simple 2D game engine, just to lea
 Maybe in the future even a 3D one, who knows !<br>
 Still, I would probably keep adding examples and demos to this repository when I need to experiment with some code or idea.<br>
 
-Maybe someone else would find this useful.
+Maybe someone else will find this useful or interesting so here it is.
