@@ -9,7 +9,7 @@
 ; Tested on: Windows (x86, x64), Linux (x64)
 ;
 ; 1.0, Apr 12 2023, PB 6.01
-; Splitted from glfw.pbi in its own module to be usable with glfwLoad::Load()
+; Splitted from glfw.pbi in its own module.
 ; *********************************************************************************************************************
 
 DeclareModule glfwLoad
@@ -275,8 +275,9 @@ EndProcedure
 CompilerEndIf 
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 9
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 50
+; FirstLine = 18
 ; Folding = ---
 ; EnableXP
 ; EnableUser

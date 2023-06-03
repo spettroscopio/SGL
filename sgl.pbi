@@ -57,8 +57,8 @@ DeclareModule sgl
 
 EnableExplicit
 
-#SGL_MAJOR = 0
-#SGL_MINOR = 9
+#SGL_MAJOR = 1
+#SGL_MINOR = 0
 #SGL_REVISION = 0
   
 ;- CallBacks 
@@ -362,7 +362,7 @@ Enumeration
  #Key_Y
  #Key_Z
 
-; function keys
+ ; function keys
  #Key_F1 = 128 ; special keys go from 128
  #Key_F2
  #Key_F3
@@ -384,7 +384,7 @@ Enumeration
  #Key_F19
  #Key_F20
 
-; modifiers
+ ; modifiers
  #Key_LEFT_SHIFT 
  #Key_LEFT_CONTROL 
  #Key_LEFT_ALT
@@ -392,7 +392,7 @@ Enumeration
  #Key_RIGHT_CONTROL
  #Key_RIGHT_ALT
 
-; keypad
+ ; keypad
  #Key_KP_0 
  #Key_KP_1
  #Key_KP_2
@@ -412,13 +412,13 @@ Enumeration
  #Key_KP_ENTER
  #Key_KP_EQUAL
 
-; arrows
+ ; arrows
  #Key_UP
  #Key_LEFT
  #Key_RIGHT
  #Key_DOWN
 
-; extra
+ ; extra
  #Key_INSERT
  #Key_DELETE
  #Key_HOME
@@ -630,8 +630,8 @@ Declare     SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f) ; Pass a uniform
 EndDeclareModule
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 628
-; FirstLine = 535
+; CursorPosition = 60
+; FirstLine = 49
 ; Folding = -----
 ; Markers = 439
 ; EnableXP

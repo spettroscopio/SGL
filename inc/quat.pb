@@ -89,7 +89,7 @@ Procedure Normalize (*Quat.quat, *UnitQuat.quat)
 EndProcedure
 
 Procedure Multiply (*QuatA.quat, *QuatB.quat, *MultipliedQuat.quat)
-; Multiplies QuatA by QuatB and store the result in MultipliedQuat.
+; Multiplies QuatA by QuatB and stores the result in MultipliedQuat.
 ; You can specify QuatA or QuatB in place of MultiplieQuat.
 
  Protected.quat TempQuat, *q
@@ -200,8 +200,8 @@ CompilerEndIf
 
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 160
-; FirstLine = 52
+; CursorPosition = 91
+; FirstLine = 51
 ; Folding = ---
 ; Markers = 15
 ; EnableXP
