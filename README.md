@@ -19,8 +19,8 @@ The repository is organized this way:
 | inc | Supporting includes of various nature, for example debugging, matrices, vectors, etc. |
 
 This is a work in progress even if it has all the features I seem to require at the moment.<br>
-My idea is now to start using this to build a simple 2D game engine, just to learn something more about game programming.<br>
+My idea is now to start using this to build a simple 2D game engine, just to learn something more about game programming while writing all the base functionalities myslef.<br>
 Maybe in the future even a 3D one, who knows !<br>
-I would probably keep adding examples and demos to this repository when I need to experiment with some code or idea before implementing it somewhere else.<br>
+I would probably keep adding examples and demos to this repository when I need to experiment with some code or idea.<br>
 
-Maybe someone else will find this useful or instructive so here it is.
+Maybe someone else will find this useful as a starting point or simply instructive so here it is.
