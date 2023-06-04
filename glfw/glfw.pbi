@@ -91,8 +91,8 @@ EndStructure
 
 ;- GLFW CONSTANTS 
 
-#GLFW_VERSION_MAJOR = 3
-#GLFW_VERSION_MINOR = 3
+#GLFW_VERSION_MAJOR    = 3
+#GLFW_VERSION_MINOR    = 3
 #GLFW_VERSION_REVISION = 8
 
 #GLFW_TRUE = 1
@@ -771,8 +771,9 @@ Module glfw
  ; NOP
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 15
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 97
+; FirstLine = 67
 ; Folding = ---
 ; Markers = 770
 ; EnableXP

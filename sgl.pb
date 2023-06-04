@@ -938,6 +938,15 @@ Procedure.i Init()
     Goto exit
  EndIf
  
+ Protected maj, min, rev
+ 
+ glfwGetVersion(@maj, @min, @rev)
+
+ If maj <> #GLFW_VERSION_MAJOR Or min <> #GLFW_VERSION_MINOR Or rev <> #GLFW_VERSION_REVISION
+    CALLBACK_ERROR (#SOURCE_ERROR_SGL$, "Unexpected GLFW version found: " + Str(maj) + "." + Str(min) + "." + Str(rev))
+    Goto exit
+ EndIf
+ 
  glfwDefaultWindowHints()
   
  init_window_hints()
@@ -975,7 +984,7 @@ Procedure.s GetSglVersion()
 ;> Returns a string representing the SGL version.
  Protected s$
  
- s$ = "SGL " + Str(#SGL_MAJOR) + "." + Str(#SGL_MINOR) + "." + Str(#SGL_REVISION)
+ s$ = "SGL " + Str(#SGL_MAJ) + "." + Str(#SGL_MIN) + "." + Str(#SGL_REV)
  
  CompilerIf (#PB_Compiler_Processor = #PB_Processor_x86)
  s$ + " x86"
@@ -4055,9 +4064,9 @@ Procedure SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f)
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 2442
-; FirstLine = 2429
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 944
+; FirstLine = 916
 ; Folding = ---------------------------------
 ; EnableXP
 ; EnableUser

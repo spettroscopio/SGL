@@ -57,9 +57,9 @@ DeclareModule sgl
 
 EnableExplicit
 
-#SGL_MAJOR = 1
-#SGL_MINOR = 0
-#SGL_REVISION = 0
+#SGL_MAJ = 1
+#SGL_MIN = 0
+#SGL_REV = 0
   
 ;- CallBacks 
   
@@ -630,7 +630,7 @@ Declare     SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f) ; Pass a uniform
 EndDeclareModule
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 60
+; CursorPosition = 62
 ; FirstLine = 49
 ; Folding = -----
 ; Markers = 439
