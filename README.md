@@ -12,7 +12,7 @@ The repository is organized this way:
 | glfw | The wrapper of the GLFW library (3.3.8)|
 | gl | A module with the definitions of the OpenGL functions and constants up to version 4.6. |
 | glLoad | A module used to dynamically import all the OpenGL functions up to version 4.6.  |
-| extras | Extra code out of the scope of the library but instructive and/or useful. |
+| extras | Extra code beyond the scope of the library but instructive and/or useful. |
 | extensions | A template to show how to implement specific extensions support. |
 | examples | Short examples to demonstrates the use of SGL commands in practice. |
 | demos | Longer and more complex examples, to experiment with specific OpenGL features. |
