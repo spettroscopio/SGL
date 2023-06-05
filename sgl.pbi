@@ -9,6 +9,11 @@
 ;
 ; OS: Windows x86/x64, Linux x64
 ;
+; https://www.purebasic.fr/english/viewtopic.php?t=81764
+;
+; 1.00, Jun 03 2023, PB 6.02
+; First public release on GitHub.
+;
 ; 0.90, Feb 06 2023, PB 6.01
 ; First release.
 ; *********************************************************************************************************************
@@ -630,10 +635,9 @@ Declare     SetUniform4Floats (uniform, v0.f, v1.f, v2.f, v3.f) ; Pass a uniform
 EndDeclareModule
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 62
-; FirstLine = 49
+; CursorPosition = 11
 ; Folding = -----
-; Markers = 439
+; Markers = 444
 ; EnableXP
 ; EnableUser
 ; CPU = 1
