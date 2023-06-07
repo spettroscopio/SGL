@@ -187,7 +187,7 @@ Procedure Render()
 
  ; map this particular instant between 0 and #ROTATION_TIME seconds to a rotation from 0 to 360 degrees
  ; the resulting number is the angle the cube must be rotated at this point in time 
- rot = Math::MapToRangef(elapsed, 0.0, #ROTATION_TIME, 0.0, 360.0)
+ rot = Math::MapToRange5f(elapsed, 0.0, #ROTATION_TIME, 0.0, 360.0)
 
  glMatrixMode_(#GL_PROJECTION) 
  glLoadIdentity_() 
@@ -308,9 +308,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 140
-; FirstLine = 136
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 189
+; FirstLine = 185
 ; Folding = --
 ; Optimizer
 ; EnableXP

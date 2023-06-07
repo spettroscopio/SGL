@@ -353,7 +353,7 @@ Procedure Render()
  glDrawElements_(#GL_TRIANGLES, 36, #GL_UNSIGNED_INT, 0) ; 36 indices to build the quads 
 
  
- math::Clamp(cubeRot, 0.0, 360.0)
+ math::Clamp3f(cubeRot, 0.0, 360.0)
  
  m4x4::Identity(model)
  m4x4::TranslateXYZ(model, 3.0, 1.0, 0.0)
@@ -428,9 +428,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 219
-; FirstLine = 208
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 355
+; FirstLine = 351
 ; Folding = --
 ; EnableXP
 ; EnableUser

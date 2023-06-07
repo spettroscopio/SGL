@@ -61,7 +61,7 @@ Procedure Render (win)
  
  elapsed = sgl::GetElapsedTime(t1)
  
- angle = math::MapToRangef(elapsed, 0.0, #ROTATION_TIME_SECONDS, 0.0, 360.0)
+ angle = math::MapToRange5f(elapsed, 0.0, #ROTATION_TIME_SECONDS, 0.0, 360.0)
  
  ; we scale the object by reducing its size to half (0.5)
  ; we rotate it along the Z axis by angle degreess
@@ -193,9 +193,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 147
-; FirstLine = 119
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 63
+; FirstLine = 59
 ; Folding = -
 ; EnableXP
 ; EnableUser

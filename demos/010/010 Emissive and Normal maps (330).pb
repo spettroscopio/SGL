@@ -445,7 +445,7 @@ Procedure Render()
  delta = sgl::GetDeltaTime(gTimer)
   
  orbit + 70.0 * delta 
- math::Clamp(orbit, 0.0, 360.0)
+ math::Clamp3f(orbit, 0.0, 360.0)
  
  ; light pos
  Light\vPos\x = Sin(Radian(orbit)) * 3.5
@@ -513,7 +513,7 @@ Procedure Render()
  EndIf
  
  rot - 15  * delta 
- math::Clamp(rot, 0.0, 360.0)
+ math::Clamp3f(rot, 0.0, 360.0)
  
  ; model (the cube will rotate at the origin)
  m4x4::Identity(model)
@@ -749,9 +749,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 358
-; FirstLine = 354
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 515
+; FirstLine = 511
 ; Folding = ---
 ; Optimizer
 ; EnableXP

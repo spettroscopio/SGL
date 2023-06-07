@@ -64,7 +64,7 @@ Procedure Render (win)
  
  If sgl::GetElapsedTime(timer) > 0.5
     sgl::ResetTimer(timer)
-    nextStep = math::Cycle(nextStep + 1, 0, 2)
+    nextStep = math::Cycle3i(nextStep + 1, 0, 2)
  EndIf
 EndProcedure
 
@@ -165,9 +165,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 126
-; FirstLine = 118
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 66
+; FirstLine = 62
 ; Folding = -
 ; EnableXP
 ; EnableUser

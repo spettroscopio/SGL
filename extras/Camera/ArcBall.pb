@@ -130,15 +130,15 @@ Procedure Update (*camera.ArcBall, delta.f)
     Reset(*camera)
  EndIf
  
- x = math::Clamp(x, 0, w)
- y = math::Clamp(y, 0, h)
+ x = math::Clamp3f(x, 0.0, w)
+ y = math::Clamp3f(y, 0.0, h)
 
  offsetX = x - *camera\lastMouseX 
  offsetY = y - *camera\lastMouseY 
 
  ; map the coordinate system so it's going from (-1,1) (bottom left) to (1,1) (top right) and (0.0) is at the center
- nx = math::MapToRangef(x, 0, w, -1.0,  1.0)
- ny = math::MapToRangef(y, 0, h,  1.0, -1.0)
+ nx = math::MapToRange5f(x, 0, w, -1.0,  1.0)
+ ny = math::MapToRange5f(y, 0, h,  1.0, -1.0)
 
  Protected.vec3::vec3 vCenter, vClickPoint
  
@@ -166,7 +166,7 @@ Procedure Update (*camera.ArcBall, delta.f)
 
         ; calc the angle between the tow vectors
         dot = vec3::DotProduct(*camera\sphere\vStart, *camera\sphere\vEnd)
-        dot = math::Minf(dot, 1.0) ; make sure is below 1.0 or the arcosine would fail
+        dot = math::Min2f(dot, 1.0) ; make sure is below 1.0 or the arcosine would fail
         angle = ACos(dot) * #ONE_RAD_IN_DEG * 2.0
          
         ; vector orthogonal to both, to be used as the axis to rotate around 
@@ -214,8 +214,9 @@ EndModule
 
 
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 2
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 169
+; FirstLine = 164
 ; Folding = --
 ; EnableXP
 ; EnableUser

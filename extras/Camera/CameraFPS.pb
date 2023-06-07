@@ -112,8 +112,8 @@ EndProcedure
 
 Procedure SetLimits (*camera.CameraFPS, pitchMin.f, pitchMax.f)
 
- math::Clampf(pitchMin, 0.0, 89.0)
- math::Clampf(pitchMax, 0.0, 89.0)
+ math::Clamp3f(pitchMin, 0.0, 89.0)
+ math::Clamp3f(pitchMax, 0.0, 89.0)
  
  *camera\pitchMin = pitchMin
  *camera\pitchMax = pitchMax
@@ -221,9 +221,9 @@ EndProcedure
 EndModule
 
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 70
-; FirstLine = 56
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 115
+; FirstLine = 110
 ; Folding = --
 ; EnableXP
 ; EnableUser

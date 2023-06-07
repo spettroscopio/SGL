@@ -447,7 +447,7 @@ Procedure Render()
  delta = sgl::GetDeltaTime(gTimer)
   
  orbit + 70.0 * delta 
- math::Clamp(orbit, 0.0, 360.0)
+ math::Clamp3f(orbit, 0.0, 360.0)
  
  ; light pos
  Light\vPos\x = Sin(Radian(orbit)) * 3.5
@@ -541,7 +541,7 @@ Procedure Render()
  EndIf
  
  rot - 15  * delta 
- math::Clamp(rot, 0.0, 360.0)
+ math::Clamp3f(rot, 0.0, 360.0)
  
  ; model (the cube will rotate at the origin)
  m4x4::Identity(model)
@@ -783,11 +783,11 @@ Procedure MainLoop()
     EndIf
     
     If sgl::GetKeyPress(sgl::#Key_T)        
-        gDecalType = math::Cycle(gDecalType + 1, 0, 2)
+        gDecalType = math::Cycle3i(gDecalType + 1, 0, 2)
     EndIf
     
     If sgl::GetKeyPress(sgl::#Key_C)        
-        gLightColor = math::Cycle(gLightColor + 1, 0,4)
+        gLightColor = math::Cycle3i(gLightColor + 1, 0,4)
     EndIf
 
     If sgl::GetKeyPress(sgl::#Key_L)
@@ -828,8 +828,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 740
-; FirstLine = 691
+; CursorPosition = 789
+; FirstLine = 779
 ; Folding = ---
 ; Optimizer
 ; EnableXP

@@ -1601,7 +1601,7 @@ Procedure SetStickyMouseButtons (win, flag)
 ;> Sets or disable the sticky mouse buttons input mode for the specific window.
 ; If this is enabled, a mouse button press will ensure that GetMouseButton() returns #PRESSED even if the mouse button has been released before the call.
 ; This is useful when you are only interested in whether mouse buttons have been pressed or not.
- flag = math::Clamp(flag, 0 , 1)
+ flag = math::Clamp3i(flag, 0 , 1)
  glfwSetInputMode(win, #GLFW_STICKY_MOUSE_BUTTONS, flag)
 EndProcedure
 
@@ -2609,7 +2609,7 @@ Procedure.i CopyImageAddingAlpha (img, alpha)
     ProcedureReturn 0
  EndIf
  
- Math::Clamp(alpha, 0, 255)
+ Math::Clamp3i(alpha, 0, 255)
  
  w = ImageWidth(img)
  h = ImageHeight(img)
@@ -2665,7 +2665,7 @@ Procedure SetImageAlpha (img, alpha)
     ProcedureReturn 
  EndIf
 
- Math::Clamp(alpha, 0, 255)
+ Math::Clamp3i(alpha, 0, 255)
  
  w = ImageWidth(img)
  h = ImageHeight(img)
@@ -2690,7 +2690,7 @@ Procedure SetImageColorAlpha (img, color, alpha)
     ProcedureReturn 
  EndIf       
  
- Math::Clamp(alpha, 0, 255)
+ Math::Clamp3i(alpha, 0, 255)
  
  w = ImageWidth(img)
  h = ImageHeight(img)
@@ -2905,7 +2905,7 @@ Procedure.i CreateImage_Box (w, h, color, alpha = 255)
  
  Protected img
  
- Math::Clamp(alpha, 0, 255)
+ Math::Clamp3i(alpha, 0, 255)
    
  img = CreateImage(#PB_Any, w, h, 32)
  
@@ -2937,9 +2937,9 @@ Procedure.i CreateImage_RGB (w, h, horizontal, alpha_r = 255, alpha_g = 255, alp
     inc = w / 3    
  EndIf
   
- Math::Clamp(alpha_r, 0, 255)
- Math::Clamp(alpha_g, 0, 255)
- Math::Clamp(alpha_b, 0, 255)
+ Math::Clamp3i(alpha_r, 0, 255)
+ Math::Clamp3i(alpha_g, 0, 255)
+ Math::Clamp3i(alpha_b, 0, 255)
  
  img = CreateImage(#PB_Any, w, h, 32)
   
@@ -2973,9 +2973,9 @@ Procedure.i CreateImage_DiceFace (w, h, face, color_circle, color_back, alpha_ci
     radius = h/8.0
  EndIf  
  
- Math::Clamp(alpha_circle, 0, 255)
- Math::Clamp(alpha_back, 0, 255)
- Math::Clamp(face, 1, 6)
+ Math::Clamp3i(alpha_circle, 0, 255)
+ Math::Clamp3i(alpha_back, 0, 255)
+ Math::Clamp3i(face, 1, 6)
    
  img = CreateImage(#PB_Any, w, h, 32)
  
@@ -3029,10 +3029,10 @@ Procedure.i CreateImage_Checkers (w, h, sqWidth, sqHeight, color1, color2, alpha
  Protected x, y
  Protected img
  
- Math::Clamp(alpha1, 0, 255)
- Math::Clamp(alpha2, 0, 255)  
- Math::Clamp(sqWidth, 1, w)
- Math::Clamp(sqHeight, 1, h)
+ Math::Clamp3i(alpha1, 0, 255)
+ Math::Clamp3i(alpha2, 0, 255)  
+ Math::Clamp3i(sqWidth, 1, w)
+ Math::Clamp3i(sqHeight, 1, h)
   
  color1 | alpha1 << 24
  color2 | alpha2 << 24
@@ -3101,7 +3101,7 @@ Procedure EnableVSync (flag)
 ; Moral of the story: go full screen or at least borderless full screen windowed to have a proper VSync.
 ; https://stackoverflow.com/questions/45676892/reliable-windowed-vsync-with-opengl-on-windows
 
- flag = math::Clamp(flag, 0, 1) 
+ flag = Math::Clamp3i(flag, 0, 1) 
  glfwSwapInterval(flag)
 EndProcedure
 
@@ -4065,8 +4065,8 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 944
-; FirstLine = 916
+; CursorPosition = 1603
+; FirstLine = 1600
 ; Folding = ---------------------------------
 ; EnableXP
 ; EnableUser

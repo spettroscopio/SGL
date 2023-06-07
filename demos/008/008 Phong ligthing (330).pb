@@ -288,7 +288,7 @@ Procedure Render()
  Static orbit.f = 90.0
  
  orbit + 80.0 * delta 
- math::Clamp(orbit, 0.0, 360.0)
+ math::Clamp3f(orbit, 0.0, 360.0)
  
  Light\vPos\x = Sin(Radian(orbit)) * 3.5
  Light\vPos\y = Sin(Radian(orbit) / 5.0) * 2.0
@@ -334,7 +334,7 @@ Procedure Render()
  ; this section is for the main object 
  
  rot - 20 * delta 
- math::Clamp(rot, 0.0, 360.0)
+ math::Clamp3f(rot, 0.0, 360.0)
  
  ; model (the cube will rotate at the origin)
  m4x4::Identity(model)
@@ -495,9 +495,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 212
-; FirstLine = 208
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 336
+; FirstLine = 332
 ; Folding = --
 ; Optimizer
 ; EnableXP
