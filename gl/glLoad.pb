@@ -10,6 +10,9 @@
 ;
 ; Tested on: Windows / Linux
 ;
+; 1.11, Jun 11 2023, PB 6.02
+; Added GetErrCode()
+;
 ; 1.10, Apr 12 2023, PB 6.01
 ; Splitted from gl.pbi in its own module to be usable with glLoad::Load()
 
@@ -43,10 +46,11 @@
 XIncludeFile "gl.pbi"
 
 DeclareModule glLoad
-Declare     GetContextVersion (*major, *minor) ; Gets the current OpenGL context version.
+Declare     GetContextVersion (*major, *minor) ; Gets the version of the current OpenGL context.
 Declare.i   Deprecated() ; Returns 1 if deprecated functions are included in the current OpenGL context.
 Declare     GetProcsCount (*ImportedProcsCount.Integer, *MissingProcsCount.Integer) ; Gets the number of the successfully imported and/or missing OpenGL functions loaded with glLoad::Load()
 Declare.s   GetErrString() ; Returns a descriptive error string if the return value of glLoad::Load() is zero.
+Declare.i   GetErrCode() ; Returns a code specifying the type of error
 Declare     RegisterCallBack (type, *fp) ; Registers the callback for GetProcAddress or EnumFuncs.
 Declare.i   Load() ; Imports all the OpenGL functions included in the current OpenGL context.
 
@@ -54,7 +58,12 @@ Prototype.i  Proto_GetProcAddress (func$)
 Prototype.i  Proto_EnumerateProcs (glver$, func$, *func)
 
 #CallBack_GetProcAddress = 0
-#CallBack_EnumFuncs = 1   
+#CallBack_EnumFuncs      = 1   
+
+#Error_OK                 = 0
+#Error_GetProcAddress     = 1
+#Error_MissingEntryPoints = 2
+
 EndDeclareModule
 
 Module glLoad
@@ -72,13 +81,14 @@ Declare     ClearGlErrors()
 Structure GLLOAD_OBJ
  glver$
  ErrMsg$
+ ErrCode.i
  MissingProcsCount.i
  ImportedProcsCount.i
  CallBack_GetProcAddress.Proto_GetProcAddress
  CallBack_EnumerateProcs.Proto_EnumerateProcs
 EndStructure : Global GLLOAD.GLLOAD_OBJ
 
-; Private functions
+;- Private functions
   
 Procedure.i GPA (func$) ; get address from the name of the func
  Protected *fp = GLLOAD\CallBack_GetProcAddress(func$)
@@ -112,7 +122,7 @@ Procedure ClearGlErrors()
  EndIf    
 EndProcedure
 
-; Public functions 
+;- Public functions 
 
 Procedure GetContextVersion (*major, *minor)
 ;> Gets the version of the current OpenGL context.
@@ -190,6 +200,12 @@ Procedure.s GetErrString()
  ProcedureReturn GLLOAD\ErrMsg$
 EndProcedure
 
+Procedure.i GetErrCode()
+;> Returns a code specifying the type of error
+
+ ProcedureReturn GLLOAD\ErrCode
+EndProcedure
+
 Procedure RegisterCallBack (type, *fp)
 ;> Registers the callback for GetProcAddress or EnumFuncs.
  Select type
@@ -217,6 +233,7 @@ Procedure.i Load()
 
  If GLLOAD\CallBack_GetProcAddress = 0
     GLLOAD\ErrMsg$ = "A valid GetProcAddress() function has not been registered."  
+    GLLOAD\ErrCode = #Error_GetProcAddress
     DebuggerError(GLLOAD\ErrMsg$)
     ProcedureReturn 0
  EndIf
@@ -999,19 +1016,22 @@ Procedure.i Load()
  
  If GLLOAD\MissingProcsCount = 0 ; This is reliable only on Windows, always zero on Linux
     GLLOAD\ErrMsg$ = "OK"
+    GLLOAD\ErrCode = #Error_OK
     ProcedureReturn 1
  EndIf
   
- GLLOAD\ErrMsg$ = "Some functions entry point were not found."    
+ GLLOAD\ErrMsg$ = "Some functions entry point were not found."
+ GLLOAD\ErrCode = #Error_MissingEntryPoints
+ 
  ProcedureReturn 0
 EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 174
-; FirstLine = 141
-; Folding = --
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 202
+; FirstLine = 199
+; Folding = ---
 ; EnableXP
 ; EnableUser
 ; CPU = 1
