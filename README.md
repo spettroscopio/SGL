@@ -25,7 +25,7 @@ If you build an executable and select dinamic linking in your configuration file
 The initialization of the library will look there.<br>
 
 This is a work in progress even if it has all the features I seem to require at the moment.<br>
-My idea is now to start using this to build a simple 2D game engine, just to learn something more about game programming while writing all the base functionalities myslef.<br>
+My idea is now to start using this to build a simple 2D game engine, just to learn something more about game programming while writing all the base functionalities myself.<br>
 In the future even a 3D one perhaps, who knows !<br>
 I would probably keep adding examples and demos to this repository when I need to experiment with some code or idea.<br>
 
