@@ -187,9 +187,6 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
  glActiveTexture_(#GL_TEXTURE0)
  glBindTexture_(#GL_TEXTURE_2D, *fon\texture) ; select the bitmap font texture
   
- glEnable_(#GL_BLEND)
- glBlendFunc_(#GL_SRC_ALPHA, #GL_ONE_MINUS_SRC_ALPHA) 
- 
  sgl::SetUniformLong(u_texture, 0) ; 0 is the texture unit 
  
  sgl::SetUniform4Floats(u_color, *color\x, *color\y, *color\z, 1.0)
@@ -254,9 +251,12 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
  ; now the whole string vertex data is available and ready to be sent to the GPU
   
  glBindVertexArray_(vao)
- 
+ glBindBuffer_(#GL_ARRAY_BUFFER, vbo)
  glBufferSubData_(#GL_ARRAY_BUFFER, 0, charsCount * 4 * SizeOf(QuadVertex), *vertices)
- 
+
+ glEnable_(#GL_BLEND)
+ glBlendFunc_(#GL_SRC_ALPHA, #GL_ONE_MINUS_SRC_ALPHA) 
+  
  ; draw the whole string in one shot
      
  glDrawElements_(#GL_TRIANGLES, charsCount * 6, #GL_UNSIGNED_INT, 0) 
@@ -338,8 +338,8 @@ EndDataSection
 EndModule
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 313
-; FirstLine = 264
+; CursorPosition = 253
+; FirstLine = 227
 ; Folding = ---
 ; EnableXP
 ; EnableUser

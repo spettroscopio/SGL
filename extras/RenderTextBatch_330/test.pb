@@ -1,4 +1,4 @@
-﻿; Test of the RenderText() for OpenGL 3.30
+﻿; Test of the RenderText() for OpenGL 3.30 using the batch renderer
 
 EnableExplicit
 
@@ -8,7 +8,7 @@ IncludeFile "../../sgl.pb"
 
 IncludeFile "RenderText.pb"
 
-#TITLE$ = "RenderText test 3.30"
+#TITLE$ = "RenderText test 3.30 using Batch Renderer"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 0
@@ -75,7 +75,11 @@ EndProcedure
 
 Procedure Render() 
  Protected w, h
- Protected x, y, i, text$, color.vec3::vec3
+ Protected x, y, i, text$, color.vec3::vec3, qc.vec4::vec4
+ Protected fh = RenderText::GetFontHeight(gFon1)
+ Protected.BatchRenderer::stats info
+ Protected.m4x4::m4x4 projection
+ 
  Dim text$(2)
  Dim color.vec3::vec3(2)
  Dim font(2)
@@ -112,25 +116,56 @@ Procedure Render()
      Next
  EndIf
  
+ m4x4::Ortho(projection, 0, w, 0, h, 0.0, 100.0)
+  
  glClearColor_(0.1,0.1,0.3,1.0)
 
  glClear_(#GL_COLOR_BUFFER_BIT)
   
  glViewport_(0, 0, w, h)
-
- For i = 0 To #HowMany - 1
-    RenderText::Render(gWin, font(obj(i)\fnt), text$(obj(i)\textId), obj(i)\x, obj(i)\y, color(obj(i)\color))    
- Next
  
- vec3::Set(color, 1.0, 1.0, 1.0)
+ BatchRenderer::StartRenderer(projection) 
+ BatchRenderer::StartBatch()
+
+  For i = 0 To #HowMany - 1
+    RenderText::Render(gWin, font(obj(i)\fnt), text$(obj(i)\textId), obj(i)\x, obj(i)\y, color(obj(i)\color))    
+  Next
+
+ BatchRenderer::StopBatch() 
+ BatchRenderer::Flush()
+ BatchRenderer::GetStats(@info)  
+ 
+ ; another small batch just for the infos
+ 
+ BatchRenderer::StartBatch()
+  ; info area semi transparent
+  vec4::Set(qc, 0.0, 0.0, 1.0, 0.8)
   
- text$ = "FPS: " + sgl::GetFPS()
- y = h - RenderText::GetFontHeight(gFon1)
- RenderText::Render(gWin, gFon1, text$, x, y, color) 
-   
- text$ = sgl::GetRenderer()
- y = 0
- RenderText::Render(gWin, gFon1, text$, x, y, color)
+  BatchRenderer::DrawQuad(0, h-fh*3.1, w, fh*3.1, qc)
+  BatchRenderer::DrawQuad(0, 0, w, fh*1.1, qc)
+  
+  ; text color 
+  vec3::Set(color, 1.0, 1.0, 1.0)
+ 
+  text$ = "FPS: " + sgl::GetFPS()
+  y = h - fh
+  RenderText::Render(gWin, gFon1, text$, x, y, color) 
+     
+  Protected bytes$ = str::FormatBytes(info\bufferSizeInBytes, str::#FormatBytes_Memory, 1)
+  text$ = str::Sprintf("Buffer size in quads: %i, in bytes: %s", @info\bufferSizeInQuads, @bytes$)
+  y - fh
+  RenderText::Render(gWin, gFon1, text$, x, y, color) 
+ 
+  text$ = str::Sprintf("Quads drawn: %i, Draw calls: %i", @info\totalQuadsDrawn, @info\drawCalls)
+  y - fh
+  RenderText::Render(gWin, gFon1, text$, x, y, color) 
+
+  text$ = sgl::GetRenderer()
+  y = 0
+  RenderText::Render(gWin, gFon1, text$, x, y, color)
+ 
+ BatchRenderer::StopBatch() 
+ BatchRenderer::Flush()
  
  ; every second
  If sgl::GetElapsedTime(gTimerFPS) >= 1.0
@@ -162,6 +197,8 @@ Procedure MainLoop()
  ASSERT(gFon3)
  
  gTimerFPS = sgl::CreateTimer()
+ 
+ BatchRenderer::Init(5000)
    
  While sgl::WindowShouldClose(gWin) = 0
  
@@ -178,6 +215,8 @@ Procedure MainLoop()
          
     sgl::SwapBuffers(gWin)
  Wend
+ 
+ BatchRenderer::Destroy()
 EndProcedure
 
 Procedure Main()
@@ -188,13 +227,13 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 118
-; FirstLine = 118
+; CursorPosition = 137
+; FirstLine = 123
 ; Folding = --
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = C:\Users\luis\Desktop\Share\sgl\render_text_330.exe
+; Executable = C:\Users\luis\Desktop\Share\sgl\render_text_batch_330.exe
 ; CPU = 1
 ; DisableDebugger
 ; CompileSourceDirectory

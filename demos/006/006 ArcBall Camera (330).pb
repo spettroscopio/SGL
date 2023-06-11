@@ -270,7 +270,7 @@ Procedure Render()
  
  If firstRun
     firstRun = 0   
-    *camera = ArcBall::Create(gWin, 6.0)
+    *camera = ArcBall::Create(gWin, 5.0)
  EndIf 
  
  Protected *units = sgl::StartData()
@@ -410,9 +410,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 214
-; FirstLine = 203
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 80
+; FirstLine = 52
 ; Folding = --
 ; EnableXP
 ; EnableUser

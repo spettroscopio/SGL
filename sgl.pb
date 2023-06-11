@@ -4,7 +4,7 @@ UseModule gl ; import gl namespace
 
 UseModule glfw ; import glfw namespace
 
-UseModule dbg ; import dbg namespace
+UseModule DBG ; import dbg namespace
 
 XIncludeFile "./extensions/ARB_debug_output.pb" ; for modern debug support
 
@@ -2294,10 +2294,10 @@ Procedure.i GetSysInfo (Array sysInfo$(1))
  SGL\sysInfo$() = "CPU: " + sgl::GetCpuName()
  
  AddElement(SGL\sysInfo$())
- SGL\sysInfo$() = "Total Memory: " + str::FormatBytes(sgl::GetTotalMemory(), str::#FormatBytes_Memory, 0)
+ SGL\sysInfo$() = "Total Memory: " + str::FormatBytes(sgl::GetTotalMemory(), str::#FormatBytes_Memory, 1)
 
  AddElement(SGL\sysInfo$())
- SGL\sysInfo$() = "Free Memory: " + str::FormatBytes(sgl::GetFreeMemory(), str::#FormatBytes_Memory, 0)
+ SGL\sysInfo$() = "Free Memory: " + str::FormatBytes(sgl::GetFreeMemory(), str::#FormatBytes_Memory, 1)
 
  AddElement(SGL\sysInfo$())
  SGL\sysInfo$() =  "Timer resolution: " + sgl::GetTimerResolutionString()
@@ -2547,22 +2547,22 @@ Procedure.i CreateTexelData (img)
 
  If pixelFormat & #PB_PixelFormat_24Bits_RGB
     *td\imageFormat = #GL_RGB
-    *td\internalTextureFormat = #GL_RGB
+    *td\internalTextureFormat = #GL_RGB8
  EndIf
  
  If pixelFormat & #PB_PixelFormat_32Bits_RGB
     *td\imageFormat = #GL_RGBA
-    *td\internalTextureFormat = #GL_RGBA
+    *td\internalTextureFormat = #GL_RGBA8
  EndIf
 
  If pixelFormat & #PB_PixelFormat_24Bits_BGR
     *td\imageFormat = #GL_BGR
-    *td\internalTextureFormat = #GL_RGB
+    *td\internalTextureFormat = #GL_RGB8
  EndIf
  
  If pixelFormat & #PB_PixelFormat_32Bits_BGR
     *td\imageFormat = #GL_BGRA
-    *td\internalTextureFormat = #GL_RGBA
+    *td\internalTextureFormat = #GL_RGBA8
  EndIf
  
  pitch = DrawingBufferPitch()
@@ -2968,9 +2968,9 @@ Procedure.i CreateImage_DiceFace (w, h, face, color_circle, color_back, alpha_ci
  Protected img, radius
  
  If w < h
-    radius = w/8.0
+    radius = w/9.0
  Else
-    radius = h/8.0
+    radius = h/9.0
  EndIf  
  
  Math::Clamp3i(alpha_circle, 0, 255)
@@ -2990,27 +2990,27 @@ Procedure.i CreateImage_DiceFace (w, h, face, color_circle, color_back, alpha_ci
             Circle(w/4, h/4, radius, color_circle | alpha_circle << 24)   
             Circle(w - w/4, h - h/4, radius, color_circle | alpha_circle << 24)
         Case 3
-            Circle(w/5, h/6, radius, color_circle | alpha_circle << 24)
+            Circle(w/5, h/5, radius, color_circle | alpha_circle << 24)
             Circle(w/2, h/2, radius, color_circle | alpha_circle << 24)
-            Circle(w - w/5, h - h/6, radius, color_circle | alpha_circle << 24)
+            Circle(w - w/5, h - h/5, radius, color_circle | alpha_circle << 24)
         Case 4
-            Circle(w/5, h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w - w/5, h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w/5, h - h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w - w/5, h - h/6, radius, color_circle | alpha_circle << 24)
+            Circle(w/5, h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w - w/5, h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w/5, h - h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w - w/5, h - h/5, radius, color_circle | alpha_circle << 24)
         Case 5
             Circle(w/2, h/2, radius, color_circle | alpha_circle << 24)
-            Circle(w/5, h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w - w/5, h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w/5, h - h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w - w/5, h - h/6, radius, color_circle | alpha_circle << 24)            
+            Circle(w/5, h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w - w/5, h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w/5, h - h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w - w/5, h - h/5, radius, color_circle | alpha_circle << 24)            
         Case 6
             Circle(w/5, h/2, radius, color_circle | alpha_circle << 24)
             Circle(w - w/5, h/2, radius, color_circle | alpha_circle << 24)
-            Circle(w/5, h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w - w/5, h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w/5, h - h/6, radius, color_circle | alpha_circle << 24)
-            Circle(w - w/5, h - h/6, radius, color_circle | alpha_circle << 24)            
+            Circle(w/5, h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w - w/5, h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w/5, h - h/5, radius, color_circle | alpha_circle << 24)
+            Circle(w - w/5, h - h/5, radius, color_circle | alpha_circle << 24)            
      EndSelect
      
      DrawingMode(#PB_2DDrawing_AllChannels | #PB_2DDrawing_Outlined)
@@ -3160,7 +3160,7 @@ Procedure.i GetFPS()
 EndProcedure
 
 Procedure StartFrameTimer()
-;> Set the point in code where a frame start, and starts counting the passing time.
+;> Set the point in code where a frame starts, and starts counting the passing time.
  
  If SGL\TrackFrameTime\timerFrame = 0
     SGL\TrackFrameTime\timerFrame = CreateTimer()
@@ -3176,6 +3176,7 @@ Procedure StopFrameTimer()
  SGL\TrackFrameTime\frameCount + 1
  SGL\TrackFrameTime\frameTimeAccum + GetElapsedTime(SGL\TrackFrameTime\timerFrame)
  
+ ; every seconds calculate the average frame time
  If GetElapsedTime(SGL\TrackFrameTime\timerFrameAccum) > 1.0
     SGL\TrackFrameTime\frameTime = SGL\TrackFrameTime\frameTimeAccum / SGL\TrackFrameTime\frameCount
     SGL\TrackFrameTime\frameCount = 0
@@ -3186,7 +3187,7 @@ Procedure StopFrameTimer()
 EndProcedure
 
 Procedure.f GetFrameTime()
-;> Returns the average frame time sampled in the last second expressed in milliseconds.
+;> Returns the average frame time sampled in the last second expressed in seconds.
 
  If SGL\TrackFrameTime\frameTime
     ProcedureReturn SGL\TrackFrameTime\frameTime * 1000
@@ -3940,7 +3941,10 @@ Procedure.i BuildShaderProgram (*objects.ShaderObjects, cleanup = #True)
  
  glGetProgramiv_(shaderProgram, #GL_LINK_STATUS, @linked)
  
- If linked = #GL_FALSE : Goto exit: EndIf
+ If linked = #GL_FALSE
+    CALLBACK_ERROR (#SOURCE_ERROR_GLSL$, "glLinkProgram() failed.")
+    Goto exit: 
+ EndIf
 
 CompilerIf (#PB_Compiler_Debugger = 1)
  ; validation only while debugging
@@ -4065,8 +4069,8 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 1603
-; FirstLine = 1600
+; CursorPosition = 2299
+; FirstLine = 2275
 ; Folding = ---------------------------------
 ; EnableXP
 ; EnableUser

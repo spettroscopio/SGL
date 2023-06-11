@@ -221,7 +221,7 @@ EndProcedure
 
 Procedure ShutDown()
  RenderText::DestroyBitmapFont(gFon)
- sgl::DestroyTimer(gTimer)   
+ sgl::DestroyTimer(gTimer)
  sgl::Shutdown()
 EndProcedure
 
@@ -360,9 +360,9 @@ EndProcedure
 
 Main()
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 222
-; FirstLine = 218
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 255
+; FirstLine = 252
 ; Folding = --
 ; EnableXP
 ; EnableUser

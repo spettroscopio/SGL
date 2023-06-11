@@ -315,7 +315,7 @@ Procedure Render()
  u_texture = sgl::GetUniformLocation(gShader, "u_texture")
  sgl::SetUniformLong(u_texture, 0) ; texture unit
  
- ; only one texture is bound here, but it's an Array Texture containing one 2D texture for layer
+ ; only one texture is bound here, but it's an Array Texture containing a 2D texture for each layer
  glActiveTexture_(#GL_TEXTURE0)
  glBindTexture_(#GL_TEXTURE_2D_ARRAY, gTextureArray) 
 
@@ -405,9 +405,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 222
-; FirstLine = 211
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 317
+; FirstLine = 310
 ; Folding = --
 ; EnableXP
 ; EnableUser

@@ -1,4 +1,5 @@
-﻿; Test of the RenderText() for OpenGL 3.30
+﻿; Test of the Quad Batch Renderer () for OpenGL 3.30
+; Colored Quads (with alpha blending)
 
 EnableExplicit
 
@@ -6,20 +7,19 @@ IncludeFile "../../sgl.config.pbi"
 IncludeFile "../../sgl.pbi"
 IncludeFile "../../sgl.pb"
 
-IncludeFile "RenderText.pb"
+IncludeFile "../RenderText_330/RenderText.pb"
 
-#TITLE$ = "RenderText test 3.30"
+IncludeFile "BatchRenderer.pb"
+
+#TITLE$ = "Quad Batch Renderer"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 0
 
-#HowMany = 100
+#QUAD_SIZE = 25
            
 Global gWin
-Global gTimerFPS
 Global gFon1
-Global gFon2
-Global gFon3
 
 Declare   CallBack_Error (source$, desc$)
 Declare   Startup()
@@ -66,79 +66,81 @@ Procedure Startup()
 EndProcedure
 
 Procedure ShutDown() 
- sgl::DestroyTimer(gTimerFPS)
  RenderText::DestroyBitmapFont(gFon1) 
- RenderText::DestroyBitmapFont(gFon2) 
- RenderText::DestroyBitmapFont(gFon3) 
  sgl::Shutdown()
 EndProcedure
 
 Procedure Render() 
  Protected w, h
- Protected x, y, i, text$, color.vec3::vec3
- Dim text$(2)
- Dim color.vec3::vec3(2)
- Dim font(2)
- 
- Structure obj
-  x.i
-  y.i
-  color.i
-  textId.i
-  fnt.i
- EndStructure : Static Dim obj.obj(#HowMany - 1)
- 
- text$(0) = "Hello World !"
- vec3::Set(color(0), 1.0, 1.0, 0.0)
- font(0) = gFon1
- 
- text$(1) = "The quick brown fox jumps over the lazy dog."
- vec3::Set(color(1), 0.0, 1.0, 0.0)
- font(1) = gFon2
- 
- text$(2) = "Nothing is impossible if you don't have to do it yourself."
- vec3::Set(color(2), 0.0, 1.0, 1.0)
- font(2) = gFon3
- 
+ Protected x, y, i, text$, color.vec3::vec3, qc.vec4::vec4
+ Protected.BatchRenderer::stats info
+ Protected.m4x4::m4x4 projection
+ Protected fh = RenderText::GetFontHeight(gFon1)
+  
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
  
- If sgl::GetMouseButton(gWin, sgl::#MOUSE_BUTTON_1) = sgl::#RELEASED
-     For i = 0 To #HowMany - 1
-        obj(i)\textId = i % 3
-        obj(i)\color = i % 3
-        obj(i)\x = Random(w) - w / 4
-        obj(i)\y = Random(h) - x / 4   
-        obj(i)\fnt = i % 3
-     Next
- EndIf
+ m4x4::Ortho(projection, 0, w, 0, h, 0.0, 100.0)
  
- glClearColor_(0.1,0.1,0.3,1.0)
+ glClearColor_(0.0,0.0,0.0,1.0)
 
  glClear_(#GL_COLOR_BUFFER_BIT)
   
  glViewport_(0, 0, w, h)
+ 
+ BatchRenderer::StartRenderer(projection)
+  
+ BatchRenderer::StartBatch()
+ 
+  Protected xq, yq, wq, hq
+  
+  wq = #QUAD_SIZE
+  hq = #QUAD_SIZE
+ 
+  ; all these are batched
+  
+  For yq = 0 To h Step #QUAD_SIZE + 4
+    For xq = 0 To w Step #QUAD_SIZE + 4
+        vec4::Set(qc, Random(100) / 100.0, Random(100) / 100.0, Random(100) / 100.0, 1.0)
+        BatchRenderer::DrawQuad(xq, yq, wq, hq, qc)
+    Next       
+  Next 
+  
+  ; info area semi transparent
+  vec4::Set(qc, 0.0, 0.0, 1.0, 0.8)
+  
+  ; and these two also batched with all the above
+  BatchRenderer::DrawQuad(0, h-fh*3.1, w, fh*3.1, qc)
+  BatchRenderer::DrawQuad(0, 0, w, fh*1.1, qc)
 
- For i = 0 To #HowMany - 1
-    RenderText::Render(gWin, font(obj(i)\fnt), text$(obj(i)\textId), obj(i)\x, obj(i)\y, color(obj(i)\color))    
- Next
+ BatchRenderer::StopBatch()
+ 
+ BatchRenderer::Flush() ; remember to flush it at the end
+ 
+ BatchRenderer::GetStats(@info)  
  
  vec3::Set(color, 1.0, 1.0, 1.0)
-  
- text$ = "FPS: " + sgl::GetFPS()
- y = h - RenderText::GetFontHeight(gFon1)
- RenderText::Render(gWin, gFon1, text$, x, y, color) 
-   
- text$ = sgl::GetRenderer()
- y = 0
+
+ x = 0 : y = h
+ 
+ Protected fps = sgl::GetFPS()
+ Protected frameTime.f  = sgl::GetFrameTime()
+ text$ = str::Sprintf("FPS: %i, Frame: %.2f ms", @fps, @frameTime)
+ y - fh
  RenderText::Render(gWin, gFon1, text$, x, y, color)
  
- ; every second
- If sgl::GetElapsedTime(gTimerFPS) >= 1.0
-    If sgl::GetFPS()
-        sgl::SetWindowText(gWin, #TITLE$ + " (" + sgl::GetFPS() + " FPS)")
-        sgl::ResetTimer(gTimerFPS)
-    EndIf
- EndIf
+ Protected bytes$ = str::FormatBytes(info\bufferSizeInBytes, str::#FormatBytes_Memory, 1)
+ text$ = str::Sprintf("Buffer size in quads: %i, in bytes: %s", @info\bufferSizeInQuads, @bytes$)
+ y - fh
+ RenderText::Render(gWin, gFon1, text$, x, y, color) 
+ 
+ text$ = str::Sprintf("Quads drawn: %i, Draw calls: %i", @info\totalQuadsDrawn, @info\drawCalls)
+ y - fh
+ RenderText::Render(gWin, gFon1, text$, x, y, color) 
+
+ y = 0
+ text$ = sgl::GetRenderer()
+ RenderText::Render(gWin, gFon1, text$, x, y, color)
+   
 EndProcedure
 
 Procedure MainLoop()   
@@ -150,34 +152,32 @@ Procedure MainLoop()
  ranges(0)\lastChar   = 128
  
  gFon1 = RenderText::CreateBitmapFont("Consolas", 10, #Null, ranges(), 256, 256)
- 
  ASSERT(gFon1)
  
- gFon2 = RenderText::CreateBitmapFont("Monaco", 14, #Null, ranges(), 256, 256)
-
- ASSERT(gFon2)
- 
- gFon3 = RenderText::CreateBitmapFont("Arial", 16, #Null, ranges(), 256, 256)
- 
- ASSERT(gFon3)
- 
- gTimerFPS = sgl::CreateTimer()
+ BatchRenderer::Init(5000)
    
  While sgl::WindowShouldClose(gWin) = 0
  
     If sgl::GetKeyPress(sgl::#Key_ESCAPE)
         sgl::SetWindowShouldClose(gWin, 1)
-    EndIf
+    EndIf        
     
     If sgl::IsWindowMinimized(gWin) = 0    
+        sgl::StartFrameTimer()
+        
         Render()
+        
         sgl::TrackFPS()
+        sgl::StopFrameTimer()    
     EndIf
     
     sgl::PollEvents()
          
-    sgl::SwapBuffers(gWin)
+    sgl::SwapBuffers(gWin)    
  Wend
+ 
+ BatchRenderer::Destroy()
+ 
 EndProcedure
 
 Procedure Main()
@@ -188,13 +188,13 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 118
-; FirstLine = 118
+; CursorPosition = 89
+; FirstLine = 84
 ; Folding = --
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = C:\Users\luis\Desktop\Share\sgl\render_text_330.exe
+; Executable = C:\Users\luis\Desktop\Share\sgl\batch_renderer.exe
 ; CPU = 1
 ; DisableDebugger
 ; CompileSourceDirectory

@@ -9,8 +9,8 @@ IncludeFile "../../sgl.pb"
 IncludeFile "RenderText.pb"
 
 #TITLE$ = "RenderText test 2.10"
-#WIN_WIDTH = 800
-#WIN_HEIGHT = 600
+#WIN_WIDTH = 1024
+#WIN_HEIGHT = 768
 #VSYNC = 0
            
 #HowMany = 100
@@ -104,12 +104,12 @@ Procedure Render()
      For i = 0 To #HowMany - 1
         obj(i)\textId = i % 3
         obj(i)\color = i % 3
-        obj(i)\x = Random(w)
-        obj(i)\y = Random(h)    
-        obj(i)\fnt = Random(2)
+        obj(i)\x = Random(w) - w / 4
+        obj(i)\y = Random(h) - x / 4   
+        obj(i)\fnt = i % 3
      Next
  EndIf
-  
+ 
  glClearColor_(0.1,0.1,0.3,1.0)
 
  glClear_(#GL_COLOR_BUFFER_BIT)
@@ -122,18 +122,14 @@ Procedure Render()
  
  vec3::Set(color, 1.0, 1.0, 1.0)
   
- text$ = sgl::GetRenderer()
+ text$ = "FPS: " + sgl::GetFPS()
  y = h - RenderText::GetFontHeight(gFon1)
+ RenderText::Render(gWin, gFon1, text$, x, y, color) 
+
+ text$ = sgl::GetRenderer()
+ y = 0
  RenderText::Render(gWin, gFon1, text$, x, y, color)
    
- text$ = Str(#HowMany) + " RenderText() calls"
- y - RenderText::GetFontHeight(gFon1)
- RenderText::Render(gWin, gFon1, text$, x, y, color)
- 
- text$ = "FPS: " + sgl::GetFPS()
- y - RenderText::GetFontHeight(gFon1)
- RenderText::Render(gWin, gFon1, text$, x, y, color) 
- 
  ; every second
  If sgl::GetElapsedTime(gTimerFPS) >= 1.0
     If sgl::GetFPS()
@@ -151,15 +147,15 @@ Procedure MainLoop()
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128
  
- gFon1 = RenderText::CreateBitmapFont("Consolas", 12, #Null, ranges(), 256, 256)
+ gFon1 = RenderText::CreateBitmapFont("Consolas", 10, #Null, ranges(), 256, 256)
  
  ASSERT(gFon1)
  
- gFon2 = RenderText::CreateBitmapFont("Monaco", 16, #Null, ranges(), 256, 256)
+ gFon2 = RenderText::CreateBitmapFont("Monaco", 14, #Null, ranges(), 256, 256)
 
  ASSERT(gFon2)
  
- gFon3 = RenderText::CreateBitmapFont("Arial", 20, #Null, ranges(), 256, 256)
+ gFon3 = RenderText::CreateBitmapFont("Arial", 16, #Null, ranges(), 256, 256)
  
  ASSERT(gFon3)
  
@@ -189,8 +185,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 69
-; FirstLine = 63
+; CursorPosition = 131
+; FirstLine = 103
 ; Folding = --
 ; Optimizer
 ; EnableXP
@@ -198,3 +194,4 @@ Main()
 ; Executable = C:\Users\luis\Desktop\Share\sgl\render_text_210.exe
 ; CPU = 1
 ; CompileSourceDirectory
+; Compiler = PureBasic 6.02 LTS - C Backend (Windows - x64)
