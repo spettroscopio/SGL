@@ -237,3 +237,4 @@ Main()
 ; CPU = 1
 ; DisableDebugger
 ; CompileSourceDirectory
+; Compiler = PureBasic 6.02 LTS - C Backend (Windows - x86)

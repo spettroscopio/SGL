@@ -40,12 +40,14 @@
 %COMP% examples/"025 Rotate textured quad using matrices (330).pb"
 
 %COMP% extras/"Vertex Array Object_300/test.pb"
-%COMP% extras/"RenderText_330/test.pb"
 %COMP% extras/"RenderText_210/test.pb"
-
+%COMP% extras/"RenderText_330/test.pb"
+%COMP% extras/"RenderTextBatch_330/test.pb"
 %COMP% extras/"Fonts/001 Render Unicode text.pb"
 %COMP% extras/"Fonts/002 Font viewer.pb"
 %COMP% extras/"Fonts/003 Render text using BMF files.pb"
 %COMP% extras/"Fonts/004 BMF arial-unicode-12.pb"
 %COMP% extras/"Fonts/005 BMF videophreak-16.pb"
 %COMP% extras/"Fonts/006 BMF gimp-42.pb"
+%COMP% extras/"Batch/test_quads.pb"
+%COMP% extras/"Batch/test_textured_quads.pb"
