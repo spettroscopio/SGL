@@ -34,7 +34,7 @@ Procedure Render (win)
  
  glViewport_(0, 0, w, h)
  
- VAO::BindVao(vao)
+ VAO::BindVertexArray(vao)
  
  sgl::BindShaderProgram(shader)
  
@@ -71,7 +71,6 @@ EndProcedure
 Procedure SetupShaders() 
  Protected vertex$, fragment$
  Protected vbo, ibo
- ;Protected vbl.VertexBufferLayout
  
  Protected *vertexPos = sgl::StartData()  
   Data.f  -0.5,-0.5, 0.0 ; 0
@@ -98,19 +97,19 @@ Procedure SetupShaders()
  fragment$ + "}" 
 
  ; vertex array
- vao = VAO::CreateVao()
+ vao = VAO::CreateVertexArray()
  
  ; 4 vertices made of 3 floats each
- vbo = VAO::CreateVbo(*vertexPos, 4 * 3 * SizeOf(Float))
+ vbo = VAO::CreateVertexBuffer(*vertexPos, 4 * 3 * SizeOf(Float))
  
  ; call VAO::Attribute() for each attribute you want to add to the layout
- VAO::Attribute(vbo, 3, #GL_FLOAT) ; layout (0)
+ VAO::VertexBufferAttribute(vbo, 3, #GL_FLOAT) ; layout (0)
  
  ; finalize the layout and associate it to the current bound vao
- VAO::SetLayout(vbo)
+ VAO::VertexBufferLayout(vbo)
  
  ; 6 indices made of longs ... this will be also associated to the vao
- ibo = VAO::CreateIbo(*indices, 6)
+ ibo = VAO::CreateIndexBuffer(*indices, 6)
  
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
@@ -163,9 +162,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 104
-; FirstLine = 80
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 123
+; FirstLine = 101
 ; Folding = -
 ; EnableXP
 ; EnableUser

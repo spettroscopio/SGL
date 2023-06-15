@@ -12,17 +12,17 @@ UseModule gl
 UseModule dbg
 
 Declare     GetHandle (obj)
-Declare.i   CreateVao()
-Declare     BindVao (vao)
-Declare     DestroyVao (vao)
-Declare.i   CreateVbo (*buffer, size, hint = #GL_STATIC_DRAW)
-Declare     BindVbo (vbo)
-Declare     DestroyVbo(vbo)
-Declare.i   Attribute (vbo, count, type)
-Declare     SetLayout (vbo)
-Declare.i   CreateIbo (*indices, count, hint = #GL_STATIC_DRAW)
-Declare     BindIbo (ibo)
-Declare     DestroyIbo (ibo)
+Declare.i   CreateVertexArray()
+Declare     BindVertexArray (vao)
+Declare     DestroyVertexArray (vao)
+Declare.i   CreateVertexBuffer (*buffer, size, hint = #GL_STATIC_DRAW)
+Declare     BindVertexBuffer (vbo)
+Declare     DestroyVertexBuffer (vbo)
+Declare.i   VertexBufferAttribute (vbo, count, type)
+Declare     VertexBufferLayout (vbo)
+Declare.i   CreateIndexBuffer (*indices, count, hint = #GL_STATIC_DRAW)
+Declare     BindIndexBuffer (ibo)
+Declare     DestroyIndexBuffer (ibo)
 
 EndDeclareModule
 
@@ -84,7 +84,7 @@ EndProcedure
 
 ;- vertex array
 
-Procedure.i CreateVao()
+Procedure.i CreateVertexArray()
  Protected *vao.VAO = AllocateStructure(VAO)
  
  If *vao
@@ -95,7 +95,7 @@ Procedure.i CreateVao()
  ProcedureReturn *vao
 EndProcedure
 
-Procedure BindVao (vao)
+Procedure BindVertexArray (vao)
  Protected *vao.VAO = vao
  
  If *vao ; 0 to unbind
@@ -106,7 +106,7 @@ Procedure BindVao (vao)
  EndIf
 EndProcedure
 
-Procedure DestroyVao (vao)
+Procedure DestroyVertexArray (vao)
  Protected *vao.VAO = vao
  ASSERT(*vao\signature = #SIG_VAO)
  
@@ -116,7 +116,7 @@ EndProcedure
 
 ;- vertex buffer
 
-Procedure.i CreateVbo (*buffer, size, hint = #GL_STATIC_DRAW)
+Procedure.i CreateVertexBuffer (*buffer, size, hint = #GL_STATIC_DRAW)
  Protected *vbo.VBO = AllocateStructure(VBO)
  
  If *vbo
@@ -128,7 +128,7 @@ Procedure.i CreateVbo (*buffer, size, hint = #GL_STATIC_DRAW)
  ProcedureReturn *vbo
 EndProcedure
 
-Procedure BindVbo (vbo)
+Procedure BindVertexBuffer (vbo)
  Protected *vbo.VBO = vbo
  
  If *vbo ; 0 to unbind
@@ -139,7 +139,7 @@ Procedure BindVbo (vbo)
  EndIf
 EndProcedure
 
-Procedure DestroyVbo(vbo)
+Procedure DestroyVertexBuffer (vbo)
  Protected *vbo.VBO = vbo
  ASSERT(*vbo\signature = #SIG_VBO)
  
@@ -147,7 +147,7 @@ Procedure DestroyVbo(vbo)
  FreeStructure(*vbo)
 EndProcedure
 
-Procedure.i Attribute (vbo, count, type)
+Procedure.i VertexBufferAttribute (vbo, count, type)
  Protected *vbo.VBO = vbo
  ASSERT(*vbo\signature = #SIG_VBO)
  
@@ -176,7 +176,7 @@ Procedure.i Attribute (vbo, count, type)
  ProcedureReturn i
 EndProcedure
 
-Procedure SetLayout (vbo)
+Procedure VertexBufferLayout (vbo)
  Protected *vbo.VBO = vbo
  ASSERT(*vbo\signature = #SIG_VBO)
  
@@ -206,7 +206,7 @@ EndProcedure
 
 ;- index buffer
 
-Procedure.i CreateIbo (*indices, count, hint = #GL_STATIC_DRAW)
+Procedure.i CreateIndexBuffer (*indices, count, hint = #GL_STATIC_DRAW)
  Protected *ibo.IBO = AllocateStructure(IBO)
  
  If *ibo
@@ -218,7 +218,7 @@ Procedure.i CreateIbo (*indices, count, hint = #GL_STATIC_DRAW)
  ProcedureReturn *ibo
 EndProcedure
 
-Procedure BindIbo (ibo)
+Procedure BindIndexBuffer (ibo)
  Protected *ibo.IBO = ibo
  
  If *ibo ; 0 to unbind
@@ -229,7 +229,7 @@ Procedure BindIbo (ibo)
  EndIf
 EndProcedure
 
-Procedure DestroyIbo (ibo)
+Procedure DestroyIndexBuffer (ibo)
  Protected *ibo.IBO = ibo
  ASSERT(*ibo\signature = #SIG_IBO)   
  
@@ -239,7 +239,7 @@ EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
 ; CursorPosition = 25
 ; Folding = ----
 ; EnableXP
