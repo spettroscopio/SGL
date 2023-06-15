@@ -7,13 +7,13 @@ EnableExplicit
 
 Structure quat
  float.f[0] 
- q0.f 
- q1.f 
- q2.f 
- q3.f 
+ qw.f 
+ qx.f 
+ qy.f 
+ qz.f 
 EndStructure
 
-Declare   Set (*Quat.quat, q0.f, q1.f, q2.f, q3.f) ; Set the 4 components of Quat.
+Declare   Set (*Quat.quat, qw.f, qx.f, qy.f, qz.f) ; Set the 4 components of Quat.
 Declare   Dump (*Quat.quat, decimals = 2) ; Returns a string representation of Quat.
 Declare   Copy (*Quat.quat, *DestinationQuat.quat) ; Copies Quat to DestinationQuat.
 Declare   Conjugate (*Quat.quat, *ConjugateQuat.quat) ; Sets ConjugateQuat as the conjugate of Quat.
@@ -30,26 +30,26 @@ Module quat
 #ONE_DEG_IN_RAD = 2* #PI / 360
 #ONE_RAD_IN_DEG = 360.0 / ( 2.0 * #PI ) 
 
-Procedure Set (*Quat.quat, q0.f, q1.f, q2.f, q3.f)
+Procedure Set (*Quat.quat, qw.f, qx.f, qy.f, qz.f)
 ;> Set the 4 components of Quat.
- *Quat\q0 = q0
- *Quat\q1 = q1
- *Quat\q2 = q2
- *Quat\q3 = q3
+ *Quat\qw = qw
+ *Quat\qx = qx
+ *Quat\qy = qy
+ *Quat\qz = qz
 EndProcedure
 
 Procedure Dump (*Quat.quat, decimals = 2)
 ;> Returns a string representation of Quat.
- Debug "(" + StrF(*Quat\q0, decimals) + ", " + StrF(*Quat\q1, decimals) + ", " + StrF(*Quat\q2, decimals) + ", " + StrF(*Quat\q3, decimals) + ")"
+ Debug "(" + StrF(*Quat\qw, decimals) + ", " + StrF(*Quat\qx, decimals) + ", " + StrF(*Quat\qy, decimals) + ", " + StrF(*Quat\qz, decimals) + ")"
 EndProcedure
 
 Procedure Copy (*Quat.quat, *DestinationQuat.quat)
 ;> Copies Quat to DestinationQuat.
 
- *DestinationQuat\q0 = *Quat\q0
- *DestinationQuat\q1 = *Quat\q1
- *DestinationQuat\q2 = *Quat\q2
- *DestinationQuat\q3 = *Quat\q3 
+ *DestinationQuat\qw = *Quat\qw
+ *DestinationQuat\qx = *Quat\qx
+ *DestinationQuat\qy = *Quat\qy
+ *DestinationQuat\qz = *Quat\qz 
 EndProcedure
 
 Procedure Conjugate (*Quat.quat, *ConjugateQuat.quat)
@@ -57,10 +57,10 @@ Procedure Conjugate (*Quat.quat, *ConjugateQuat.quat)
 
 ; You can specify Quat in place of *ConjugateQuat.
  
- *ConjugateQuat\q0 =  *Quat\q0  ; the same real part 
- *ConjugateQuat\q1 = -*Quat\q1  
- *ConjugateQuat\q2 = -*Quat\q2  ; but the opposite complex part  
- *ConjugateQuat\q3 = -*Quat\q3
+ *ConjugateQuat\qw =  *Quat\qw  ; the same "real" part
+ *ConjugateQuat\qx = -*Quat\qx  
+ *ConjugateQuat\qy = -*Quat\qy  ; but the opposite complex part  
+ *ConjugateQuat\qz = -*Quat\qz
 EndProcedure
 
 Procedure Normalize (*Quat.quat, *UnitQuat.quat)
@@ -70,21 +70,21 @@ Procedure Normalize (*Quat.quat, *UnitQuat.quat)
  Protected sq_magnitude.f, magnitude.f
  
  ; squared magnitued
- sq_magnitude = *Quat\q0 * *Quat\q0 + *Quat\q1 * *Quat\q1 + *Quat\q2 * *Quat\q2 + *Quat\q3 * *Quat\q3
+ sq_magnitude = *Quat\qw * *Quat\qw + *Quat\qx * *Quat\qx + *Quat\qy * *Quat\qy + *Quat\qz * *Quat\qz
  
  If Abs(1.0 - sq_magnitude) < 0.0001
     ; normalization not required
-    *UnitQuat\q0 = *Quat\q0
-    *UnitQuat\q1 = *Quat\q1
-    *UnitQuat\q2 = *Quat\q2
-    *UnitQuat\q3 = *Quat\q3
+    *UnitQuat\qw = *Quat\qw
+    *UnitQuat\qx = *Quat\qx
+    *UnitQuat\qy = *Quat\qy
+    *UnitQuat\qz = *Quat\qz
  Else
     ; normalize it
     magnitude  = Sqr(sq_magnitude)
-    *UnitQuat\q0 = *Quat\q0 / magnitude
-    *UnitQuat\q1 = *Quat\q1 / magnitude
-    *UnitQuat\q2 = *Quat\q2 / magnitude
-    *UnitQuat\q3 = *Quat\q3 / magnitude
+    *UnitQuat\qw = *Quat\qw / magnitude
+    *UnitQuat\qx = *Quat\qx / magnitude
+    *UnitQuat\qy = *Quat\qy / magnitude
+    *UnitQuat\qz = *Quat\qz / magnitude
  EndIf
 EndProcedure
 
@@ -100,10 +100,10 @@ Procedure Multiply (*QuatA.quat, *QuatB.quat, *MultipliedQuat.quat)
     *q = *MultipliedQuat
  EndIf
  
- *q\q0 = *QuatB\q0 * *QuatA\q0 - *QuatB\q1 * *QuatA\q1 - *QuatB\q2 * *QuatA\q2 - *QuatB\q3 * *QuatA\q3 
- *q\q1 = *QuatB\q0 * *QuatA\q1 + *QuatB\q1 * *QuatA\q0 - *QuatB\q2 * *QuatA\q3 + *QuatB\q3 * *QuatA\q2
- *q\q2 = *QuatB\q0 * *QuatA\q2 + *QuatB\q1 * *QuatA\q3 + *QuatB\q2 * *QuatA\q0 - *QuatB\q3 * *QuatA\q1 
- *q\q3 = *QuatB\q0 * *QuatA\q3 - *QuatB\q1 * *QuatA\q2 + *QuatB\q2 * *QuatA\q1 + *QuatB\q3 * *QuatA\q0 
+ *q\qw = *QuatB\qw * *QuatA\qw - *QuatB\qx * *QuatA\qx - *QuatB\qy * *QuatA\qy - *QuatB\qz * *QuatA\qz 
+ *q\qx = *QuatB\qw * *QuatA\qx + *QuatB\qx * *QuatA\qw - *QuatB\qy * *QuatA\qz + *QuatB\qz * *QuatA\qy
+ *q\qy = *QuatB\qw * *QuatA\qy + *QuatB\qx * *QuatA\qz + *QuatB\qy * *QuatA\qw - *QuatB\qz * *QuatA\qx 
+ *q\qz = *QuatB\qw * *QuatA\qz - *QuatB\qx * *QuatA\qy + *QuatB\qy * *QuatA\qx + *QuatB\qz * *QuatA\qw 
  
  If *QuatA = *MultipliedQuat Or *QuatB = *MultipliedQuat
     Copy(*q, *MultipliedQuat )
@@ -116,10 +116,10 @@ Procedure Versor (*Quat.quat, *Axis.vec3::vec3, angle.f)
 ; A versor store a rotation of a certain angle (angle) around a certain vector (Axis)
  Protected rad_half_angle.f = angle * #ONE_DEG_IN_RAD / 2.0
  
- *Quat\q0 = Cos(rad_half_angle)
- *Quat\q1 = Sin(rad_half_angle) * *Axis\x
- *Quat\q2 = Sin(rad_half_angle) * *Axis\y
- *Quat\q3 = Sin(rad_half_angle) * *Axis\z 
+ *Quat\qw = Cos(rad_half_angle)
+ *Quat\qx = Sin(rad_half_angle) * *Axis\x
+ *Quat\qy = Sin(rad_half_angle) * *Axis\y
+ *Quat\qz = Sin(rad_half_angle) * *Axis\z 
  
  Normalize(*Quat, *Quat)
 EndProcedure
@@ -127,10 +127,11 @@ EndProcedure
 Procedure Identity (*Quat.quat)
 ;> Set the the quaternion to an identity versor.
  
- Protected.vec3::vec3 vec
+ ;Protected.vec3::vec3 vec
  
- vec3::Zero(vec) 
- quat::Versor(*Quat, vec, 0.0)
+ ;vec3::Zero(vec) 
+ ;quat::Versor(*Quat, vec, 0.0)
+ quat::Set(*Quat, 1.0, 0.0, 0.0, 0.0)
 EndProcedure
 
 Procedure GetMatrix (*Quat.quat, *Destinationmatrix.m4x4::m4x4)
@@ -171,11 +172,13 @@ Procedure RotateVec (*Vector.vec3::vec3,  *RotationAxis.vec3::vec3, angle.f, *Ro
  ; creates the negation of the versor above
  Conjugate(Versor, ConjugatedVersor) 
  ; this is the "sandwich" to rotate a point vector: Versor * Point * Conj.Versor = Rotated Point
- Multiply(Versor, VecAsQuat, Rotated) ; Versor * Point 
- Multiply(Rotated, ConjugatedVersor, Rotated) ; * Conj.Versor 
+ Multiply(Versor, VecAsQuat, Rotated) ; Versor * Point ...
+ Multiply(Rotated, ConjugatedVersor, Rotated) ; ... * Conj.Versor 
  
  ; downgrades the versor to vec3
- vec3::set(*RotatedVector, Rotated\q1, Rotated\q2, Rotated\q3)
+ *RotatedVector\x = Rotated\qx
+ *RotatedVector\y = Rotated\qy
+ *RotatedVector\z = Rotated\qz 
 EndProcedure
 
 EndModule
@@ -183,14 +186,17 @@ EndModule
 CompilerIf #PB_Compiler_IsMainFile
 EnableExplicit
 
-Define.vec3::vec3 vec, p, rp
+Define.vec3::vec3 axis, p, rp
 Define.quat::quat q
 
 vec3::Set(p, 1.0, 2.0, 3.0)  ; starting point
 vec3::Dump(p) ; (1.0, 2.0, 3.0) 
 
-quat::Versor(q,vec,0)
-vec4::Dump(q) ; rotated point (3.00, 2.00, -1.00)
+vec3::Set(axis, 0.0, 1.0, 0.0)  ; rotation axis
+vec4::Dump(axis) ; rotated point (3.00, 2.00, -1.00)
+
+quat::RotateVec (p,axis,90, rp)
+vec3::Dump(rp) ; rotated point (3.00, 2.00, -1.00)
 
 quat::Identity(p) ; a null rotation 
 vec4::Dump(p) ; (1.00, 0.00, 0.00, 0.00)
@@ -198,10 +204,9 @@ vec4::Dump(p) ; (1.00, 0.00, 0.00, 0.00)
 CompilerEndIf
 
 
-
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 91
-; FirstLine = 51
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 120
+; FirstLine = 115
 ; Folding = ---
 ; Markers = 15
 ; EnableXP

@@ -227,7 +227,7 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 137
+; CursorPosition = 133
 ; FirstLine = 123
 ; Folding = --
 ; Optimizer
@@ -237,4 +237,3 @@ Main()
 ; CPU = 1
 ; DisableDebugger
 ; CompileSourceDirectory
-; Compiler = PureBasic 6.02 LTS - C Backend (Windows - x86)

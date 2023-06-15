@@ -827,9 +827,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 789
-; FirstLine = 779
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 550
+; FirstLine = 512
 ; Folding = ---
 ; Optimizer
 ; EnableXP
