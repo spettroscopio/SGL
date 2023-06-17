@@ -25,10 +25,11 @@ Declare     init_sgl_obj()
 Declare     init_window_hints()
 Declare     init_mouse()
 Declare     init_keyboard()
-Declare.s   shader_type_to_string (type)
 Declare     apply_window_hints()
-Declare     callback_getprocaddress (func$)
+Declare.s   shader_type_to_string (type)
 Declare     split_glsl_errors (errlog$)
+Declare     callback_getprocaddress (func$)
+Declare     callback_enum_opengl_funcs (glver$, func$, *func)
 DeclareC    callback_error_glfw (err, *desc)
 Declare     callback_error_opengl (source, type, id, severity, length, *message, *userParam)
 DeclareC    callback_window_close (win)
@@ -48,6 +49,9 @@ DeclareC    callback_window_mouse_button (win, button, action, mods)
 Declare.i   binary_lookup_string (Array arr$(1), key$)
 Declare.i   map_key_to_sgl (glfw_key)
 Declare.i   map_key_to_glfw (sgl_key)
+Declare.i   find_zero_alpha_vertically (stripX, stripHeight, stripWidth)
+Declare.i   find_some_alpha_vertically (stripX, stripHeight, stripWidth)
+Declare.i   calc_bitmapfontdata_size (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), *width.Integer, *height.Integer, spacing = 0)
 
 ;- Structures
   
@@ -893,6 +897,105 @@ Procedure.i find_some_alpha_vertically (stripX, stripHeight, stripWidth)
  Wend
  
  ProcedureReturn stripWidth 
+EndProcedure
+
+Procedure.i calc_bitmapfontdata_size (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), *width.Integer, *height.Integer, spacing = 0)
+ Protected font, image, hdc
+ Protected x, y, gw, gh, code, char$, highestRow
+ Protected range, ranges = ArraySize(ranges())
+ Protected totPixels, calcSize
+ 
+ font = LoadFont(#PB_Any, fontName$, fontSize, fontFlags)
+ 
+ If font = 0 : Goto exit : EndIf 
+  
+ image = CreateImage(#PB_Any, 32, 32, 32, #PB_Image_Transparent)
+ 
+ If image = 0 : Goto exit : EndIf
+
+ hDC = StartDrawing(ImageOutput(image)) 
+  DrawingFont(FontID(font))
+  
+  x = 1 : y = 1
+  
+  ; BLOCK char 
+  gw = TextWidth(" ")
+  gh = TextHeight(" ")    
+  x = x + gw + spacing
+
+  For range = 0 To ranges
+    For code = ranges(range)\firstChar To ranges(range)\lastChar     
+        char$ = Chr(code)        
+        gw = TextWidth(char$)
+        gh = TextHeight(char$)            
+        If gh > y : y = gh : EndIf             
+        x = x + gw + spacing
+    Next
+  Next
+  
+  totPixels = x * y
+  
+  calcSize = Sqr(totPixels)
+  
+  If calcSize % 64 ; if not a multiple already
+    calcSize = NextMultiple(Sqr(totPixels), 64)
+  EndIf
+
+retry:
+  
+  x = 1 : y = 1
+  highestRow = 0
+
+  ; BLOCK char 
+  gw = TextWidth(" ")
+  gh = TextHeight(" ")    
+  x = x + gw + spacing
+       
+  For range = 0 To ranges
+    For code = ranges(range)\firstChar To ranges(range)\lastChar
+      
+        char$ = Chr(code)
+        
+        gw = TextWidth(char$)
+        gh = TextHeight(char$)
+        
+        If y + gh > calcSize
+            ; not enough space
+            calcSize = NextMultiple(calcSize, 64)
+            Goto retry:
+        EndIf
+    
+        If gh > highestRow
+            highestRow = gh
+        EndIf
+                    
+        If x + gw > calcSize
+            y + highestRow + spacing
+            highestRow = 0
+            x = 1
+        EndIf
+        
+        x = x + gw + spacing
+    Next
+  Next
+  
+ StopDrawing()
+   
+ FreeImage(image)
+ FreeFont(font)
+ 
+ *width\i = calcSize
+ *height\i = calcSize
+ 
+ ProcedureReturn 1
+ 
+ exit: 
+
+ If hDC : StopDrawing() : EndIf
+ If image : FreeImage(image) : EndIf
+ If font : FreeFont(font) : EndIf
+  
+ ProcedureReturn 0
 EndProcedure
 
 ;- Public 
@@ -2503,6 +2606,16 @@ Procedure.i NextPowerOfTwo (value)
  EndIf    
 EndProcedure
 
+Procedure.i NextMultiple (value, multiple)
+;> Returns the next integer value which is a multiple of multiple.
+
+ ; Debug NextMultiple (8, 64) ; 64
+ ; Debug NextMultiple (253, 64) ; 256
+ ; Debug NextMultiple (65, 64) ; 128
+ 
+ ProcedureReturn value + (multiple - value % multiple)
+EndProcedure
+
 Procedure.i CreateTexelData (img)
 ;> Returns a pointer to TexelData containing the image data ready to be sent to an OpenGL texture.
 
@@ -3475,7 +3588,7 @@ Procedure.i SaveBitmapFontData (file$, *bmf.BitmapFontData)
  ProcedureReturn 0
 EndProcedure
 
-Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), width, height, spacing = 0)
+Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.BitmapFontRange(1), width = 0, height = 0, spacing = 0)
 ;> Returns an allocated BitmapFontData structure which can be used to display bitmapped fonts, or 0 in case of error.
 ; This function creates the bitmap font on the fly at runtime without the need of an external BMF.
 ; But keep in mind even using the same identical font on Windows and Linux the actual rendering will not be 100% the same and
@@ -3487,7 +3600,7 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
 ; fontSize is the size in points
 ; fontFlags are the PB constants used for LoadFont(), typically #Null or #PB_Font_Bold or #PB_Font_Italic
 ; ranges is an array of ranges of unicode chars to be included in the bitmap font 
-; width, height are the dimensions of the image to be created (and later texture) 
+; width, height are the dimensions of the image to be created, they can be left to zero to auto-size the image
 ; spacing is the number of pixels to be left unused around the glyph in the vertical and horizontal directions
 
 ; The function returns 0 if (width x height) results in an image too small to store all the glyphs.
@@ -3496,11 +3609,19 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
  Protected char$, code, gw, gh
  Protected font, *bmf.BitmapFontData, *glyph.GlyphData
  Protected range, ranges = ArraySize(ranges())
+
+ ASSERT ((width = 0 And height = 0) Or (width > 0 And height > 0))
+ 
+ If width = 0 And  height = 0 ; auto-size 
+    If calc_bitmapfontdata_size (fontName$, fontSize, fontFlags, ranges(), @width, @height, spacing) = 0
+        Goto exit
+    EndIf
+ EndIf
  
  font = LoadFont(#PB_Any, fontName$, fontSize, fontFlags)
  
  If font = 0 : Goto exit : EndIf 
- 
+  
  image = CreateImage(#PB_Any, width, height, 32, #PB_Image_Transparent)
  
  If image = 0 : Goto exit : EndIf
@@ -3607,13 +3728,13 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
  ProcedureReturn 0
 EndProcedure
 
-Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spacing = 0)
+Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spacing)
 ;> Returns an allocated BitmapFontData structure which can be used to display bitmapped fonts, or 0 in case of error.
 ; This function creates the bitmap font data from a strip of chars and a text file used for mapping the ascii codes to the sub images.
 
 ; file$ is the name of the image file containing the strip of chars
 ; fontSize is the size in points
-; width, height are the dimensions of the image to be created and later to be used as a texture
+; width, height are the dimensions of the image to be created
 ; spacing is the number of pixels to be left unused around the glyph in the vertical and horizontal directions
 ;
 ; The function returns 0 if (width x height) results in an image too small to store all the glyphs.
@@ -3781,7 +3902,7 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
   
  *bmf\fontName$ = fontName$
  *bmf\fontSize = fontSize
- *bmf\yOffset = highestFont + 2
+ *bmf\yOffset = highestFont + 1
  *bmf\italic = 0 ; always zero
  *bmf\bold = 0  ; always zero
  *bmf\image = image
@@ -4069,8 +4190,8 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 2299
-; FirstLine = 2275
+; CursorPosition = 3904
+; FirstLine = 3862
 ; Folding = ---------------------------------
 ; EnableXP
 ; EnableUser

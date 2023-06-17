@@ -231,7 +231,7 @@ Procedure MainLoop()
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128
  
- gFon1 = RenderText::CreateBitmapFont("Consolas", 10, #Null, ranges(), 256, 256)
+ gFon1 = RenderText::CreateBitmapFont("Consolas", 10, #Null, ranges())
  ASSERT(gFon1)
  
  gRandom = 1
@@ -288,9 +288,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 186
-; FirstLine = 172
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
+; CursorPosition = 233
+; FirstLine = 229
 ; Folding = --
 ; Optimizer
 ; EnableXP

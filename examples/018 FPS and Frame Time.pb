@@ -81,7 +81,7 @@ If sgl::Init()
         ranges(0)\firstChar  = 32
         ranges(0)\lastChar   = 128    
         
-        gFont = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256)
+        gFont = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges())
         
         ASSERT(font)
         
@@ -112,7 +112,7 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
 ; CursorPosition = 83
 ; FirstLine = 66
 ; Folding = -

@@ -93,7 +93,7 @@ Procedure Render()
     ; enable the line below to see the "blocks" signaling the missing glyphs
     ; ranges(2)\lastChar   = $0440
            
-    gFon = RenderText::CreateBitmapFont("Arial", 12, #Null, ranges(), 384, 384)
+    gFon = RenderText::CreateBitmapFont("Arial", 12, #Null, ranges())
     
     ASSERT(gFon)
     
@@ -158,9 +158,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 90
-; FirstLine = 41
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
+; CursorPosition = 95
+; FirstLine = 91
 ; Folding = --
 ; Optimizer
 ; EnableXP

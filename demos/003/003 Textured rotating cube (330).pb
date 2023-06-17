@@ -208,7 +208,7 @@ Procedure Startup()
         ranges(0)\firstChar  = 32
         ranges(0)\lastChar   = 128    
                 
-        gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256)
+        gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges())
                   
         gTimerRot = sgl::CreateTimer()
         gTimerFPS = sgl::CreateTimer()
@@ -328,9 +328,9 @@ EndProcedure
 
 Main()
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 255
-; FirstLine = 251
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
+; CursorPosition = 210
+; FirstLine = 206
 ; Folding = --
 ; EnableXP
 ; EnableUser

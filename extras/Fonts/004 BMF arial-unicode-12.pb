@@ -47,13 +47,13 @@ If sgl::Init()
     ranges(2)\firstChar  = $0400
     ranges(2)\lastChar   = $04FF
      
-    *bmf = sgl::CreateBitmapFontData(#FONT_NAME$, #FONT_SIZE, #FONT_FLAGS, ranges(), 384, 256)
-    
+    *bmf = sgl::CreateBitmapFontData(#FONT_NAME$, #FONT_SIZE, #FONT_FLAGS, ranges())    
+      
     If *bmf = 0
         Debug "Bitmap too small ..."
         Goto exit
     EndIf
-       
+          
     If sgl::SaveBitmapFontData(out$, *bmf)
         Debug "Saved to " + out$
     Else
@@ -65,8 +65,9 @@ exit:
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 19
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
+; CursorPosition = 55
+; FirstLine = 17
 ; EnableXP
 ; EnableUser
 ; CPU = 1

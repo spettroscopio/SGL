@@ -22,7 +22,7 @@ If sgl::Init()
     
     Define out$ = #BMF_FILE_DIR$ + #BMF_FILE_NAME$ + #BMF_FILE_EXT$
          
-    *bmf = sgl::CreateBitmapFontDataFromStrip (#BITMAP_STRIP$, #FONT_SIZE, 512, 384, 1)
+    *bmf = sgl::CreateBitmapFontDataFromStrip (#BITMAP_STRIP$, #FONT_SIZE, 384, 384, 2)
     
     If *bmf = 0
         Debug "Bitmap too small ..."
@@ -40,7 +40,7 @@ exit:
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
 ; CursorPosition = 24
 ; EnableXP
 ; EnableUser

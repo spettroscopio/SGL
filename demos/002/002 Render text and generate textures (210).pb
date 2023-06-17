@@ -137,8 +137,8 @@ Procedure Startup()
         ranges(0)\firstChar  = 32
         ranges(0)\lastChar   = 128    
                 
-        gFon1 = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256)
-        gFon2 = RenderText::CreateBitmapFont("Consolas", 12, #Null, ranges(), 256, 256)
+        gFon1 = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges())
+        gFon2 = RenderText::CreateBitmapFont("Consolas", 12, #Null, ranges())
         
         gScrollAccumX = 0 
         gScrollPixelsWidth = RenderText::GetTextWidth(gFon2, #SCROLL_TEXT$)        
@@ -308,9 +308,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 189
-; FirstLine = 185
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
+; CursorPosition = 139
+; FirstLine = 135
 ; Folding = --
 ; Optimizer
 ; EnableXP

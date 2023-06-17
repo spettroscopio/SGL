@@ -358,7 +358,7 @@ Procedure SetupData()
  ; Latin (ascii)
  ranges(0)\firstChar  = 32
  ranges(0)\lastChar   = 128               
- gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges(), 256, 256) 
+ gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges()) 
  ASSERT(gFon)
   
 EndProcedure
@@ -827,9 +827,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 550
-; FirstLine = 512
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
+; CursorPosition = 360
+; FirstLine = 356
 ; Folding = ---
 ; Optimizer
 ; EnableXP

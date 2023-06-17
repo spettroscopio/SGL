@@ -27,7 +27,7 @@ Declare     Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
 Declare     DestroyBitmapFont (*fon.BMFont)
 Declare.i   BuildBitmapFont (*bmf.sgl::BitmapFontData)
 Declare.i   LoadBitmapFont (file$)
-Declare.i   CreateBitmapFont (fontName$, fontSize, fontFlags,  Array ranges.sgl::BitmapFontRange(1), width, height)
+Declare.i   CreateBitmapFont (fontName$, fontSize, fontFlags,  Array ranges.sgl::BitmapFontRange(1), width = 0, height = 0)
 
 EndDeclareModule
 
@@ -321,7 +321,7 @@ Procedure.i LoadBitmapFont (file$)
  ProcedureReturn BuildBitmapFont(*bmf)
 EndProcedure
 
-Procedure.i CreateBitmapFont (fontName$, fontSize, fontFlags,  Array ranges.sgl::BitmapFontRange(1), width, height)
+Procedure.i CreateBitmapFont (fontName$, fontSize, fontFlags,  Array ranges.sgl::BitmapFontRange(1), width = 0, height = 0)
  Protected *bmf.sgl::BitmapFontData = sgl::CreateBitmapFontData(fontName$, fontSize, fontFlags, ranges(), width, height)
 
  ProcedureReturn BuildBitmapFont(*bmf)
@@ -337,9 +337,8 @@ EndDataSection
 
 EndModule
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 253
-; FirstLine = 227
+; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
+; CursorPosition = 30
 ; Folding = ---
 ; EnableXP
 ; EnableUser
