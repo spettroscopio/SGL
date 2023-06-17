@@ -3633,15 +3633,20 @@ Procedure.i CreateBitmapFontData (fontName$, fontSize, fontFlags, Array ranges.B
  hDC = StartDrawing(ImageOutput(image)) 
   DrawingFont(FontID(font))
   FrontColor(RGBA(255,255,255,255))
-  BackColor(RGBA(0,0,0,0))
-  DrawingMode(#PB_2DDrawing_AlphaBlend)
-  
+  BackColor(RGBA(0,0,0,0))  
+   
   x = 1 : y = 1
   
   ; BLOCK char for missing glyphs (a space in reverse)
   gw = TextWidth(" ")
   gh = TextHeight(" ")
+  
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
   Box(x, y, gw, gh)
+  DrawingMode(#PB_2DDrawing_Outlined)
+  Box(x, y, gw, gh, RGB(128,128,128))
+  
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
   
   ; fill up the metrics for the special BLOCK char
   *bmf\block\code = -1
@@ -3824,14 +3829,19 @@ Procedure.i CreateBitmapFontDataFromStrip (file$, fontSize, width, height, spaci
  hDC = StartDrawing(ImageOutput(image)) 
   FrontColor(RGBA(255,255,255,255))
   BackColor(RGBA(0,0,0,0))
-  DrawingMode(#PB_2DDrawing_AlphaBlend)
   
   x = 1 : y = 1
       
   ; BLOCK char for missing glyphs (a space in reverse)
   gw = ImageWidth(glyphs(spaceIndex)\image)
   gh = ImageHeight(glyphs(spaceIndex)\image)
+
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
   Box(x, y, gw, gh)
+  DrawingMode(#PB_2DDrawing_Outlined)
+  Box(x, y, gw, gh, RGB(128,128,128))
+  
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
   
   ; fill up the metrics for the special BLOCK char
   *bmf\block\code = -1
@@ -4190,8 +4200,8 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 3904
-; FirstLine = 3862
+; CursorPosition = 3646
+; FirstLine = 3611
 ; Folding = ---------------------------------
 ; EnableXP
 ; EnableUser
