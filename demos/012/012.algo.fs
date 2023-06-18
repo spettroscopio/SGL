@@ -28,5 +28,6 @@ void main() {
 		c[i] = 0.005 / length(mod(uv, 1.0) - 0.5);
 		c[i] = c[i] < 0.015 ? u_morph2 : c[i];
 	}
+	
 	fragColor = vec4(c/l, 1.0);	
 }
