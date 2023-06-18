@@ -174,7 +174,7 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 148
+; CursorPosition = 147
 ; FirstLine = 125
 ; Folding = --
 ; Optimizer

@@ -23,6 +23,7 @@ Declare.f   Absf (value.f) ; Returns the input but without the sign.
 Declare.i   GCD (a, b) ; Returns the greatest Common Divisor (GCD) for the two specified integers.
 Declare.i   LCM (a, b) ; Returns the Least Common Multiple (LCM) for the two specified integers.
 Declare.i   Cycle3i (value, min, max) ; Returns min if the input value is above max and max if the input value is below min.
+Declare.f   Cycle3f (value.f, min.f, max.f) ; Returns min if the input value is above max and max if the input value is below min.
 Declare.i   Clamp3i (value, min, max) ; Returns the input value clamped between min and max.
 Declare.f   Clamp3f (value.f, min.f, max.f) ; Returns the input value clamped between min and max.
 Declare.f   Fract (value.f) ; Returns the fractional part of value.
@@ -152,6 +153,20 @@ Procedure.i Cycle3i (value, min, max)
  ProcedureReturn value
 EndProcedure
 
+Procedure.f Cycle3f (value.f, min.f, max.f)
+;> Returns min if the input value is above max and max if the input value is below min.
+
+; Cycle (3.14, 1.0, 3.0) = 1.0
+; Cycle (-1.0, 1.0, 3.0) = 3.0
+
+ If value < min
+    value = max
+ ElseIf value > max 
+    value = min
+ EndIf
+ ProcedureReturn value
+EndProcedure
+
 Procedure.i Clamp3i (value, min, max)
 ;> Returns the input value clamped between min and max.
 
@@ -234,8 +249,8 @@ EndModule
 
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 34
-; Folding = ----
+; CursorPosition = 35
+; Folding = -----
 ; EnableXP
 ; EnableUser
 ; CPU = 1
