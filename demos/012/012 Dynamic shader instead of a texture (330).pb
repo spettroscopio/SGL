@@ -52,37 +52,37 @@ Procedure SetupData()
   Protected vbo, ibo
 
  Protected *vertex = sgl::StartData()   
-  ; 3 * vertex_pos + 2 * texture_coord + 1 * texture_unit
+  ; 3 * vertex_pos + 2 * texture_coord + 1
   
-  Data.f -1.0, -1.0,  1.0,   0.0, 0.0,   0.0 ; front 
-  Data.f  1.0, -1.0,  1.0,   1.0, 0.0,   0.0
-  Data.f  1.0,  1.0,  1.0,   1.0, 1.0,   0.0
-  Data.f -1.0,  1.0,  1.0,   0.0, 1.0,   0.0
+  Data.f -1.0, -1.0,  1.0,   0.0, 0.0
+  Data.f  1.0, -1.0,  1.0,   1.0, 0.0
+  Data.f  1.0,  1.0,  1.0,   1.0, 1.0
+  Data.f -1.0,  1.0,  1.0,   0.0, 1.0
                   
-  Data.f -1.0, -1.0, -1.0,   0.0, 1.0,   1.0 ; back 
-  Data.f -1.0,  1.0, -1.0,   0.0, 0.0,   1.0
-  Data.f  1.0,  1.0, -1.0,   1.0, 0.0,   1.0
-  Data.f  1.0, -1.0, -1.0,   1.0, 1.0,   1.0
+  Data.f -1.0, -1.0, -1.0,   0.0, 1.0
+  Data.f -1.0,  1.0, -1.0,   0.0, 0.0
+  Data.f  1.0,  1.0, -1.0,   1.0, 0.0
+  Data.f  1.0, -1.0, -1.0,   1.0, 1.0
                   
-  Data.f -1.0,  1.0, -1.0,   0.0, 1.0,   2.0 ; top
-  Data.f -1.0,  1.0,  1.0,   0.0, 0.0,   2.0
-  Data.f  1.0,  1.0,  1.0,   1.0, 0.0,   2.0
-  Data.f  1.0,  1.0, -1.0,   1.0, 1.0,   2.0
+  Data.f -1.0,  1.0, -1.0,   0.0, 1.0
+  Data.f -1.0,  1.0,  1.0,   0.0, 0.0
+  Data.f  1.0,  1.0,  1.0,   1.0, 0.0
+  Data.f  1.0,  1.0, -1.0,   1.0, 1.0
                   
-  Data.f -1.0, -1.0, -1.0,   0.0, 0.0,   3.0 ; bottom
-  Data.f  1.0, -1.0, -1.0,   1.0, 0.0,   3.0
-  Data.f  1.0, -1.0,  1.0,   1.0, 1.0,   3.0
-  Data.f -1.0, -1.0,  1.0,   0.0, 1.0,   3.0
+  Data.f -1.0, -1.0, -1.0,   0.0, 0.0
+  Data.f  1.0, -1.0, -1.0,   1.0, 0.0
+  Data.f  1.0, -1.0,  1.0,   1.0, 1.0
+  Data.f -1.0, -1.0,  1.0,   0.0, 1.0
                   
-  Data.f  1.0, -1.0, -1.0,   1.0, 0.0,   4.0 ; right
-  Data.f  1.0,  1.0, -1.0,   1.0, 1.0,   4.0
-  Data.f  1.0,  1.0,  1.0,   0.0, 1.0,   4.0
-  Data.f  1.0, -1.0,  1.0,   0.0, 0.0,   4.0
+  Data.f  1.0, -1.0, -1.0,   1.0, 0.0
+  Data.f  1.0,  1.0, -1.0,   1.0, 1.0
+  Data.f  1.0,  1.0,  1.0,   0.0, 1.0
+  Data.f  1.0, -1.0,  1.0,   0.0, 0.0
                   
-  Data.f -1.0, -1.0, -1.0,   0.0, 0.0,   5.0 ; left
-  Data.f -1.0, -1.0,  1.0,   1.0, 0.0,   5.0
-  Data.f -1.0,  1.0,  1.0,   1.0, 1.0,   5.0
-  Data.f -1.0,  1.0, -1.0,   0.0, 1.0,   5.0
+  Data.f -1.0, -1.0, -1.0,   0.0, 0.0
+  Data.f -1.0, -1.0,  1.0,   1.0, 0.0
+  Data.f -1.0,  1.0,  1.0,   1.0, 1.0
+  Data.f -1.0,  1.0, -1.0,   0.0, 1.0
  sgl::StopData()
     
  ; using indices to draw a quad
@@ -102,17 +102,14 @@ Procedure SetupData()
  ; vertex buffer
  glGenBuffers_(1, @vbo)
  glBindBuffer_(#GL_ARRAY_BUFFER, vbo)
- ; 24 vertices made by 6 floats each
- glBufferData_(#GL_ARRAY_BUFFER, 24 * 6 * SizeOf(Float), *vertex, #GL_STATIC_DRAW)
+ ; 24 vertices made by 5 floats each
+ glBufferData_(#GL_ARRAY_BUFFER, 24 * 5 * SizeOf(Float), *vertex, #GL_STATIC_DRAW)
 
  glEnableVertexAttribArray_(0) ; point coords
- glVertexAttribPointer_(0, 3, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 0)
+ glVertexAttribPointer_(0, 3, #GL_FLOAT, #GL_FALSE, 5 * SizeOf(Float), 0)
  
  glEnableVertexAttribArray_(1) ; texture coords
- glVertexAttribPointer_(1, 2, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 3 * SizeOf(Float))
-
- glEnableVertexAttribArray_(2) ; texture unit
- glVertexAttribPointer_(2, 1, #GL_FLOAT, #GL_FALSE, 6 * SizeOf(Float), 5 * SizeOf(Float))
+ glVertexAttribPointer_(1, 2, #GL_FLOAT, #GL_FALSE, 5 * SizeOf(Float), 3 * SizeOf(Float))
 
  ; index buffer
  glGenBuffers_(1, @ibo)
@@ -319,8 +316,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 12
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 121
+; FirstLine = 74
 ; Folding = --
 ; EnableXP
 ; EnableUser
