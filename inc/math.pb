@@ -29,7 +29,7 @@ Declare.f   Clamp3f (value.f, min.f, max.f) ; Returns the input value clamped be
 Declare.f   Fract (value.f) ; Returns the fractional part of value.
 Declare.i   Ceiling (value.f) ; Returns the integer number just above or equal to value.
 Declare.i   Floorf (value.f) ; Returns the integer number just below or equal to value.
-Declare.f   Mix3f (a.f, b.f, mixing.f) ; Mixes a and b accordingly to the value of mixing (0.0-1.0) acting like a mixing slider from left to right.
+Declare.f   Lerp3f (a.f, b.f, factor.f) ; Interpolate a and b accordingly to the value of factor (0.0-1.0) acting like a mixing slider from left to right.
 Declare.i   MapToRange5i (val, low, high, new_low, new_high) ; Maps val in the range low ... high to the new range new_low ... new_high.
 Declare.f   MapToRange5f (val.f, low.f, high.f, new_low.f, new_high.f) ; Maps val in the range low ... high to the new range new_low ... new_high.
 Declare.i   CloseEnough3f (a.f, b.f, epsilon.f) ; Compares two floats using the specified absolute tolerance, returns 1 if "equal" else 0.
@@ -211,13 +211,13 @@ Procedure.i Floorf (value.f)
  ProcedureReturn Round(value, #PB_Round_Down)
 EndProcedure
 
-Procedure.f Mix3f (a.f, b.f, mixing.f) 
-;> Mixes a and b accordingly to the value of mixing (0.0-1.0) acting like a mixing slider from left to right.
+Procedure.f Lerp3f (a.f, b.f, factor.f) 
+;> Interpolate a and b accordingly to the value of factor (0.0-1.0) acting like a mixing slider from left to right.
 
 ; 0.0 keeps only 'a' (slider all to the left), 1.0 keeps only 'b' (slider all to the right)
-; Mix3f (200, 128, 0.5) = 164.0
+; Lerp3f (200, 128, 0.5) = 164.0
  
- ProcedureReturn (a * (1.0 - mixing)) + (b * mixing);
+ ProcedureReturn (a * (1.0 - factor)) + (b * factor);
 EndProcedure
 
 Procedure.i MapToRange5i (val, low, high, new_low, new_high)
@@ -247,9 +247,9 @@ EndProcedure
 
 EndModule
 
-
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 35
+; CursorPosition = 248
+; FirstLine = 199
 ; Folding = -----
 ; EnableXP
 ; EnableUser
