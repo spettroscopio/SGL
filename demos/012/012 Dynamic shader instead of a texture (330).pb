@@ -285,7 +285,6 @@ Procedure Render()
  text$ = sgl::GetRenderer()
  RenderText::Render(gWin, gFon, text$, x, y, color)
  
- Debug time
  If time > 30.0
     sgl::ResetTimer(gTimer)
  EndIf
@@ -321,9 +320,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 287
-; FirstLine = 249
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 286
+; FirstLine = 272
 ; Folding = --
 ; EnableXP
 ; EnableUser
