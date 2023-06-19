@@ -24,7 +24,7 @@ void main() {
 		p -= 0.5;
 		// p.x *= ratio;
 		l = length(p);
-		uv += p / l * (sin(t*2.0) + 1.0) * abs(sin(l * u_morph1 - t));
+		uv += p / l * (sin(t*u_morph1) + 1.0) * abs(sin(l * u_morph1 - t));
 		c[i] = 0.005 / length(mod(uv, 1.0) - 0.5);
 		c[i] = c[i] < 0.015 ? u_morph2 : c[i];
 	}

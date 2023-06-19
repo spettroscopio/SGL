@@ -201,7 +201,7 @@ Procedure Render()
  
  Static rot.f
  Static morph1.f = 1.0
- Static morph2.f = 0.5
+ Static morph2.f = 0.25
  Static morph2Inc.f = 0.15
 
  glClearColor_(0.25,0.25,0.5,1.0)
@@ -215,14 +215,14 @@ Procedure Render()
  
  delta = sgl::GetDeltaTime(gTimer)
  
- morph1 = math::Cycle3f(morph1, 1.0, 9.0) 
+ morph1 = math::Cycle3f(morph1, 1.0, 8.0) 
  morph1 + delta * 0.1
 
  If morph2 > 0.75
     morph2Inc = -0.15
  EndIf
  
- If morph2 < -0.25    
+ If morph2 < -0.5    
     morph2Inc = 0.15
  EndIf
  
@@ -233,7 +233,7 @@ Procedure Render()
  
  ; model (the cube will rotate at the origin)
  m4x4::Identity(model)
- m4x4::RotateX(model, -20.0)
+ m4x4::RotateX(model, -25.0)
  m4x4::RotateY(model, rot)
   
  ; view 
@@ -285,6 +285,11 @@ Procedure Render()
  text$ = sgl::GetRenderer()
  RenderText::Render(gWin, gFon, text$, x, y, color)
  
+ Debug time
+ If time > 30.0
+    sgl::ResetTimer(gTimer)
+ EndIf
+ 
  sgl::SwapBuffers(gWin)
 EndProcedure
 
@@ -317,8 +322,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 121
-; FirstLine = 74
+; CursorPosition = 287
+; FirstLine = 249
 ; Folding = --
 ; EnableXP
 ; EnableUser
