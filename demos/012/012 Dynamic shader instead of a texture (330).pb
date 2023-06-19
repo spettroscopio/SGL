@@ -158,7 +158,7 @@ Procedure SetupContext()
      sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_MAJOR, 3)
      sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_MINOR, 3)
      sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_PROFILE, sgl::#PROFILE_CORE)     
-     sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_DEBUG, 1)
+     sgl::SetWindowHint(sgl::#HINT_WIN_OPENGL_DEBUG, 1)    
            
      gWin = sgl::CreateWindow(#WIN_WIDTH, #WIN_HEIGHT, #TITLE$)
      
@@ -177,7 +177,7 @@ Procedure SetupContext()
             Debug "OpenGL debug output is not available !"
         EndIf   
              
-        sgl::EnableVSYNC(#VSYNC)
+        sgl::EnableVSYNC(#VSYNC)                
         
         ProcedureReturn 
     EndIf
@@ -321,8 +321,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 286
-; FirstLine = 272
+; CursorPosition = 160
+; FirstLine = 153
 ; Folding = --
 ; EnableXP
 ; EnableUser

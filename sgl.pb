@@ -2483,7 +2483,13 @@ Procedure.i GetSysInfo (Array sysInfo$(1))
     
     glGetIntegerv_(#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS , @temp)
     AddElement(SGL\sysInfo$())
-    SGL\sysInfo$() = "#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS : " + Str(temp)    
+    SGL\sysInfo$() = "#GL_MAX_FRAGMENT_UNIFORM_COMPONENTS : " + Str(temp)   
+ EndIf
+
+ If sgl::GetContextVersionToken() >= 300
+    glGetIntegerv_(#GL_MAX_ARRAY_TEXTURE_LAYERS, @temp)
+    AddElement(SGL\sysInfo$())
+    SGL\sysInfo$() = "#GL_MAX_ARRAY_TEXTURE_LAYERS : " + Str(temp)    
  EndIf
 
  AddElement(SGL\sysInfo$())
@@ -4200,8 +4206,8 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 3646
-; FirstLine = 3611
+; CursorPosition = 2483
+; FirstLine = 2449
 ; Folding = ---------------------------------
 ; EnableXP
 ; EnableUser
