@@ -62,6 +62,6 @@ EndIf
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = \mnt\WIN10\Documents and Settings\luis\Desktop\Share\sgl\sysinfo\sysinfo
+; Executable = C:\Users\luis\Desktop\Share\sgl\sysinfo\windows\sysinfo.exe
 ; CPU = 1
 ; CompileSourceDirectory

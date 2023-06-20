@@ -7,7 +7,7 @@ IncludeFile "../../sgl.config.pbi"
 IncludeFile "../../sgl.pbi"
 IncludeFile "../../sgl.pb"
 
-IncludeFile "../RenderText_330/RenderText.pb"
+IncludeFile "../RenderText/RenderText.pb"
 
 IncludeFile "BatchRenderer.pb"
 
@@ -187,9 +187,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 153
-; FirstLine = 141
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 9
+; FirstLine = 5
 ; Folding = --
 ; Optimizer
 ; EnableXP

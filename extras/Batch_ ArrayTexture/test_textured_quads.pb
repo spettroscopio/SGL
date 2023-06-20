@@ -11,7 +11,7 @@ IncludeFile "../RenderText/RenderText.pb"
 
 IncludeFile "BatchRenderer.pb"
 
-#TITLE$ = "Textured Quad Batch Renderer"
+#TITLE$ = "Textured Quad Batch Renderer using Array Textures"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 0
@@ -61,25 +61,28 @@ Procedure.i BuildTex (id)
     Case 8 
         img = sgl::CreateImage_Checkers(#QUAD_SIZE, #QUAD_SIZE, #QUAD_SIZE / 6, #QUAD_SIZE / 6, RGB(0,0,255), RGB(224,224,224)) 
     Case 9 
-        img = sgl::CreateImage_RGB(#QUAD_SIZE, #QUAD_SIZE, 0) 
-        
+        img = sgl::CreateImage_RGB(#QUAD_SIZE, #QUAD_SIZE, 0)         
+    
     Case 10
         img = sgl::CreateImage_Checkers(128, 128, 32, 32, RGB(64,64,255), RGB(0,255,0), 192, 192)
  EndSelect
   
  *td = sgl::CreateTexelData (img)
-  
- glGenTextures_(1, @texture) 
- glBindTexture_(#GL_TEXTURE_2D, texture)
  
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
+ glGenTextures_(1, @texture)
+ glBindTexture_(#GL_TEXTURE_2D_ARRAY, texture)
  
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR)
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
-  
- glTexImage2D_(#GL_TEXTURE_2D, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
+ ; this define how many layers (subtextures) will be present in the Array Texture
+ ; the third "1" after the width x height dimensions is used in this case
  
+ glTexImage3D_(#GL_TEXTURE_2D_ARRAY, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 1, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
+
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
+
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR)
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
+
  FreeImage(img)
  sgl::DestroyTexelData(*td)
  

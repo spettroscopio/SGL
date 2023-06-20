@@ -7,7 +7,7 @@ IncludeFile "../../sgl.config.pbi"
 IncludeFile "../../sgl.pbi"
 IncludeFile "../../sgl.pb"
 
-IncludeFile "../../extras/RenderText_330/RenderText.pb"
+IncludeFile "../../extras/RenderText/RenderText.pb"
 IncludeFile "../../extras/Camera/ArcBall.pb"
 
 UseModule gl
@@ -405,9 +405,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 222
-; FirstLine = 218
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 9
+; FirstLine = 5
 ; Folding = --
 ; EnableXP
 ; EnableUser

@@ -17,7 +17,7 @@ IncludeFile "../../sgl.config.pbi"
 IncludeFile "../../sgl.pbi"
 IncludeFile "../../sgl.pb"
 
-IncludeFile "../../extras/RenderText_330/RenderText.pb"
+IncludeFile "../../extras/RenderText/RenderText.pb"
 
 UseModule gl
 
@@ -749,9 +749,9 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 358
-; FirstLine = 354
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 19
+; FirstLine = 15
 ; Folding = ---
 ; Optimizer
 ; EnableXP

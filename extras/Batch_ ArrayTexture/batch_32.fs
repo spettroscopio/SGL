@@ -1,18 +1,21 @@
 #version 330 core
 
-in vec2  v_texCoord;
+in vec3  v_texCoord;
 in vec4  v_color;
 in float v_texUnit;
 
-uniform sampler2D u_texUnits [32]; // max 32 texture units supported 
-
 out vec4 fragColor;
 
-vec4 SampleFromUnit (float texUnit, vec2 texCoord)
+uniform sampler2DArray u_texUnits [32]; // max 32 texture units supported 
+
+vec4 SampleFromUnit (float texUnit, vec3 texCoord)
 {    
  vec4 c;
  int index = int(texUnit);
-
+ 
+ // the x, y of v_texCoord are the usual texture coordinates
+ // the z of v_texCoord select the subtexture inside the 2D Array Texture
+ 
  switch (index) {
     case 0:
         c = texture (u_texUnits[0], texCoord);
@@ -110,11 +113,12 @@ vec4 SampleFromUnit (float texUnit, vec2 texCoord)
     case 31:
         c = texture (u_texUnits[31], texCoord);
         break;        
-    } 
+ } 
        
-    return c;
+ return c;
 }
 
 void main () {    
  fragColor = SampleFromUnit (v_texUnit, v_texCoord) * v_color; 
 }
+
