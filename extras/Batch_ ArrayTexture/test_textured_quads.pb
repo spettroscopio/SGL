@@ -36,6 +36,47 @@ Procedure CallBack_Error (source$, desc$)
  Debug "[" + source$ + "] " + desc$
 EndProcedure
 
+Procedure.i BuildAlphaTexture()
+ Protected *td.sgl::TexelData
+ Protected img1, img2, img3, texture, layer
+
+ img1 = sgl::CreateImage_DiceFace(128, 128, 1, RGB(0,0,0), RGB(0,0,255), 255, 96)
+ img2 = sgl::CreateImage_DiceFace(128, 128, 2, RGB(0,0,0), RGB(0,0,255), 255, 96)
+ img3 = sgl::CreateImage_DiceFace(128, 128, 3, RGB(0,0,0), RGB(0,0,255), 255, 96)
+  
+ *td = sgl::CreateTexelData (img1)
+ 
+ glGenTextures_(1, @texture)
+ glBindTexture_(#GL_TEXTURE_2D_ARRAY, texture) 
+ glTexImage3D_(#GL_TEXTURE_2D_ARRAY, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 3, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, #Null)
+
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
+
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR)
+ glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
+
+ layer = 0
+ glTexSubImage3D_(#GL_TEXTURE_2D_ARRAY, 0, 0, 0, layer, *td\imageWidth, *td\imageHeight, 1, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels) 
+ sgl::DestroyTexelData(*td)
+ 
+ *td = sgl::CreateTexelData (img2)
+ layer = 1
+ glTexSubImage3D_(#GL_TEXTURE_2D_ARRAY, 0, 0, 0, layer , *td\imageWidth, *td\imageHeight, 1, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels) 
+ sgl::DestroyTexelData(*td)
+ 
+ *td = sgl::CreateTexelData (img3)
+ layer = 2
+ glTexSubImage3D_(#GL_TEXTURE_2D_ARRAY, 0, 0, 0, layer , *td\imageWidth, *td\imageHeight, 1, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels) 
+ sgl::DestroyTexelData(*td)
+ 
+ FreeImage(img1)
+ FreeImage(img2)
+ FreeImage(img3)
+ 
+ ProcedureReturn texture
+EndProcedure
+
 Procedure.i BuildTex (id)
  Protected *td.sgl::TexelData
  Protected img, texture
@@ -62,9 +103,6 @@ Procedure.i BuildTex (id)
         img = sgl::CreateImage_Checkers(#QUAD_SIZE, #QUAD_SIZE, #QUAD_SIZE / 6, #QUAD_SIZE / 6, RGB(0,0,255), RGB(224,224,224)) 
     Case 9 
         img = sgl::CreateImage_RGB(#QUAD_SIZE, #QUAD_SIZE, 0)         
-    
-    Case 10
-        img = sgl::CreateImage_Checkers(128, 128, 32, 32, RGB(64,64,255), RGB(0,255,0), 192, 192)
  EndSelect
   
  *td = sgl::CreateTexelData (img)
@@ -135,6 +173,8 @@ Procedure Render()
  Protected.m4x4::m4x4 projection
  Protected fh = RenderText::GetFontHeight(gFon1)
  Protected delta.f
+ 
+ Static layer, layerTime.f
   
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
  
@@ -148,7 +188,9 @@ Procedure Render()
  
  ; timestep
  delta = sgl::GetDeltaTime(gTimer)
-
+ 
+ layerTime + delta
+ 
  BatchRenderer::StartRenderer(projection)
   
  BatchRenderer::StartBatch()
@@ -187,7 +229,12 @@ Procedure Render()
     alpha_inc = -alpha_inc
   EndIf
   
-  BatchRenderer::DrawQuad(alpha_x, 100, 128, 128, qc, gAlphaTexture)
+  If layerTime > 1.0
+    layerTime = 0.0
+    layer = math::Cycle3i(layer + 1, 0, 2)
+  EndIf
+  
+  BatchRenderer::DrawQuad(alpha_x, 100, 128, 128, qc, gAlphaTexture, layer)
   
   ; info area semi transparent
   vec4::Set(qc, 0.0, 0.0, 1.0, 0.8)
@@ -252,7 +299,7 @@ Procedure MainLoop()
  gGenTextures(8) = BuildTex (8)
  gGenTextures(9) = BuildTex (9)
  
- gAlphaTexture = BuildTex (10)
+ gAlphaTexture = BuildAlphaTexture()
  
  gTimer = sgl::CreateTimer()
    
@@ -291,9 +338,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 12
-; FirstLine = 5
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 232
+; FirstLine = 195
 ; Folding = --
 ; Optimizer
 ; EnableXP

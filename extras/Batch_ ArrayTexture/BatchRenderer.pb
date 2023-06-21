@@ -1,4 +1,6 @@
 ﻿; Batch Renderer for Quads but using Array Textures (#GL_TEXTURE_2D_ARRAY) instead of normal textures (#GL_TEXTURE_2D).
+; DrawQuad has a further parameter which is the layer (or index of the array of textures)
+; DrawQuadAtlas uses the third element of the texCoord vec3 to specify the layer 
 
 EnableExplicit
 
@@ -24,8 +26,8 @@ Declare     StartRenderer (*projection.m4x4::m4x4)
 Declare     StartBatch()
 Declare     StopBatch()
 Declare     Flush()
-Declare     DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
-Declare     DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec2::vec2)
+Declare     DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0, layer = 0)
+Declare     DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec3::vec3)
 
 EndDeclareModule
 
@@ -362,7 +364,7 @@ Procedure Flush()
  BATCH\drawCalls + 1
 EndProcedure
 
-Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
+Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0, layer = 0)
  Protected unit
  
  unit = check_if_flushing_required (texture)
@@ -371,7 +373,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  BATCH\DataPointer\v1\yPos = y
  BATCH\DataPointer\v1\texCoord\x = 0.0
  BATCH\DataPointer\v1\texCoord\y = 0.0
- BATCH\DataPointer\v1\texCoord\z = 0.0
+ BATCH\DataPointer\v1\texCoord\z = layer 
  BATCH\DataPointer\v1\color\x = *color\x
  BATCH\DataPointer\v1\color\y = *color\y
  BATCH\DataPointer\v1\color\z = *color\z
@@ -382,7 +384,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  BATCH\DataPointer\v2\yPos = y
  BATCH\DataPointer\v2\texCoord\x = 1.0
  BATCH\DataPointer\v2\texCoord\y = 0.0
- BATCH\DataPointer\v2\texCoord\z = 0.0
+ BATCH\DataPointer\v2\texCoord\z = layer 
  BATCH\DataPointer\v2\color\x = *color\x
  BATCH\DataPointer\v2\color\y = *color\y
  BATCH\DataPointer\v2\color\z = *color\z
@@ -393,7 +395,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  BATCH\DataPointer\v3\yPos = y + h
  BATCH\DataPointer\v3\texCoord\x = 1.0
  BATCH\DataPointer\v3\texCoord\y = 1.0
- BATCH\DataPointer\v3\texCoord\z = 0.0
+ BATCH\DataPointer\v3\texCoord\z = layer 
  BATCH\DataPointer\v3\color\x = *color\x
  BATCH\DataPointer\v3\color\y = *color\y
  BATCH\DataPointer\v3\color\z = *color\z
@@ -404,7 +406,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  BATCH\DataPointer\v4\yPos = y + h
  BATCH\DataPointer\v4\texCoord\x = 0.0
  BATCH\DataPointer\v4\texCoord\y = 1.0
- BATCH\DataPointer\v4\texCoord\z = 0.0
+ BATCH\DataPointer\v4\texCoord\z = layer 
  BATCH\DataPointer\v4\color\x = *color\x
  BATCH\DataPointer\v4\color\y = *color\y
  BATCH\DataPointer\v4\color\z = *color\z
@@ -495,8 +497,7 @@ EndModule
 
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 88
-; FirstLine = 67
+; CursorPosition = 4
 ; Folding = ----
 ; EnableXP
 ; EnableUser
