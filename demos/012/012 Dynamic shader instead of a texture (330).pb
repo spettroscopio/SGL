@@ -326,6 +326,6 @@ EndProcedure : Main()
 ; Folding = --
 ; EnableXP
 ; EnableUser
-; Executable = C:\Users\luis\Desktop\Share\sgl\012.exe
+; Executable = C:\Users\luis\Desktop\Share\sgl\012\012.exe
 ; CPU = 1
 ; CompileSourceDirectory

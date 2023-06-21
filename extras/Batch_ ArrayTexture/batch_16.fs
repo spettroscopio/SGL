@@ -8,7 +8,7 @@ out vec4 fragColor;
 
 uniform sampler2DArray u_texUnits [16]; // max 16 texture units supported 
 
-vec4 SampleFromUnit (in float texUnit, vec3 texCoord)
+vec4 SampleFromUnit (float texUnit, vec3 texCoord)
 {    
  vec4 c;
  int index = int(texUnit);

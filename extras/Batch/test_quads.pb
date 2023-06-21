@@ -7,9 +7,9 @@ IncludeFile "../../sgl.config.pbi"
 IncludeFile "../../sgl.pbi"
 IncludeFile "../../sgl.pb"
 
-IncludeFile "../RenderText/RenderText.pb"
-
 IncludeFile "BatchRenderer.pb"
+
+IncludeFile "../RenderText/RenderText.pb"
 
 #TITLE$ = "Quad Batch Renderer"
 #WIN_WIDTH = 1024
@@ -187,8 +187,8 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 9
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 11
 ; FirstLine = 5
 ; Folding = --
 ; Optimizer
