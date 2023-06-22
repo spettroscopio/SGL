@@ -95,11 +95,11 @@ If sgl::Init()
     i = CreateNormalMap(512, 512, normal) ; normals pointing towards the observer
     Debug ValidateNormalMap(i)
     
-    vec3::Set(normal, 0.0, 1.0, 1.0)
+    vec3::Set(normal, 1.0, 0.0, 1.0)
     i = CreateNormalMap(512, 512, normal) ; normals pointing somewhat to the right of the observer    
     Debug ValidateNormalMap(i)
     
-    vec3::Set(normal, 0.0, -1.0, 1.0)
+    vec3::Set(normal, -1.0, 0.0, 1.0)
     i = CreateNormalMap(512, 512, normal) ; normals pointing somewhat to the left of the observer    
     Debug ValidateNormalMap(i)
     
@@ -107,9 +107,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 75
-; FirstLine = 60
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 101
+; FirstLine = 58
 ; Folding = -
 ; EnableXP
 ; EnableUser
