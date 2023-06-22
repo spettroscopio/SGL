@@ -125,12 +125,7 @@ Procedure Versor (*Quat.quat, *Axis.vec3::vec3, angle.f)
 EndProcedure
 
 Procedure Identity (*Quat.quat)
-;> Set the the quaternion to an identity versor.
- 
- ;Protected.vec3::vec3 vec
- 
- ;vec3::Zero(vec) 
- ;quat::Versor(*Quat, vec, 0.0)
+;> Set the the quaternion to an identity versor. 
  quat::Set(*Quat, 1.0, 0.0, 0.0, 0.0)
 EndProcedure
 
@@ -168,9 +163,11 @@ Procedure RotateVec (*Vector.vec3::vec3,  *RotationAxis.vec3::vec3, angle.f, *Ro
  Set(VecAsQuat, 0.0, *Vector\x, *Vector\y, *Vector\z)
  
  ; creates the versor representing a rotation around RotationAxis by angle degrees
- Versor (Versor, *RotationAxis, angle) 
+ Versor (Versor, *RotationAxis, angle)
+  
  ; creates the negation of the versor above
- Conjugate(Versor, ConjugatedVersor) 
+ Conjugate(Versor, ConjugatedVersor)
+ 
  ; this is the "sandwich" to rotate a point vector: Versor * Point * Conj.Versor = Rotated Point
  Multiply(Versor, VecAsQuat, Rotated) ; Versor * Point ...
  Multiply(Rotated, ConjugatedVersor, Rotated) ; ... * Conj.Versor 
@@ -204,9 +201,9 @@ vec4::Dump(p) ; (1.00, 0.00, 0.00, 0.00)
 CompilerEndIf
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 120
-; FirstLine = 115
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 90
+; FirstLine = 111
 ; Folding = ---
 ; Markers = 15
 ; EnableXP
