@@ -100,7 +100,6 @@ Structure SGL_TRACK_FRAME_TIME
  frameTimeAccum.f 
 EndStructure
 
-
 Structure SGL_OBJ
  initialized.i
   
@@ -747,7 +746,7 @@ ProcedureC callback_window_size (win, width.l, height.l)
  EndIf
 EndProcedure
 
-ProcedureC callback_window_focus (win, focused.l)
+ProcedureC callback_window_focus (win, focused.l) 
  If SGL\fpCallBack_WindowFocus
     SGL\fpCallBack_WindowFocus(win, focused)
  EndIf
@@ -813,8 +812,11 @@ ProcedureC callback_window_char (win, char)
 EndProcedure
 
 ProcedureC callback_window_cursor_position (win, x.d, y.d)
+ Protected xi, yi
  If SGL\fpCallBack_CursorPos
-    SGL\fpCallBack_CursorPos(win, x, y)
+    xi = Round(x, #PB_Round_Down)
+    yi = Round(y, #PB_Round_Down)
+    SGL\fpCallBack_CursorPos(win, xi, yi)
  EndIf 
 EndProcedure
 
@@ -1651,13 +1653,18 @@ Procedure GetMouseScroll (*xOffset.Double, *yOffset.Double)
  *yOffset\d = SGL\Mouse\scrollOffsetY
 EndProcedure
 
-Procedure.i GetCursorPos (win, *x.Double, *y.Double)
+Procedure.i GetCursorPos (win, *x.Integer, *y.Integer)
 ;> Get the position of the cursor in screen coordinates relative to the upper-left corner of the client area of the specified window. 
 ; If the cursor is disabled then the cursor position is unbounded.
- glfwGetCursorPos(win, *x, *y)
+ Protected.d x, y
+ 
+ glfwGetCursorPos(win, @x, @y)
+ 
+ *x\i = Round(x, #PB_Round_Down)
+ *y\i = Round(y, #PB_Round_Down)
 EndProcedure
 
-Procedure SetCursorPos (win, x.d, y.d)
+Procedure SetCursorPos (win, x, y)
 ;> Set the position of the cursor in screen coordinates relative to the upper-left corner of the client area of the specified window. 
 ; The window must have input focus else the function fails silently.
  glfwSetCursorPos(win, x, y)
@@ -1833,12 +1840,9 @@ Procedure.i CreateWindowXY (x, y, w, h, title$, share = #Null)
  
  glfwWindowHint(#GLFW_VISIBLE, 0)
  
- win = glfwCreateWindow(w, h, title$, #Null, share)
+ win = CreateWindow (w, h, title$, #Null, share)
  
  If win
-    SetWindowDefaultIcon (win)
-    glfwSetKeyCallback(win, @callback_window_key())
-    glfwSetCharCallback(win, @callback_window_char())    
     SetWindowPos(win, x, y)
     ShowWindow(win, SGL\hintWinVisible)
  EndIf 
@@ -4206,9 +4210,10 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 2483
-; FirstLine = 2449
+; CursorPosition = 37
+; FirstLine = 34
 ; Folding = ---------------------------------
+; Markers = 748
 ; EnableXP
 ; EnableUser
 ; UseMainFile = examples\001 Minimal.pb

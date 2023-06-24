@@ -33,17 +33,6 @@ Module RenderText
 UseModule dbg
 
 UseModule gl
-
-Structure QuadVertex
- x.f
- y.f
- s.f
- t.f
-EndStructure
-  
-Structure QuadIndices
- index.l[6]
-EndStructure
  
 Procedure.i FindGlyph (*fon.BMFont, charCode)   
  Protected *glyph
@@ -198,9 +187,10 @@ EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 150
-; Folding = ---
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 35
+; FirstLine = 26
+; Folding = --
 ; EnableXP
 ; EnableUser
 ; CPU = 1

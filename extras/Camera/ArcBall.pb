@@ -102,8 +102,8 @@ EndProcedure
 
 Procedure Update (*camera.ArcBall, delta.f)
  Protected offsetX.d, offsetY.d
- Protected w, h 
- Protected x.d, y.d, nx.f, ny.f, nz.f
+ Protected w, h, x, y 
+ Protected nx.f, ny.f, nz.f
  Protected dot.f, angle.f, len.f
  Protected scrollOffsetX.d, scrollOffsetY.d
  
@@ -130,8 +130,8 @@ Procedure Update (*camera.ArcBall, delta.f)
     Reset(*camera)
  EndIf
  
- x = math::Clamp3f(x, 0.0, w)
- y = math::Clamp3f(y, 0.0, h)
+ x = math::Clamp3i(x, 0, w)
+ y = math::Clamp3i(y, 0, h)
 
  offsetX = x - *camera\lastMouseX 
  offsetY = y - *camera\lastMouseY 
@@ -214,9 +214,9 @@ EndModule
 
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 169
-; FirstLine = 164
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 135
+; FirstLine = 95
 ; Folding = --
 ; EnableXP
 ; EnableUser

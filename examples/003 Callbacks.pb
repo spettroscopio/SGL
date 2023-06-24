@@ -220,9 +220,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 157
-; FirstLine = 157
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 206
+; FirstLine = 166
 ; Folding = ----
 ; EnableXP
 ; EnableUser

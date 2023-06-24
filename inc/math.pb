@@ -246,9 +246,8 @@ Procedure.i CloseEnough3f (a.f, b.f, epsilon.f)
 EndProcedure
 
 EndModule
-
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 248
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 210
 ; FirstLine = 199
 ; Folding = -----
 ; EnableXP

@@ -123,7 +123,7 @@ Procedure Update (*camera.CameraFPS, delta.f)
  Protected.vec3::vec3 move
  Protected.vec3::vec3 right, left
  Protected rad_yaw.f, rad_pitch.f
- Protected x.d, y.d, offsetX.d, offsetY.d
+ Protected x, y, offsetX.d, offsetY.d
  
  sgl::GetCursorPos(*camera\win, @x, @y)
  
@@ -221,9 +221,9 @@ EndProcedure
 EndModule
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 115
-; FirstLine = 110
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 147
+; FirstLine = 105
 ; Folding = --
 ; EnableXP
 ; EnableUser
