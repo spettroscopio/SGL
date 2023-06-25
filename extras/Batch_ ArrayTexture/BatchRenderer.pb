@@ -22,7 +22,7 @@ Declare     GetStats (*stats.Stats)
 Declare     ResetStats()
 Declare.i   Init (NumberOfQuads)
 Declare     Destroy()
-Declare     StartRenderer (*projection.m4x4::m4x4)
+Declare     StartRenderer (win)
 Declare     StartBatch()
 Declare     StopBatch()
 Declare     Flush()
@@ -321,15 +321,20 @@ Procedure Destroy()
  FreeMemory(BATCH\IndexBuffer)  
 EndProcedure
 
-Procedure StartRenderer (*projection.m4x4::m4x4)
- Protected u_projection
+Procedure StartRenderer (win)
+ Protected w, h, u_projection
+ Protected projection.m4x4::m4x4
+ 
+ sgl::GetWindowFrameBufferSize (win, @w, @h)
+ 
+ m4x4::Ortho(projection, 0, w, h, 0, 0.0, 100.0)
  
  sgl::BindShaderProgram(shader)
    
  u_projection = sgl::GetUniformLocation(shader, "u_projection")    
  ASSERT(u_projection <> -1)
  
- sgl::SetUniformMatrix4x4(u_projection, *projection) 
+ sgl::SetUniformMatrix4x4(u_projection, @projection) 
  
  ResetStats()
 EndProcedure
@@ -370,7 +375,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0, layer = 0)
  unit = check_if_flushing_required (texture)
     
  BATCH\DataPointer\v1\xPos = x
- BATCH\DataPointer\v1\yPos = y
+ BATCH\DataPointer\v1\yPos = y + h
  BATCH\DataPointer\v1\texCoord\x = 0.0
  BATCH\DataPointer\v1\texCoord\y = 0.0
  BATCH\DataPointer\v1\texCoord\z = layer 
@@ -381,7 +386,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0, layer = 0)
  BATCH\DataPointer\v1\texture = unit
 
  BATCH\DataPointer\v2\xPos = x + w
- BATCH\DataPointer\v2\yPos = y
+ BATCH\DataPointer\v2\yPos = y + h
  BATCH\DataPointer\v2\texCoord\x = 1.0
  BATCH\DataPointer\v2\texCoord\y = 0.0
  BATCH\DataPointer\v2\texCoord\z = layer 
@@ -392,7 +397,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0, layer = 0)
  BATCH\DataPointer\v2\texture = unit
 
  BATCH\DataPointer\v3\xPos = x + w
- BATCH\DataPointer\v3\yPos = y + h
+ BATCH\DataPointer\v3\yPos = y 
  BATCH\DataPointer\v3\texCoord\x = 1.0
  BATCH\DataPointer\v3\texCoord\y = 1.0
  BATCH\DataPointer\v3\texCoord\z = layer 
@@ -403,7 +408,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0, layer = 0)
  BATCH\DataPointer\v3\texture = unit
  
  BATCH\DataPointer\v4\xPos = x
- BATCH\DataPointer\v4\yPos = y + h
+ BATCH\DataPointer\v4\yPos = y 
  BATCH\DataPointer\v4\texCoord\x = 0.0
  BATCH\DataPointer\v4\texCoord\y = 1.0
  BATCH\DataPointer\v4\texCoord\z = layer 
@@ -425,7 +430,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec3:
  unit = check_if_flushing_required (texture)
     
  BATCH\DataPointer\v1\xPos = x
- BATCH\DataPointer\v1\yPos = y
+ BATCH\DataPointer\v1\yPos = y + h
  BATCH\DataPointer\v1\texCoord\x = *texCoord\x
  BATCH\DataPointer\v1\texCoord\y = *texCoord\y
  BATCH\DataPointer\v1\texCoord\z = *texCoord\z
@@ -438,7 +443,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec3:
  *texCoord + SizeOf(vec2::vec2)
 
  BATCH\DataPointer\v2\xPos = x + w
- BATCH\DataPointer\v2\yPos = y
+ BATCH\DataPointer\v2\yPos = y + h
  BATCH\DataPointer\v2\texCoord\x = *texCoord\x
  BATCH\DataPointer\v2\texCoord\y = *texCoord\y
  BATCH\DataPointer\v2\texCoord\z = *texCoord\z
@@ -451,7 +456,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec3:
  *texCoord + SizeOf(vec2::vec2)
  
  BATCH\DataPointer\v3\xPos = x + w
- BATCH\DataPointer\v3\yPos = y + h
+ BATCH\DataPointer\v3\yPos = y 
  BATCH\DataPointer\v3\texCoord\x = *texCoord\x
  BATCH\DataPointer\v3\texCoord\y = *texCoord\y
  BATCH\DataPointer\v3\texCoord\z = *texCoord\z
@@ -464,7 +469,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec3:
  *texCoord + SizeOf(vec2::vec2)
  
  BATCH\DataPointer\v4\xPos = x
- BATCH\DataPointer\v4\yPos = y + h
+ BATCH\DataPointer\v4\yPos = y
  BATCH\DataPointer\v4\texCoord\x = *texCoord\x
  BATCH\DataPointer\v4\texCoord\y = *texCoord\y
  BATCH\DataPointer\v4\texCoord\z = *texCoord\z
@@ -497,7 +502,7 @@ EndModule
 
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 4
+; CursorPosition = 30
 ; Folding = ----
 ; EnableXP
 ; EnableUser

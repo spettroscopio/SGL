@@ -289,12 +289,13 @@ Procedure Render()
  Protected x, y 
   
  x = 1 : y = 0
- RenderText::Render(gWin, gFon, sgl::GetRenderer(), x, y, color)
- 
- x = 1 : y = h - RenderText::GetFontHeight(gFon)  
  If sgl::GetFPS()    
     RenderText::Render(gWin, gFon, "FPS: " + sgl::GetFPS(), x, y, color)
  EndIf
+
+ x = 1 : y = h - RenderText::GetFontHeight(gFon)  
+ RenderText::Render(gWin, gFon, sgl::GetRenderer(), x, y, color)
+ 
  
  If elapsed > #ROTATION_TIME  
     sgl::ResetTimer(gTimerRot)
@@ -329,8 +330,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 12
-; FirstLine = 8
+; CursorPosition = 295
+; FirstLine = 268
 ; Folding = --
 ; EnableXP
 ; EnableUser

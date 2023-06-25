@@ -370,31 +370,31 @@ Procedure Render()
  
  ; top
  vec3::Set(color, 1.0, 1.0, 1.0)
- x = 1 : y = h - RenderText::GetFontHeight(gFon)  
+ x = 1 : y = 0
  If sgl::GetFPS()    
     RenderText::Render(gWin, gFon, "FPS: " + sgl::GetFPS(), x, y, color)
  EndIf
 
  vec3::Set(color, 0.7, 0.8, 1.0)
- y - RenderText::GetFontHeight(gFonHelp) * 2.1
+ y + RenderText::GetFontHeight(gFonHelp) * 2.1
  text$ = "STRAFE       = Left/Right Arrow"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = "FORWARD/BACK = Up/Down Arrow"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = "LOOK AROUND  = Right Mouse Button" 
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
 
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = "RESET CAMERA = R" 
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0)
- x = 1 : y = 0
+ x = 1 : y = h - RenderText::GetFontHeight(gFon)  
  RenderText::Render(gWin, gFon, sgl::GetRenderer(), x, y, color)
 
  sgl::SwapBuffers(gWin)
@@ -429,8 +429,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 12
-; FirstLine = 8
+; CursorPosition = 396
+; FirstLine = 356
 ; Folding = --
 ; EnableXP
 ; EnableUser

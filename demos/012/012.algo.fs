@@ -10,7 +10,7 @@ uniform float u_morph2;
  
 void main() {
 
-   // modified from https://www.shadertoy.com/view/XsXXDn	
+    // modified from the original here https://www.shadertoy.com/view/XsXXDn	
 
 	vec3 c;
 	vec2 uv;

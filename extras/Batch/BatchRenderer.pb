@@ -20,7 +20,7 @@ Declare     GetStats (*stats.Stats)
 Declare     ResetStats()
 Declare.i   Init (NumberOfQuads)
 Declare     Destroy()
-Declare     StartRenderer (*projection.m4x4::m4x4)
+Declare     StartRenderer (win)
 Declare     StartBatch()
 Declare     StopBatch()
 Declare     Flush()
@@ -317,15 +317,20 @@ Procedure Destroy()
  FreeMemory(BATCH\IndexBuffer)  
 EndProcedure
 
-Procedure StartRenderer (*projection.m4x4::m4x4)
- Protected u_projection
+Procedure StartRenderer (win)
+ Protected w, h, u_projection
+ Protected projection.m4x4::m4x4
+ 
+ sgl::GetWindowFrameBufferSize (win, @w, @h)
+ 
+ m4x4::Ortho(projection, 0, w, h, 0, 0.0, 100.0)
  
  sgl::BindShaderProgram(shader)
    
  u_projection = sgl::GetUniformLocation(shader, "u_projection")    
  ASSERT(u_projection <> -1)
  
- sgl::SetUniformMatrix4x4(u_projection, *projection) 
+ sgl::SetUniformMatrix4x4(u_projection, @projection) 
  
  ResetStats()
 EndProcedure
@@ -366,7 +371,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  unit = check_if_flushing_required (texture)
     
  BATCH\DataPointer\v1\xPos = x
- BATCH\DataPointer\v1\yPos = y
+ BATCH\DataPointer\v1\yPos = y + h
  BATCH\DataPointer\v1\xTex = 0.0
  BATCH\DataPointer\v1\yTex = 0.0
  BATCH\DataPointer\v1\color\x = *color\x
@@ -376,7 +381,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  BATCH\DataPointer\v1\texture = unit
 
  BATCH\DataPointer\v2\xPos = x + w
- BATCH\DataPointer\v2\yPos = y
+ BATCH\DataPointer\v2\yPos = y + h
  BATCH\DataPointer\v2\xTex = 1.0
  BATCH\DataPointer\v2\yTex = 0.0
  BATCH\DataPointer\v2\color\x = *color\x
@@ -386,7 +391,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  BATCH\DataPointer\v2\texture = unit
 
  BATCH\DataPointer\v3\xPos = x + w
- BATCH\DataPointer\v3\yPos = y + h
+ BATCH\DataPointer\v3\yPos = y
  BATCH\DataPointer\v3\xTex = 1.0
  BATCH\DataPointer\v3\yTex = 1.0
  BATCH\DataPointer\v3\color\x = *color\x
@@ -396,7 +401,7 @@ Procedure DrawQuad (x, y, w, h, *color.vec4::vec4, texture = 0)
  BATCH\DataPointer\v3\texture = unit
  
  BATCH\DataPointer\v4\xPos = x
- BATCH\DataPointer\v4\yPos = y + h
+ BATCH\DataPointer\v4\yPos = y
  BATCH\DataPointer\v4\xTex = 0.0
  BATCH\DataPointer\v4\yTex = 1.0
  BATCH\DataPointer\v4\color\x = *color\x
@@ -417,7 +422,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec2:
  unit = check_if_flushing_required (texture)
     
  BATCH\DataPointer\v1\xPos = x
- BATCH\DataPointer\v1\yPos = y
+ BATCH\DataPointer\v1\yPos = y + h
  BATCH\DataPointer\v1\xTex = *texCoord\x
  BATCH\DataPointer\v1\yTex = *texCoord\y
  BATCH\DataPointer\v1\color\x = *color\x
@@ -429,7 +434,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec2:
  *texCoord + SizeOf(vec2::vec2)
 
  BATCH\DataPointer\v2\xPos = x + w
- BATCH\DataPointer\v2\yPos = y
+ BATCH\DataPointer\v2\yPos = y + h
  BATCH\DataPointer\v2\xTex = *texCoord\x
  BATCH\DataPointer\v2\yTex = *texCoord\y
  BATCH\DataPointer\v2\color\x = *color\x
@@ -441,7 +446,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec2:
  *texCoord + SizeOf(vec2::vec2)
  
  BATCH\DataPointer\v3\xPos = x + w
- BATCH\DataPointer\v3\yPos = y + h
+ BATCH\DataPointer\v3\yPos = y 
  BATCH\DataPointer\v3\xTex = *texCoord\x
  BATCH\DataPointer\v3\yTex = *texCoord\y
  BATCH\DataPointer\v3\color\x = *color\x
@@ -453,7 +458,7 @@ Procedure DrawQuadAtlas (x, y, w, h, *color.vec4::vec4, texture, *texCoord.vec2:
  *texCoord + SizeOf(vec2::vec2)
  
  BATCH\DataPointer\v4\xPos = x
- BATCH\DataPointer\v4\yPos = y + h
+ BATCH\DataPointer\v4\yPos = y 
  BATCH\DataPointer\v4\xTex = *texCoord\x
  BATCH\DataPointer\v4\yTex = *texCoord\y
  BATCH\DataPointer\v4\color\x = *color\x
@@ -484,9 +489,9 @@ EndModule
 
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 28
-; FirstLine = 436
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 319
+; FirstLine = 319
 ; Folding = ----
 ; EnableXP
 ; EnableUser

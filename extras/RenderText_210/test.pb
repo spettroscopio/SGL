@@ -117,17 +117,17 @@ Procedure Render()
  glViewport_(0, 0, w, h)
 
  For i = 0 To #HowMany - 1
-     RenderText::Render(gWin, font(obj(i)\fnt), text$(obj(i)\textId), obj(i)\x, obj(i)\y, color(obj(i)\color))     
+    RenderText::Render(gWin, font(obj(i)\fnt), text$(obj(i)\textId), obj(i)\x, obj(i)\y, color(obj(i)\color))     
  Next
  
  vec3::Set(color, 1.0, 1.0, 1.0)
   
  text$ = "FPS: " + sgl::GetFPS()
- y = h - RenderText::GetFontHeight(gFon1)
+ y = 0
  RenderText::Render(gWin, gFon1, text$, x, y, color) 
 
  text$ = sgl::GetRenderer()
- y = 0
+ y = h - RenderText::GetFontHeight(gFon1)
  RenderText::Render(gWin, gFon1, text$, x, y, color)
    
  ; every second
@@ -184,9 +184,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 157
-; FirstLine = 138
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 125
+; FirstLine = 91
 ; Folding = --
 ; Optimizer
 ; EnableXP
@@ -194,4 +194,3 @@ Main()
 ; Executable = C:\Users\luis\Desktop\Share\sgl\render_text_210.exe
 ; CPU = 1
 ; CompileSourceDirectory
-; Compiler = PureBasic 6.02 LTS - C Backend (Windows - x64)

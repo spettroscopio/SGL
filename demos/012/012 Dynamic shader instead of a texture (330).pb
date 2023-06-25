@@ -274,14 +274,14 @@ Procedure Render()
  
  ; top
  vec3::Set(color, 1.0, 1.0, 1.0)
- x = 1 : y = h - RenderText::GetFontHeight(gFon)  
+ x = 1 : y = 0
  If sgl::GetFPS()    
     RenderText::Render(gWin, gFon, "FPS: " + sgl::GetFPS(), x, y, color)
  EndIf
 
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0)
- x = 1 : y = 0
+ x = 1 : y = h - RenderText::GetFontHeight(gFon)  
  text$ = sgl::GetRenderer()
  RenderText::Render(gWin, gFon, text$, x, y, color)
  
@@ -321,8 +321,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 8
-; FirstLine = 4
+; CursorPosition = 283
+; FirstLine = 264
 ; Folding = --
 ; EnableXP
 ; EnableUser

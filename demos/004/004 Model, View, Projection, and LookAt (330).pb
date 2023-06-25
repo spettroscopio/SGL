@@ -253,7 +253,7 @@ Procedure Render()
  
  rot + #SPEED * delta
  
- If sgl::GetElapsedTime(gTimer) > 5.0
+ If sgl::GetElapsedTime(gTimer) > 10.0
     orbit + #SPEED * delta / 4
     
     radius\x = Cos(Radian(orbit)) * distance
@@ -325,12 +325,12 @@ Procedure Render()
  Protected x, y 
   
  x = 1 : y = 0
- RenderText::Render(gWin, gFon, sgl::GetRenderer(), x, y, color)
- 
- x = 1 : y = h - RenderText::GetFontHeight(gFon)  
  If sgl::GetFPS()    
     RenderText::Render(gWin, gFon, "FPS: " + sgl::GetFPS(), x, y, color)
  EndIf
+ 
+ x = 1 : y = h - RenderText::GetFontHeight(gFon)  
+ RenderText::Render(gWin, gFon, sgl::GetRenderer(), x, y, color)
  
  sgl::SwapBuffers(gWin)
 EndProcedure
@@ -361,8 +361,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 12
-; FirstLine = 8
+; CursorPosition = 255
+; FirstLine = 214
 ; Folding = --
 ; EnableXP
 ; EnableUser

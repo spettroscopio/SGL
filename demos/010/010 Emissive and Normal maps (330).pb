@@ -632,13 +632,13 @@ Procedure Render()
  
  ; top
  vec3::Set(color, 1.0, 1.0, 1.0)
- x = 1 : y = h - RenderText::GetFontHeight(gFon)  
+ x = 1 : y = 0
  If sgl::GetFPS()    
     RenderText::Render(gWin, gFon, "FPS: " + sgl::GetFPS(), x, y, color)
  EndIf
 
  vec3::Set(color, 1.0, 1.0, 0.5) 
- x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+ x = 1 : y + RenderText::GetFontHeight(gFon) * 1.5
  If gAmbientOn 
     text$ = "[L]ight is ON"
  Else
@@ -647,7 +647,7 @@ Procedure Render()
  RenderText::Render(gWin, gFon, text$, x, y, color)
 
  If gAmbientOn     
-     x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+     x = 1 : y + RenderText::GetFontHeight(gFon) * 1.5
      If gSpecularOn = 0 
         text$ = "[S]pecular lighting is OFF"
      Else
@@ -655,7 +655,7 @@ Procedure Render()
      EndIf 
      RenderText::Render(gWin, gFon, text$, x, y, color)
     
-     x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+     x = 1 : y + RenderText::GetFontHeight(gFon) * 1.5
      If gDiffuseOn = 0 
         text$ = "[D]iffuse lighting is OFF"
      Else
@@ -663,7 +663,7 @@ Procedure Render()
      EndIf 
      RenderText::Render(gWin, gFon, text$, x, y, color)
    
-     x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+     x = 1 : y + RenderText::GetFontHeight(gFon) * 1.5
      If gNormalMappingOn = 0 
         text$ = "[N]ormal mapping is OFF"
      Else
@@ -672,7 +672,7 @@ Procedure Render()
      RenderText::Render(gWin, gFon, text$, x, y, color)     
  EndIf
  
- x = 1 : y - RenderText::GetFontHeight(gFon) * 1.5
+ x = 1 : y + RenderText::GetFontHeight(gFon) * 1.5
  If gPulsating = 0 
     text$ = "[P]ulsating light is OFF"
  Else
@@ -682,7 +682,7 @@ Procedure Render()
 
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0) 
- x = 1 : y = 0
+ x = 1 : y = h - RenderText::GetFontHeight(gFon)  
  text$ = sgl::GetRenderer()
  RenderText::Render(gWin, gFon, text$, x, y, color)
 
@@ -750,8 +750,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 19
-; FirstLine = 15
+; CursorPosition = 684
+; FirstLine = 640
 ; Folding = ---
 ; Optimizer
 ; EnableXP

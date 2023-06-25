@@ -146,17 +146,17 @@ Procedure Render()
  vec3::Set(color1, 0.5, 1.0, 0.5)
  
  x = 1
- y = h - fntInfoHeight
+ y = 0
  RenderText::Render(gWin, *gFonInfo, "FontName: " + *gFonCurrent\bmf\fontName$, 1, y, color1)
- y - fntInfoHeight
+ y + fntInfoHeight
  RenderText::Render(gWin, *gFonInfo, "FontSize: " + *gFonCurrent\bmf\FontSize, 1, y, color1)
  
  x = 1
- y = 1
+ y = h - fntInfoHeight - 1
  RenderText::Render(gWin, *gFonInfo, "[ Arrow Right ], [ Arrow Left ], [ KeyPad Plus ], [ KeyPad Minus ]", x, y, color1)
               
  Protected pos, len, line$
- x = 10 : y = h - 4 * fntInfoHeight - 2 * fntCurrentHeight
+ x = 10 : y = 4 * fntInfoHeight 
  
  vec3::Set(color2, 1.0, 0.75, 0.2)
 
@@ -168,7 +168,7 @@ Procedure Render()
             Break
         EndIf
         RenderText::Render(gWin, *gFonCurrent, line$, x, y, color2)    
-        y = y - fntCurrentHeight - 1
+        y = y + fntCurrentHeight - 1
         pos + 1
     ForEver
  Next
@@ -300,9 +300,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 274
-; FirstLine = 254
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 158
+; FirstLine = 148
 ; Folding = --
 ; Optimizer
 ; EnableXP

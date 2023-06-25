@@ -129,13 +129,10 @@ Procedure Render()
  Protected w, h
  Protected x, y, i, text$, color.vec3::vec3, qc.vec4::vec4
  Protected.BatchRenderer::stats info
- Protected.m4x4::m4x4 projection
  Protected fh = RenderText::GetFontHeight(gFon1)
  Protected delta.f
   
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
- 
- m4x4::Ortho(projection, 0, w, 0, h, 0.0, 100.0)
  
  glClearColor_(0.8,0.8,1.0,1.0)
 
@@ -146,7 +143,7 @@ Procedure Render()
  ; timestep
  delta = sgl::GetDeltaTime(gTimer)
 
- BatchRenderer::StartRenderer(projection)
+ BatchRenderer::StartRenderer(gWin)
   
  BatchRenderer::StartBatch()
  
@@ -184,14 +181,14 @@ Procedure Render()
     alpha_inc = -alpha_inc
   EndIf
   
-  BatchRenderer::DrawQuad(alpha_x, 100, 128, 128, qc, gAlphaTexture)
+  BatchRenderer::DrawQuad(alpha_x, h - 200, 128, 128, qc, gAlphaTexture)
   
   ; info area semi transparent
   vec4::Set(qc, 0.0, 0.0, 1.0, 0.8)
   
   ; and these two are also batched with all the above
-  BatchRenderer::DrawQuad(0, h-fh*3.1, w, fh*3.1, qc)
-  BatchRenderer::DrawQuad(0, 0, w, fh*1.1, qc)
+  BatchRenderer::DrawQuad(0, 0, w, fh*3.1, qc)
+  BatchRenderer::DrawQuad(0, h-fh*1.1, w, fh*1.1, qc)
 
  BatchRenderer::StopBatch()
  
@@ -201,24 +198,24 @@ Procedure Render()
  
  vec3::Set(color, 1.0, 1.0, 1.0)
 
- x = 0 : y = h
+ x = 0 
  
  Protected fps = sgl::GetFPS()
  Protected frameTime.f  = sgl::GetFrameTime()
  text$ = str::Sprintf("FPS: %i, Frame: %.2f ms", @fps, @frameTime)
- y - fh
+ y = 0
  RenderText::Render(gWin, gFon1, text$, x, y, color)
  
  Protected bytes$ = str::FormatBytes(info\bufferSizeInBytes, str::#FormatBytes_Memory, 1)
  text$ = str::Sprintf("Buffer size in quads: %i, in bytes: %s", @info\bufferSizeInQuads, @bytes$)
- y - fh
+ y + fh
  RenderText::Render(gWin, gFon1, text$, x, y, color) 
  
  text$ = str::Sprintf("Textured Quads drawn: %i, Draw calls: %i", @info\totalQuadsDrawn, @info\drawCalls)
- y - fh
+ y + fh
  RenderText::Render(gWin, gFon1, text$, x, y, color) 
 
- y = 0
+ y = h - fh
  text$ = sgl::GetRenderer()
  RenderText::Render(gWin, gFon1, text$, x, y, color)
    
@@ -288,9 +285,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 12
-; FirstLine = 5
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 145
+; FirstLine = 127
 ; Folding = --
 ; Optimizer
 ; EnableXP

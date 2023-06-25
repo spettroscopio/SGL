@@ -278,7 +278,7 @@ Procedure Render()
  
  If firstRun
     firstRun = 0   
-    *camera = ArcBall::Create(gWin, 6.0)
+    *camera = ArcBall::Create(gWin, 5.0)
  EndIf 
   
  glClearColor_(0.25,0.25,0.5,1.0)
@@ -330,47 +330,47 @@ Procedure Render()
  
  ; top
  vec3::Set(color, 1.0, 1.0, 1.0)
- x = 1 : y = h - RenderText::GetFontHeight(gFon)  
+ x = 1 : y = 0
  If sgl::GetFPS()    
     RenderText::Render(gWin, gFon, "FPS: " + sgl::GetFPS(), x, y, color)
  EndIf
 
  vec3::Set(color, 0.7, 0.8, 1.0)
- y - RenderText::GetFontHeight(gFonHelp) * 2.1
+ y + RenderText::GetFontHeight(gFonHelp) * 2.1
  text$ = "ArcBall            = Right Mouse Button" 
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = "ZOOM IN / OUT      = Mouse Wheel"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = "Up/Down/Left/Right = Middle Button"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
 
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = "RESET CAMERA       = R" 
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
 
- y - RenderText::GetFontHeight(gFonHelp) * 1.5
+ y + RenderText::GetFontHeight(gFonHelp) * 1.5
  text$ = "ArcBall virtual (X,Y,Z)"
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = str::Sprintf("X = %6.3f", @*camera\sphere\x)
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
  
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = str::Sprintf("Y = %6.3f", @*camera\sphere\y)
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
 
- y - RenderText::GetFontHeight(gFonHelp) * 1.1
+ y + RenderText::GetFontHeight(gFonHelp) * 1.1
  text$ = str::Sprintf("Z = %6.3f", @*camera\sphere\z)
  RenderText::Render(gWin, gFonHelp, text$, x, y, color)
 
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0)
- x = 1 : y = 0
+ x = 1 : y = h - RenderText::GetFontHeight(gFon)  
  text$ = sgl::GetRenderer()
  RenderText::Render(gWin, gFon, text$, x, y, color)
  
@@ -406,8 +406,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 9
-; FirstLine = 5
+; CursorPosition = 280
+; FirstLine = 269
 ; Folding = --
 ; EnableXP
 ; EnableUser

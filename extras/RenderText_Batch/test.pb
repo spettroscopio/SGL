@@ -78,7 +78,6 @@ Procedure Render()
  Protected x, y, i, text$, color.vec3::vec3, qc.vec4::vec4
  Protected fh = RenderText::GetFontHeight(gFon1)
  Protected.BatchRenderer::stats info
- Protected.m4x4::m4x4 projection
  
  Dim text$(2)
  Dim color.vec3::vec3(2)
@@ -116,15 +115,13 @@ Procedure Render()
      Next
  EndIf
  
- m4x4::Ortho(projection, 0, w, 0, h, 0.0, 100.0)
-  
  glClearColor_(0.1,0.1,0.3,1.0)
 
  glClear_(#GL_COLOR_BUFFER_BIT)
   
  glViewport_(0, 0, w, h)
  
- BatchRenderer::StartRenderer(projection) 
+ BatchRenderer::StartRenderer(gWin) 
  BatchRenderer::StartBatch()
 
   For i = 0 To #HowMany - 1
@@ -141,27 +138,27 @@ Procedure Render()
   ; info area semi transparent
   vec4::Set(qc, 0.0, 0.0, 1.0, 0.8)
   
-  BatchRenderer::DrawQuad(0, h-fh*3.1, w, fh*3.1, qc)
-  BatchRenderer::DrawQuad(0, 0, w, fh*1.1, qc)
+  BatchRenderer::DrawQuad(0, 0, w, fh*3.1, qc)
+  BatchRenderer::DrawQuad(0, h-fh*1.1, w, fh*1.1, qc)
   
   ; text color 
   vec3::Set(color, 1.0, 1.0, 1.0)
  
   text$ = "FPS: " + sgl::GetFPS()
-  y = h - fh
+  y = 0
   RenderText::Render(gWin, gFon1, text$, x, y, color) 
      
   Protected bytes$ = str::FormatBytes(info\bufferSizeInBytes, str::#FormatBytes_Memory, 1)
   text$ = str::Sprintf("Buffer size in quads: %i, in bytes: %s", @info\bufferSizeInQuads, @bytes$)
-  y - fh
+  y + fh
   RenderText::Render(gWin, gFon1, text$, x, y, color) 
  
   text$ = str::Sprintf("Quads drawn: %i, Draw calls: %i", @info\totalQuadsDrawn, @info\drawCalls)
-  y - fh
+  y + fh
   RenderText::Render(gWin, gFon1, text$, x, y, color) 
 
   text$ = sgl::GetRenderer()
-  y = 0
+  y = h - fh
   RenderText::Render(gWin, gFon1, text$, x, y, color)
  
  BatchRenderer::StopBatch() 
@@ -226,9 +223,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 194
-; FirstLine = 180
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 142
+; FirstLine = 123
 ; Folding = --
 ; Optimizer
 ; EnableXP

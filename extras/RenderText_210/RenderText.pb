@@ -80,7 +80,7 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
  glMatrixMode_(#GL_PROJECTION) 
  glPushMatrix_() 
  glLoadIdentity_()  
- glOrtho_(0, width, 0, height, 0.0, 100.0) 
+ glOrtho_(0, width, height, 0, 0.0, 100.0) 
    
  glPushAttrib_(#GL_ENABLE_BIT)
  
@@ -119,13 +119,13 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
      
     glBegin_(#GL_QUADS)
      glTexCoord2f_(xf, hf) ; bottom left
-     glVertex2i_(0, 0)
+     glVertex2i_(0, hc)     
      glTexCoord2f_(wf, hf) ; bottom right
-     glVertex2i_(wc, 0)
-     glTexCoord2f_(wf, yf) ; top right
      glVertex2i_(wc, hc)
+     glTexCoord2f_(wf, yf) ; top right
+     glVertex2i_(wc, 0)
      glTexCoord2f_(xf, yf) ; top left
-     glVertex2i_(0, hc)
+     glVertex2i_(0, 0)
     glEnd_()           
 
     glTranslatef_ (*glyph\w + *glyph\xOffset, 0.0, 0.0)
@@ -198,19 +198,18 @@ EndProcedure
 
 Procedure.i LoadBitmapFont (file$) 
  Protected *bmf.sgl::BitmapFontData = sgl::LoadBitmapFontData(file$)
-
  ProcedureReturn BuildBitmapFont(*bmf)
 EndProcedure
 
 Procedure.i CreateBitmapFont (fontName$, fontSize, fontFlags,  Array ranges.sgl::BitmapFontRange(1), width = 0, height = 0)
  Protected *bmf.sgl::BitmapFontData = sgl::CreateBitmapFontData(fontName$, fontSize, fontFlags, ranges(), width, height)
-
  ProcedureReturn BuildBitmapFont(*bmf)
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 22
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 203
+; FirstLine = 159
 ; Folding = --
 ; EnableXP
 ; EnableUser

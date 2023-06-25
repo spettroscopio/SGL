@@ -52,10 +52,10 @@ Procedure Render (win)
     th = RenderText::GetFontHeight(gFont)
     
     fps$ = "FPS: " + sgl::GetFPS()
-    RenderText::Render(win, gFont, fps$, 1, h - th, color)
+    RenderText::Render(win, gFont, fps$, 1, 0, color)
     
     frameTime$ = "Frame: " + StrF(sgl::GetFrameTime(), 3) + " ms"
-    RenderText::Render(win, gFont, frameTime$, 1, h - 2 * th, color)
+    RenderText::Render(win, gFont, frameTime$, 1, th, color)
  EndIf
 
 EndProcedure
@@ -112,9 +112,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 83
-; FirstLine = 66
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 57
+; FirstLine = 28
 ; Folding = -
 ; EnableXP
 ; EnableUser

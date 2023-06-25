@@ -124,11 +124,11 @@ Procedure Render()
  glViewport_(0, 0, w, h)
 
  x = 1
- y = h - fntHeight  
+ y = 0 
  
  ForEach text()
     RenderText::Render(gWin, gFon, text(), 1, y, color)   
-    y - fntHeight 
+    y + fntHeight 
  Next
 
 EndProcedure
@@ -159,8 +159,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 91
-; FirstLine = 67
+; CursorPosition = 130
+; FirstLine = 91
 ; Folding = --
 ; Optimizer
 ; EnableXP

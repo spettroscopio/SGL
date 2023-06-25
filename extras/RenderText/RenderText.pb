@@ -180,7 +180,7 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
     glBufferData_(#GL_ELEMENT_ARRAY_BUFFER, charsCount * SizeOf(QuadIndices), *indices, #GL_DYNAMIC_DRAW)
  EndIf
   
- m4x4::Ortho(projection, 0, w, 0, h, 0.0, 100.0)
+ m4x4::Ortho(projection, 0, w, h, 0, 0.0, 100.0)
  
  sgl::BindShaderProgram(shader)
  
@@ -218,27 +218,31 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
     hf = 1.0 - 1.0 / (*fon\TextureHeight / (yc + hc))
     
     ; these are the four vertices of the quad
-         
+    
+    ; bottom left     
     *cursorVertex\x = x  ; screen coordinates for the text
-    *cursorVertex\y = y
+    *cursorVertex\y = y + hc
     *cursorVertex\s = xf ; texture coordinates to sample the required glyph
     *cursorVertex\t = hf    
     *cursorVertex + SizeOf(QuadVertex)
     
+    ; bottom right
     *cursorVertex\x = x + wc
-    *cursorVertex\y = y
+    *cursorVertex\y = y + hc
     *cursorVertex\s = wf
     *cursorVertex\t = hf
     *cursorVertex + SizeOf(QuadVertex)
     
+    ; top right
     *cursorVertex\x = x + wc
-    *cursorVertex\y = y + hc
+    *cursorVertex\y = y 
     *cursorVertex\s = wf
     *cursorVertex\t = yf
     *cursorVertex + SizeOf(QuadVertex)
     
+    ; top left
     *cursorVertex\x = x
-    *cursorVertex\y = y + hc
+    *cursorVertex\y = y 
     *cursorVertex\s = xf
     *cursorVertex\t = yf
     *cursorVertex + SizeOf(QuadVertex)
@@ -337,8 +341,9 @@ EndDataSection
 
 EndModule
 
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 30
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 244
+; FirstLine = 198
 ; Folding = ---
 ; EnableXP
 ; EnableUser

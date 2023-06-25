@@ -112,39 +112,39 @@ Procedure Render()
  glViewport_(0, 0, w, h)
 
  x = 1
- y = h
+ y = 0
  
  fntHeight = RenderText::GetFontHeight(gFon1)
  vec3::Set(color, 0.9, 0.9, 0.0)
  
- y - fntHeight 
+ y + fntHeight 
  RenderText::Render(gWin, gFon1, "BMF arial-unicode-12.zip", 1, y, color)
  
- y - fntHeight 
+ y + fntHeight 
  RenderText::Render(gWin, gFon1, "This font has been rendered from a system font.", 1, y, color)
  
- y - fntHeight 
+ y + fntHeight 
  ForEach text()
-    y - fntHeight 
+    y + fntHeight 
     RenderText::Render(gWin, gFon1, text(), 1, y, color)
  Next
  
  fntHeight = RenderText::GetFontHeight(gFon2)
  vec3::Set(color, 0.0, 0.9, 1.0)
  
- y - fntHeight * 2
+ y + fntHeight * 2
  RenderText::Render(gWin, gFon2, "BMF videophreak-16.zip", 1, y, color)
 
- y - fntHeight
+ y + fntHeight
  RenderText::Render(gWin, gFon2, "This font has been rendered from a True Type file.", 1, y, color)
  
  fntHeight = RenderText::GetFontHeight(gFon3)
  vec3::Set(color, 1.0, 1.0, 1.0)
  
- y - fntHeight * 2
+ y + fntHeight * 2
  RenderText::Render(gWin, gFon3, "BMF gimp-42.zip", 1, y, color)
  
- y - fntHeight
+ y + fntHeight
  RenderText::Render(gWin, gFon3, "This font has been made with GIMP.", 1, y, color)   
 
 EndProcedure
@@ -174,8 +174,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 147
-; FirstLine = 125
+; CursorPosition = 127
+; FirstLine = 86
 ; Folding = --
 ; Optimizer
 ; EnableXP

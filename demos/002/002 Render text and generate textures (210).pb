@@ -268,7 +268,7 @@ Procedure Render()
   ; FPS
  If sgl::GetFPS() 
     fps$ = "FPS: " + sgl::GetFPS()
-    RenderText::Render(gWin, gFon1, fps$, 1, h - RenderText::GetFontHeight(gFon1), color)
+    RenderText::Render(gWin, gFon1, fps$, 1, 0, color)
  EndIf
 
  
@@ -279,7 +279,7 @@ Procedure Render()
     gScrollAccumX = 0.0
  EndIf
  
- RenderText::Render(gWin, gFon2, #SCROLL_TEXT$, w - gScrollAccumX, 10, color) 
+ RenderText::Render(gWin, gFon2, #SCROLL_TEXT$, w - gScrollAccumX, h - RenderText::GetFontHeight(gFon1) - 5, color) 
  
  sgl::SwapBuffers(gWin)
 EndProcedure
@@ -308,9 +308,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.03 beta 1 LTS (Windows - x86)
-; CursorPosition = 139
-; FirstLine = 135
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 281
+; FirstLine = 254
 ; Folding = --
 ; Optimizer
 ; EnableXP
