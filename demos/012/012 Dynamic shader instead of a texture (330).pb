@@ -202,7 +202,7 @@ Procedure Render()
  Static rot.f
  Static morph1.f = 1.0
  Static morph2.f = 0.25
- Static morph2Inc.f = 0.15
+ Static morph2Inc.f = 0.1
 
  glClearColor_(0.25,0.25,0.5,1.0)
  glEnable_(#GL_DEPTH_TEST) 
@@ -216,7 +216,7 @@ Procedure Render()
  delta = sgl::GetDeltaTime(gTimer)
  
  morph1 = math::Cycle3f(morph1, 1.0, 8.0) 
- morph1 + delta * 0.1
+ morph1 + delta * 0.05
 
  If morph2 > 0.75
     morph2Inc = -0.15
@@ -321,8 +321,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 283
-; FirstLine = 264
+; CursorPosition = 204
+; FirstLine = 201
 ; Folding = --
 ; EnableXP
 ; EnableUser
