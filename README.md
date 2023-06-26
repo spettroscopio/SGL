@@ -29,7 +29,7 @@ My idea is now to start using this to build a simple 2D game engine, just to lea
 In the future even a 3D one perhaps, who knows !<br>
 I would probably keep adding examples and demos to this repository when I need to experiment with some code or idea.<br>
 
-Maybe someone else will find this useful as a starting point or simply instructive so here it is.
+Maybe someone else will find this useful or simply instructive so here it is.
 
 Announcements and info [here](https://www.purebasic.fr/english/viewtopic.php?t=81764).
 
