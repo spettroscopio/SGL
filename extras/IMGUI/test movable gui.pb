@@ -186,7 +186,7 @@ Procedure Render()
  ; GUI
   
  If GUIenabled
-    Protected width = 220
+    Protected width = 213
     
     ; fake window           
     vec4::Set(backColor, 0.0, 0.0, 0.0, 0.85)    
@@ -200,7 +200,7 @@ Procedure Render()
     imgui::Text(imgui::ID(), text$)
     imgui::NewLine(15)
         
-    imgui::SliderInt(imgui::ID(), @qw(0), 30, 450, width)
+    imgui::SliderInt(imgui::ID(), @qw(0), 10, 500, width)
     imgui::Text(imgui::ID(), "Size")
     qh(0) = qw(0)
     imgui::NewLine()
@@ -279,9 +279,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 198
-; FirstLine = 194
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 202
+; FirstLine = 185
 ; Folding = --
 ; Optimizer
 ; EnableXP

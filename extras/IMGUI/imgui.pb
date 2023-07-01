@@ -1,5 +1,5 @@
 ﻿; Example of a very simple IMGUI using the Quads Batch Renderer
-; I've implemented some of the widgets I felt were most needed, but more or less anything can be added as required, spending enough time for it :)
+; I've implemented some of the widgets I felt were most needed, but more or less anything can be added as required, spending enough time on it :)
 
 XIncludeFile "../../sgl.config.pbi"
 XIncludeFile "../../sgl.pbi"
@@ -45,9 +45,10 @@ Module imgui
 UseModule gl
 UseModule DBG
 
+#IMGUI_ADVANCE_X_MIN = 5
 #IMGUI_MARGINS_VERT_MIN = 2
 #IMGUI_MARGINS_HORZ_MIN = 8
-#IMGUI_BUTTON_NARGINS_HORZ_MIN = 12
+#IMGUI_BUTTON_MARGINS_HORZ_MIN = 12
 #IMGUI_NEWLINE_MIN = 6
   
 Structure UI_context 
@@ -61,7 +62,7 @@ Structure UI_context
  cursorX.i ; last mouse pos
  cursorY.i ; last mouse pos
  
- backGroundID.i
+ backGroundID.i ; used the fake a window container 
  backgroundX.i ; start X position for the background quad
  backgroundY.i ; start Y 
  backgroundRelativeClickX.i ; X offset from the start to the titlebar clicked point
@@ -79,7 +80,7 @@ Structure UI_context
  hot.i ; id of the hot widget if any
  active.i ; id of the active widget if any
  
- showThumb.i 
+ showThumb.i ; used to hide the thumbs for example in the SliderRGB
  mask$ ; sprintf mask used by the widgets who follow to format the data
  decimals.i ; number of decimals used by the widgets who follow
  
@@ -515,7 +516,7 @@ Procedure Text (id, text$)
  ; draw text
  draw_text(UIC\win, UIC\fon, text$, x, y, txtColor) 
  
- set_advance_x (w + #IMGUI_MARGINS_HORZ_MIN)
+ set_advance_x (w + #IMGUI_ADVANCE_X_MIN)
  set_advance_y (h)
 EndProcedure
 
@@ -529,7 +530,7 @@ Procedure.i Button (id, text$, w = 0, h = 0)
  y = UIC\currPosY + std::IIF(UIC\backGroundID, UIC\backgroundY, 0) + UIC\currLineOffsY
   
  ; check if w is wide enough  
- w = std::IIF(Bool(text_width + #IMGUI_BUTTON_NARGINS_HORZ_MIN > w), text_width + #IMGUI_BUTTON_NARGINS_HORZ_MIN, w)
+ w = std::IIF(Bool(text_width + #IMGUI_BUTTON_MARGINS_HORZ_MIN > w), text_width + #IMGUI_BUTTON_MARGINS_HORZ_MIN, w)
  
  ; check if h is tall enough  
  h = std::IIF(Bool(UIC\fonHeight + #IMGUI_MARGINS_VERT_MIN > h), UIC\fonHeight + #IMGUI_MARGINS_VERT_MIN, h) 
@@ -573,7 +574,7 @@ Procedure.i Button (id, text$, w = 0, h = 0)
  ; draw label
  draw_text(UIC\win, UIC\fon, text$, xc, yc, txtColor)
  
- set_advance_x (w + #IMGUI_MARGINS_HORZ_MIN)
+ set_advance_x (w + #IMGUI_ADVANCE_X_MIN)
  set_advance_y (h)
    
  ProcedureReturn ret
@@ -653,7 +654,7 @@ Procedure SliderFloat (id, *float.Float, min.f, max.f, w = 0, h = 0)
  
  *float\f = float
  
- set_advance_x(w + #IMGUI_MARGINS_HORZ_MIN)
+ set_advance_x(w + #IMGUI_ADVANCE_X_MIN)
  set_advance_y (h)
 EndProcedure 
 
@@ -731,7 +732,7 @@ Procedure SliderInt (id, *int.Integer, min, max, w = 0, h = 0)
   
  *int\i = int
  
- set_advance_x(w + #IMGUI_MARGINS_HORZ_MIN)
+ set_advance_x(w + #IMGUI_ADVANCE_X_MIN)
  set_advance_y (h)
 EndProcedure 
 
@@ -818,7 +819,7 @@ Procedure.s SliderEnum (id, *item.Integer, enum$, w = 0, h = 0)
   
  *item\i = item
  
- set_advance_x(w + #IMGUI_MARGINS_HORZ_MIN)
+ set_advance_x(w + #IMGUI_ADVANCE_X_MIN)
  set_advance_y (h)
 EndProcedure 
 
@@ -883,7 +884,7 @@ Procedure.i CheckBox (id, *flag.Integer, text$)
  ; draw label
  draw_text(UIC\win, UIC\fon, text$, x + w + #IMGUI_MARGINS_HORZ_MIN, y + #IMGUI_MARGINS_VERT_MIN / 2, txtColor)
  
- set_advance_x(w + #IMGUI_MARGINS_HORZ_MIN)
+ set_advance_x(w + #IMGUI_ADVANCE_X_MIN)
  set_advance_y (h)
 EndProcedure 
 
@@ -965,21 +966,17 @@ Procedure SliderRGB (id, *color.vec4::vec4, mode = #Bytes, w = 0, h = 0)
  *color\y = color\y
  *color\z = color\z
 
- set_advance_x(w + #IMGUI_MARGINS_HORZ_MIN)
+ set_advance_x(w + #IMGUI_ADVANCE_X_MIN)
  set_advance_y (h)
 EndProcedure 
 
 EndModule
 
-;Define s$ = "5"
-;Define s = 5
-;Debug str::Sprintf("%'03s", @s$) 
-;Debug str::Sprintf("%'03i", @s) 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 352
-; FirstLine = 352
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 51
+; FirstLine = 51
 ; Folding = --------
-; Markers = 52,313
+; Markers = 53,314
 ; EnableXP
 ; EnableUser
 ; CPU = 1
