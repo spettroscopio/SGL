@@ -113,7 +113,7 @@ Procedure Render()
  
  BatchRenderer::Flush() ; remember to flush it at the end
  
- BatchRenderer::GetStats(@info)  
+ BatchRenderer::GetStats(@info)
  
  vec3::Set(color, 1.0, 1.0, 1.0)
 
@@ -185,8 +185,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 86
-; FirstLine = 72
+; CursorPosition = 132
+; FirstLine = 102
 ; Folding = --
 ; Optimizer
 ; EnableXP

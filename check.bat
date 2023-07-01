@@ -54,3 +54,5 @@
 %COMP% extras/"RenderText_Batch/test.pb"
 %COMP% extras/"RenderText_Batch _ArrayTexture/test.pb"
 %COMP% extras/"Vertex Array Object/test.pb"
+%COMP% extras/"IMGUI/test fixed gui.pb"
+%COMP% extras/"IMGUI/test movable gui.pb"

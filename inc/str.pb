@@ -430,8 +430,9 @@ EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 30
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 35
+; FirstLine = 35
 ; Folding = ---
 ; EnableXP
 ; EnableUser

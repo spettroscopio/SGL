@@ -82,16 +82,8 @@
 ; ---------------------------------------------------------------------------------------------------------------------
 
 DeclareModule dbg
-
-CompilerIf Defined(MACRO_DQ, #PB_Constant) = 0
- Macro DQ
-  "
- EndMacro
- #MACRO_DQ = 1 
-CompilerEndIf
  
 Macro ASSERT_START
-
 EndMacro
 
 Macro ASSERT_END
@@ -100,7 +92,7 @@ EndMacro
 Macro ASSERT (exp)
 CompilerIf (#PB_Compiler_Debugger = 1)
  If Not(Bool(exp))
-    _DBG_ASSERT(DQ#exp#DQ, #PB_Compiler_File, #PB_Compiler_Line)
+    _DBG_ASSERT("", #PB_Compiler_File, #PB_Compiler_Line)
     CallDebugger
  EndIf
 CompilerEndIf
@@ -135,7 +127,7 @@ EndMacro
 
 CompilerIf (#PB_Compiler_Debugger = 1)
 Declare   _DBG_TEXT (Text$, Interval, FileName$, LineNum)
-Declare   _DBG_ASSERT (Exp$, FileName$, LineNum)
+Declare   _DBG_ASSERT (Text$, FileName$, LineNum)
 CompilerEndIf
 
 EndDeclareModule
@@ -204,8 +196,8 @@ Procedure _DBG_TEXT (Text$, Interval, FileName$, LineNum)
  EndIf
 EndProcedure
 
-Procedure _DBG_ASSERT (Exp$, FileName$, LineNum) 
- Protected t$ = "ASSERT: " + Exp$
+Procedure _DBG_ASSERT (Text$, FileName$, LineNum) 
+ Protected t$ = "ASSERT FAILED " + Text$
  
  _DBG_TEXT (t$, 0, FileName$, LineNum)
   
@@ -222,9 +214,9 @@ EndProcedure
 CompilerEndIf
 
 EndModule
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 186
-; FirstLine = 160
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 201
+; FirstLine = 166
 ; Folding = ---
 ; EnableXP
 ; EnableUser

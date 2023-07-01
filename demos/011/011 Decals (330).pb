@@ -747,7 +747,6 @@ Procedure Render()
  EndIf  
  RenderText::Render(gWin, gFon, text$, x, y, color)
 
-
  ; bottom
  vec3::Set(color, 1.0, 1.0, 1.0) 
  x = 1 : y = h - RenderText::GetFontHeight(gFon)  
@@ -828,8 +827,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 752
-; FirstLine = 708
+; CursorPosition = 706
+; FirstLine = 706
 ; Folding = ---
 ; Optimizer
 ; EnableXP
