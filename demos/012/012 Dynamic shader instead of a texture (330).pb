@@ -321,7 +321,7 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 204
+; CursorPosition = 217
 ; FirstLine = 201
 ; Folding = --
 ; EnableXP

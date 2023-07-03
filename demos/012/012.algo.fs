@@ -25,9 +25,10 @@ void main() {
 		// p.x *= ratio;
 		l = length(p);
 		uv += p / l * (sin(t*u_morph1) + 1.0) * abs(sin(l * u_morph1 - t));
-		c[i] = 0.005 / length(mod(uv, 1.0) - 0.5);
+		c[i] = 0.0075 / length(mod(uv, 1.0) - 0.5);
 		c[i] = c[i] < 0.015 ? u_morph2 : c[i];
 	}
 	
 	fragColor = vec4(c/l, 1.0);	
 }
+

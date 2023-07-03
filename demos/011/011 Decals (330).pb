@@ -826,13 +826,13 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; IDE Options = PureBasic 6.02 LTS (Linux - x64)
 ; CursorPosition = 706
 ; FirstLine = 706
-; Folding = ---
+; Folding = --
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = C:\Users\luis\Desktop\Share\sgl\011\decals.exe
+; Executable = C:/Users/luis/Desktop/Share/sgl/011/decals.exe
 ; CPU = 1
 ; CompileSourceDirectory
