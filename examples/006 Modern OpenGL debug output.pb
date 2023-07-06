@@ -73,7 +73,7 @@ If sgl::Init()
         If glLoad::Load() ; load the OpenGL functions
 
             If sgl::IsDebugContext() ; if we really got a debug context
-                Debug "OpenGL debug context available as requested."
+                Debug "OpenGL debug context was requested and it's available."
                 If sgl::EnableDebugOutput() ; we can enable the modern debug output
                     Debug "OpenGL debug output successfully enabled."
                 EndIf
@@ -92,9 +92,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x86)
-; CursorPosition = 72
-; FirstLine = 45
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 75
+; FirstLine = 44
 ; Folding = -
 ; EnableXP
 ; EnableUser

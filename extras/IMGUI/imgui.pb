@@ -18,7 +18,7 @@ EndMacro
 #Bytes  = 1
 #Floats = 2
 
-Declare     Init (fontSize = 9)
+Declare     Init (fontPath$, fontSize = 9)
 Declare     Shutdown()
 Declare     NewFrame (win)
 Declare     SetX (x)
@@ -315,17 +315,18 @@ EndProcedure
 
 ;- Public 
 
-Procedure Init (fontSize = 9)
+Procedure Init (fontPath$, fontSize = 9)
  Dim ranges.sgl::BitmapFontRange(0)
  
  Select fontSize
     Case 8, 9, 10, 12, 14
-        UIC\fon = load_bitmap_font(#PB_Compiler_FilePath + "../Fonts/bmf/consolas-" + Str(fontSize) + ".zip")
+        UIC\fon = load_bitmap_font(fontPath$ + "consolas-" + Str(fontSize) + ".zip")
     Default
-        UIC\fon = load_bitmap_font(#PB_Compiler_FilePath + "../Fonts/bmf/consolas-9.zip")
+        UIC\fon = load_bitmap_font(fontPath$ + "consolas-9.zip")
  EndSelect
  
  ASSERT(UIC\fon)
+ 
  UIC\fonHeight = get_font_height(UIC\fon)
  UIC\thumbWidth = get_text_width(UIC\fon, "M") * 1.1
  UIC\checkBoxWidth = UIC\fonHeight + #IMGUI_MARGINS_VERT_MIN
@@ -974,7 +975,7 @@ EndProcedure
 EndModule
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 7
+; CursorPosition = 40
 ; Folding = --------
 ; Markers = 54,315
 ; EnableXP

@@ -255,7 +255,7 @@ Procedure MainLoop()
  
  BatchRenderer::Init(5000)
  
- imgui::Init()
+ imgui::Init("../Fonts/bmf/")
    
  While sgl::WindowShouldClose(gWin) = 0
  
@@ -286,7 +286,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 14
+; CursorPosition = 257
+; FirstLine = 237
 ; Folding = --
 ; Optimizer
 ; EnableXP

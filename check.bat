@@ -12,6 +12,8 @@
 %COMP% demos/009/"009 Phong, materials, specular map (330).pb"
 %COMP% demos/010/"010 Emissive and Normal maps (330).pb"
 %COMP% demos/011/"011 Decals (330).pb"
+%COMP% demos/012/"012 Dynamic shader instead of a texture (330).pb"
+%COMP% demos/013/"013 Render to Texture (330).pb"
 
 %COMP% examples/"001 Minimal.pb"
 %COMP% examples/"002 Almost minimal.pb"
