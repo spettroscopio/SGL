@@ -63,11 +63,11 @@ Procedure CallBack_Error (source$, desc$)
 EndProcedure
 
 Procedure SetRenderTargetToDefault()
- glBindFramebuffer_(#GL_FRAMEBUFFER, 0)
+ glBindFramebuffer_(#GL_DRAW_FRAMEBUFFER, 0)
 EndProcedure
 
 Procedure SetRenderTargetToTexture()
- glBindFramebuffer_(#GL_FRAMEBUFFER, gFbo)
+ glBindFramebuffer_(#GL_DRAW_FRAMEBUFFER, gFbo)
 EndProcedure
 
 Procedure.i BuildTexture()
@@ -85,16 +85,16 @@ Procedure.i BuildTexture()
  glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
  glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
  
- glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR)
  glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
 
  If sgl::IsExtensionAvailable("GL_EXT_texture_filter_anisotropic") Or sgl::IsExtensionAvailable("GL_ARB_texture_filter_anisotropic")
     glGetFloatv_(#GL_MAX_TEXTURE_MAX_ANISOTROPY, @maxAnisotropy)
-    glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
+    ;glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
  EndIf
   
  glTexImage2D_(#GL_TEXTURE_2D, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
- glGenerateMipmap_(#GL_TEXTURE_2D) 
+ ;glGenerateMipmap_(#GL_TEXTURE_2D) 
  
  FreeImage(img)
  sgl::DestroyTexelData(*td)
@@ -235,26 +235,26 @@ Procedure SetupData()
  
  ; generates a new framebuffer object (we need a 2nd framebuffer beyond the usual default we are always using)
  glGenFramebuffers_(1, @gFbo)
- glBindFramebuffer_(#GL_FRAMEBUFFER, gFbo)
+ glBindFramebuffer_(#GL_DRAW_FRAMEBUFFER, gFbo)
  
  ; we specify a texture as a color attachment, to signify we want to render the contents of the color buffer there
- glFramebufferTexture2D_(#GL_FRAMEBUFFER, #GL_COLOR_ATTACHMENT0, #GL_TEXTURE_2D, gTargetTexture, 0)
+ glFramebufferTexture2D_(#GL_DRAW_FRAMEBUFFER, #GL_COLOR_ATTACHMENT0, #GL_TEXTURE_2D, gTargetTexture, 0)
  
  ; generates a new renderbuffer object (we use this to complement the texure above, to store the depth buffer used for drawing)
  glGenRenderbuffers_(1, @gRbo)
  glBindRenderbuffer_(#GL_RENDERBUFFER, gRbo)
  
  ; we reserve space for the depth buffer (same size as the texture)
- glRenderbufferStorage_(#GL_RENDERBUFFER, #GL_DEPTH24_STENCIL8, #TARGET_TEX_SIZE, #TARGET_TEX_SIZE)
+ glRenderbufferStorage_(#GL_RENDERBUFFER, #GL_DEPTH_COMPONENT24, #TARGET_TEX_SIZE, #TARGET_TEX_SIZE)
  
  ; we specify also a depth attachment as we did for the color, and we send it to the renderbuffer instead of the texture
- glFramebufferRenderbuffer_(#GL_FRAMEBUFFER, #GL_DEPTH_STENCIL_ATTACHMENT, #GL_RENDERBUFFER, gRbo)
+ glFramebufferRenderbuffer_(#GL_DRAW_FRAMEBUFFER, #GL_DEPTH_ATTACHMENT, #GL_RENDERBUFFER, gRbo)
  
  ; we check the framebuffer for completeness
- ASSERT (glCheckFramebufferStatus_(#GL_FRAMEBUFFER) = #GL_FRAMEBUFFER_COMPLETE)
+ ASSERT (glCheckFramebufferStatus_(#GL_DRAW_FRAMEBUFFER) = #GL_FRAMEBUFFER_COMPLETE)
  
  ; we set all this off for now
- glBindFramebuffer_(#GL_FRAMEBUFFER, 0)
+ glBindFramebuffer_(#GL_DRAW_FRAMEBUFFER, 0)
  
  Protected objects.sgl::ShaderObjects
  Protected vs, fs
@@ -657,6 +657,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 247
+; FirstLine = 220
 ; Folding = ---
 ; EnableXP
 ; EnableUser

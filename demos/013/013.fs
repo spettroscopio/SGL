@@ -133,9 +133,8 @@ vec4 OldTV (sampler2D texUnit, vec2 fragCoord)
 
 void main () 
 {
-
  int index = int(v_texUnit);
-  
+ 
  switch (index) {
     case 0:        
         if (u_old_TV == 0) {
