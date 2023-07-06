@@ -90,11 +90,11 @@ Procedure.i BuildTexture()
 
  If sgl::IsExtensionAvailable("GL_EXT_texture_filter_anisotropic") Or sgl::IsExtensionAvailable("GL_ARB_texture_filter_anisotropic")
     glGetFloatv_(#GL_MAX_TEXTURE_MAX_ANISOTROPY, @maxAnisotropy)
-    ;glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
+    glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAX_ANISOTROPY, maxAnisotropy)
  EndIf
   
  glTexImage2D_(#GL_TEXTURE_2D, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
- ;glGenerateMipmap_(#GL_TEXTURE_2D) 
+ glGenerateMipmap_(#GL_TEXTURE_2D) 
  
  FreeImage(img)
  sgl::DestroyTexelData(*td)
@@ -657,8 +657,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 247
-; FirstLine = 220
+; CursorPosition = 96
+; FirstLine = 135
 ; Folding = ---
 ; EnableXP
 ; EnableUser
