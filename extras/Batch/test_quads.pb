@@ -84,7 +84,7 @@ Procedure Render()
   
  glViewport_(0, 0, w, h)
  
- BatchRenderer::StartRenderer(gWin)
+ BatchRenderer::StartRenderer(w, h)
   
  BatchRenderer::StartBatch()
  
@@ -185,8 +185,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 78
-; FirstLine = 69
+; CursorPosition = 86
+; FirstLine = 82
 ; Folding = --
 ; Optimizer
 ; EnableXP

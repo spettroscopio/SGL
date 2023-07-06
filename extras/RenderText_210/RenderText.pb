@@ -1,4 +1,6 @@
-﻿; A simple include to render text in legacy OpenGL, built around the SGL functions CreateBitmapFontData() and CreateTexelData().
+﻿; RenderText using legacy immediate mode OpenGL.
+
+; A simple include to render text in legacy OpenGL, built around the SGL functions CreateBitmapFontData() and CreateTexelData().
 ; This satisfy the immediate urge of putting some text on the screen while still learning OpenGL.
 ; Supports Unicode too.
 
@@ -207,9 +209,7 @@ Procedure.i CreateBitmapFont (fontName$, fontSize, fontFlags,  Array ranges.sgl:
 EndProcedure
 
 EndModule
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 203
-; FirstLine = 159
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
 ; Folding = --
 ; EnableXP
 ; EnableUser

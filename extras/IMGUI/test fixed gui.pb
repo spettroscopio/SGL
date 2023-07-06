@@ -6,8 +6,13 @@ IncludeFile "../../sgl.config.pbi"
 IncludeFile "../../sgl.pbi"
 IncludeFile "../../sgl.pb"
 
-IncludeFile "../Batch_ ArrayTexture/BatchRenderer.pb"
-IncludeFile "../RenderText_Batch _ArrayTexture/RenderText.pb"
+; Batch Renderer (Array Texture version)
+IncludeFile "../Batch_ AT/BatchRenderer.pb"
+
+; Text Renderer (Batch Array Texture version)
+IncludeFile "../RenderText_BAT/RenderText.pb"
+
+; IMGUI (using the above batch renderer)
 IncludeFile "imgui.pb"
 
 #TITLE$ = "IMGUI example"
@@ -92,7 +97,7 @@ Procedure Render()
   
  glViewport_(0, 0, w, h)
 
- BatchRenderer::StartRenderer(gWin) 
+ BatchRenderer::StartRenderer(w, h) 
  BatchRenderer::StartBatch()
  
  imgui::NewFrame (gWin)
@@ -219,6 +224,8 @@ Procedure MainLoop()
     sgl::SwapBuffers(gWin)
  Wend
  
+ imgui::Shutdown()
+ 
  BatchRenderer::Destroy()
 EndProcedure
 
@@ -229,9 +236,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 149
-; FirstLine = 128
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 14
+; FirstLine = 5
 ; Folding = --
 ; Optimizer
 ; EnableXP

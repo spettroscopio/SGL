@@ -1,4 +1,6 @@
-﻿; A simple include to render text in OpenGL 3.30, built around the SGL functions CreateBitmapFontData() and CreateTexelData().
+﻿; RenderText 3.30 (using local batching)
+
+; A simple include to render text in OpenGL 3.30, built around the SGL functions CreateBitmapFontData() and CreateTexelData().
 ; This satisfy the immediate urge of putting some text on the screen while still learning OpenGL.
 ; Supports Unicode too.
 
@@ -23,6 +25,7 @@ EndStructure
 Declare.i   FindGlyph (*fon.BMFont, charCode)
 Declare.i   GetTextWidth (*fon.BMFont, text$)
 Declare.i   GetFontHeight (*fon.BMFont)
+Declare     SetOrthoSize (width, height)
 Declare     Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
 Declare     DestroyBitmapFont (*fon.BMFont)
 Declare.i   BuildBitmapFont (*bmf.sgl::BitmapFontData)
@@ -36,6 +39,8 @@ Module RenderText
 UseModule dbg
 
 UseModule gl
+
+Global gOrtho_w, gOrtho_h
 
 Structure QuadVertex
  x.f
@@ -79,9 +84,14 @@ Procedure.i GetFontHeight (*fon.BMFont)
  ProcedureReturn *fon\bmf\yOffset
 EndProcedure
 
+Procedure SetOrthoSize (width, height)
+ gOrtho_w = width
+ gOrtho_h = height
+EndProcedure
+
 Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
  Protected *c.Character, *cursorVertex.QuadVertex, *cursorIndices.QuadIndices
- Protected w, h, i, charsCount = Len(text$)
+ Protected i, charsCount = Len(text$)
  Protected vertex$, fragment$
  Protected.m4x4::m4x4 projection
   
@@ -91,6 +101,10 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
  
  Static firstRun = 1
  
+ If win   
+    sgl::GetWindowFrameBufferSize (win, @gOrtho_w, @gOrtho_h)
+ EndIf
+
  If firstRun
     ; only the first time
     
@@ -130,9 +144,7 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
     u_projection = sgl::GetUniformLocation(shader, "u_projection")    
     ASSERT(u_projection <> -1)
  EndIf
-    
- sgl::GetWindowFrameBufferSize (win, @w, @h)
- 
+  
  If charsCount > storageCount
     ; only when reallocation is required
     
@@ -180,7 +192,7 @@ Procedure Render (win, *fon.BMFont, text$, x, y, *color.vec3::vec3)
     glBufferData_(#GL_ELEMENT_ARRAY_BUFFER, charsCount * SizeOf(QuadIndices), *indices, #GL_DYNAMIC_DRAW)
  EndIf
   
- m4x4::Ortho(projection, 0, w, h, 0, 0.0, 100.0)
+ m4x4::Ortho(projection, 0, gOrtho_w, gOrtho_h, 0, 0.0, 100.0)
  
  sgl::BindShaderProgram(shader)
  
@@ -341,9 +353,8 @@ EndDataSection
 
 EndModule
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 244
-; FirstLine = 198
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 1
 ; Folding = ---
 ; EnableXP
 ; EnableUser

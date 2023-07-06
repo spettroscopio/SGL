@@ -1,11 +1,10 @@
 ﻿; This is a variant of the RenderText for OpenGL 3.30 but modified to use our batch renderer for quads.
-; This is an ulterior variant using the batch renderer modified to use Array Textures
 
 XIncludeFile "../../sgl.config.pbi"
 XIncludeFile "../../sgl.pbi"
 XIncludeFile "../../sgl.pb"
 
-XIncludeFile "../Batch_ ArrayTexture/BatchRenderer.pb"
+XIncludeFile "../Batch/BatchRenderer.pb"
 
 DeclareModule RenderText
 EnableExplicit
@@ -33,6 +32,17 @@ Module RenderText
 UseModule dbg
 
 UseModule gl
+
+Structure QuadVertex
+ x.f
+ y.f
+ s.f
+ t.f
+EndStructure
+  
+Structure QuadIndices
+ index.l[6]
+EndStructure
  
 Procedure.i FindGlyph (*fon.BMFont, charCode)   
  Protected *glyph
@@ -140,20 +150,16 @@ Procedure.i BuildBitmapFont (*bmf.sgl::BitmapFontData)
  If (*fon = 0) : Goto exit: EndIf
  
  glGenTextures_(1, @texture)
- glBindTexture_(#GL_TEXTURE_2D_ARRAY, texture)
+ glBindTexture_(#GL_TEXTURE_2D, texture)
  
- ; this define how many layers (subtextures) will be present in the Array Texture
- ; the third "1" after the width x height dimensions is used in this case
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
  
- glTexImage3D_(#GL_TEXTURE_2D_ARRAY, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 1, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
-
- glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_S, #GL_CLAMP_TO_EDGE)
- glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_WRAP_T, #GL_CLAMP_TO_EDGE) 
-
- glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
- glTexParameteri_(#GL_TEXTURE_2D_ARRAY, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
-
- glGenerateMipmap_(#GL_TEXTURE_2D_ARRAY)
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MIN_FILTER, #GL_LINEAR_MIPMAP_LINEAR)
+ glTexParameteri_(#GL_TEXTURE_2D, #GL_TEXTURE_MAG_FILTER, #GL_LINEAR)
+ 
+ glTexImage2D_(#GL_TEXTURE_2D, 0, *td\internalTextureFormat, *td\imageWidth, *td\imageHeight, 0, *td\imageFormat, #GL_UNSIGNED_BYTE, *td\pixels)
+ glGenerateMipmap_(#GL_TEXTURE_2D)
  
  *fon\bmf = *bmf
  *fon\texture = texture
@@ -187,10 +193,9 @@ EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 35
-; FirstLine = 26
-; Folding = --
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 33
+; Folding = ---
 ; EnableXP
 ; EnableUser
 ; CPU = 1

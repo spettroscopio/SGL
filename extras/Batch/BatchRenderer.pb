@@ -1,4 +1,4 @@
-﻿; Batch Renderer for Quads
+﻿; Batch Renderer for Quads using normal textures (#GL_TEXTURE_2D).
 
 EnableExplicit
 
@@ -20,7 +20,7 @@ Declare     GetStats (*stats.Stats)
 Declare     ResetStats()
 Declare.i   Init (NumberOfQuads)
 Declare     Destroy()
-Declare     StartRenderer (win)
+Declare     StartRenderer (width, height)
 Declare     StartBatch()
 Declare     StopBatch()
 Declare     Flush()
@@ -317,13 +317,11 @@ Procedure Destroy()
  FreeMemory(BATCH\IndexBuffer)  
 EndProcedure
 
-Procedure StartRenderer (win)
- Protected w, h, u_projection
+Procedure StartRenderer (width, height)
+ Protected u_projection
  Protected projection.m4x4::m4x4
  
- sgl::GetWindowFrameBufferSize (win, @w, @h)
- 
- m4x4::Ortho(projection, 0, w, h, 0, 0.0, 100.0)
+ m4x4::Ortho(projection, 0, width, height, 0, 0.0, 100.0)
  
  sgl::BindShaderProgram(shader)
    
@@ -489,9 +487,7 @@ EndModule
 
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 319
-; FirstLine = 319
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
 ; Folding = ----
 ; EnableXP
 ; EnableUser

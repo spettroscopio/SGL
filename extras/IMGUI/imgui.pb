@@ -5,7 +5,8 @@ XIncludeFile "../../sgl.config.pbi"
 XIncludeFile "../../sgl.pbi"
 XIncludeFile "../../sgl.pb"
 
-XIncludeFile "../Batch_ ArrayTexture/BatchRenderer.pb"
+; Batch Renderer (Array Texture version)
+XIncludeFile "../Batch_ AT/BatchRenderer.pb"
 
 DeclareModule imgui
 EnableExplicit
@@ -167,7 +168,7 @@ Procedure draw_text (win, *fon.BMFont, text$, x, y, *color.vec4::vec4)
                 
     ; texture coordinates to sample the required glyph
     texCood(0)\x = xf 
-    texCood(0)\y = hf    
+    texCood(0)\y = hf
     texCood(1)\x = wf
     texCood(1)\y = hf    
     texCood(2)\x = wf
@@ -319,9 +320,9 @@ Procedure Init (fontSize = 9)
  
  Select fontSize
     Case 8, 9, 10, 12, 14
-        UIC\fon = load_bitmap_font("../Fonts/bmf/consolas-" + Str(fontSize) + ".zip")
+        UIC\fon = load_bitmap_font(#PB_Compiler_FilePath + "../Fonts/bmf/consolas-" + Str(fontSize) + ".zip")
     Default
-        UIC\fon = load_bitmap_font("../Fonts/bmf/consolas-9.zip")
+        UIC\fon = load_bitmap_font(#PB_Compiler_FilePath + "../Fonts/bmf/consolas-9.zip")
  EndSelect
  
  ASSERT(UIC\fon)
@@ -973,10 +974,9 @@ EndProcedure
 EndModule
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 51
-; FirstLine = 51
+; CursorPosition = 7
 ; Folding = --------
-; Markers = 53,314
+; Markers = 54,315
 ; EnableXP
 ; EnableUser
 ; CPU = 1

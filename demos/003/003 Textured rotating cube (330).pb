@@ -330,8 +330,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 295
-; FirstLine = 268
+; CursorPosition = 243
+; FirstLine = 226
 ; Folding = --
 ; EnableXP
 ; EnableUser

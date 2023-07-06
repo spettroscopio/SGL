@@ -143,7 +143,7 @@ Procedure Render()
  ; timestep
  delta = sgl::GetDeltaTime(gTimer)
 
- BatchRenderer::StartRenderer(gWin)
+ BatchRenderer::StartRenderer(w, h)
   
  BatchRenderer::StartBatch()
  
@@ -287,7 +287,7 @@ EndProcedure
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
 ; CursorPosition = 145
-; FirstLine = 127
+; FirstLine = 141
 ; Folding = --
 ; Optimizer
 ; EnableXP

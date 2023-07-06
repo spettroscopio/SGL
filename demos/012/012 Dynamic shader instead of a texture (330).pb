@@ -210,7 +210,7 @@ Procedure Render()
   
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
  glViewport_(0, 0, w, h)
-
+ 
  time = sgl::GetElapsedTime(gTimer)
  
  delta = sgl::GetDeltaTime(gTimer)
@@ -321,8 +321,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 217
-; FirstLine = 201
+; CursorPosition = 274
+; FirstLine = 248
 ; Folding = --
 ; EnableXP
 ; EnableUser

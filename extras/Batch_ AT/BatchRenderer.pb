@@ -22,7 +22,7 @@ Declare     GetStats (*stats.Stats)
 Declare     ResetStats()
 Declare.i   Init (NumberOfQuads)
 Declare     Destroy()
-Declare     StartRenderer (win)
+Declare     StartRenderer (width, height)
 Declare     StartBatch()
 Declare     StopBatch()
 Declare     Flush()
@@ -36,7 +36,8 @@ UseModule dbg
 
 UseModule gl
 
-Global vao, vbo, ibo, shader
+Global gVao, gVbo, gIbo, gShader
+Global gWidth, gHeigth
 
 Structure QuadVertex
  xPos.f ; pos x
@@ -176,10 +177,9 @@ Procedure.i check_if_flushing_required (texture)
 EndProcedure
 
 Procedure bind_textures()
- Protected i
- Protected u_texUnits 
+ Protected i, u_texUnits 
  
- u_texUnits = sgl::GetUniformLocation(shader, "u_texUnits")
+ u_texUnits = sgl::GetUniformLocation(gShader, "u_texUnits")
  ASSERT(u_texUnits <> -1) 
  
  For i = 0 To BATCH\storedTextures - 1
@@ -252,22 +252,22 @@ Procedure.i Init (NumberOfQuads)
  
  sgl::AddShaderObject(@objects, vs) 
       
- shader = sgl::BuildShaderProgram(@objects)
- ASSERT(shader)
+ gShader = sgl::BuildShaderProgram(@objects)
+ ASSERT(gShader)
   
  ; vertex array
- glGenVertexArrays_(1, @vao)    
+ glGenVertexArrays_(1, @gVao)    
 
  ; vertex buffer
- glGenBuffers_(1, @vbo)
+ glGenBuffers_(1, @gVbo)
 
  ; index buffer
- glGenBuffers_(1, @ibo)
+ glGenBuffers_(1, @gIbo)
  
- glBindVertexArray_(vao)
+ glBindVertexArray_(gVao)
     
  ; vertex buffer
- glBindBuffer_(#GL_ARRAY_BUFFER, vbo)
+ glBindBuffer_(#GL_ARRAY_BUFFER, gVbo)
  glBufferData_(#GL_ARRAY_BUFFER, SizeOf(QuadObject) * BATCH\bufferSizeInQuads, #Null, #GL_DYNAMIC_DRAW)
     
  glEnableVertexAttribArray_(0) ; position
@@ -283,7 +283,7 @@ Procedure.i Init (NumberOfQuads)
  glVertexAttribPointer_(3, 1, #GL_FLOAT, #GL_FALSE, SizeOf(QuadVertex), OffsetOf(QuadVertex\texture))
  
  ; index buffer   
- glBindBuffer_(#GL_ELEMENT_ARRAY_BUFFER, ibo)
+ glBindBuffer_(#GL_ELEMENT_ARRAY_BUFFER, gIbo)
  
  Protected i
  
@@ -316,26 +316,14 @@ Procedure Destroy()
  glBindVertexArray_(0)
  glBindBuffer_(#GL_ARRAY_BUFFER, 0)
  glBindBuffer_(#GL_ELEMENT_ARRAY_BUFFER, 0)
- sgl::DestroyShaderProgram (shader)
+ sgl::DestroyShaderProgram (gShader)
  FreeMemory(BATCH\DataBuffer)  
  FreeMemory(BATCH\IndexBuffer)  
 EndProcedure
 
-Procedure StartRenderer (win)
- Protected w, h, u_projection
- Protected projection.m4x4::m4x4
- 
- sgl::GetWindowFrameBufferSize (win, @w, @h)
- 
- m4x4::Ortho(projection, 0, w, h, 0, 0.0, 100.0)
- 
- sgl::BindShaderProgram(shader)
-   
- u_projection = sgl::GetUniformLocation(shader, "u_projection")    
- ASSERT(u_projection <> -1)
- 
- sgl::SetUniformMatrix4x4(u_projection, @projection) 
- 
+Procedure StartRenderer (width, height)
+ gWidth = width
+ gHeigth = height
  ResetStats()
 EndProcedure
 
@@ -347,21 +335,34 @@ EndProcedure
 
 Procedure StopBatch()
  ; send data to the GPU
- glBindVertexArray_(vao)
- glBindBuffer_(#GL_ARRAY_BUFFER, vbo) 
+ glBindVertexArray_(gVao)
+ glBindBuffer_(#GL_ARRAY_BUFFER, gVbo) 
  glBufferSubData_(#GL_ARRAY_BUFFER, 0, SizeOf(QuadObject) * BATCH\storedQuads, BATCH\DataBuffer) 
 EndProcedure
 
 Procedure Flush()   
- glBindVertexArray_(vao) 
+ Protected u_projection
+ Protected projection.m4x4::m4x4
+ 
+ sgl::BindShaderProgram(gShader)
+ 
+ glBindVertexArray_(gVao) 
+
+ m4x4::Ortho(projection, 0, gWidth, gHeigth, 0, 0.0, 100.0)
+ 
+ u_projection = sgl::GetUniformLocation(gShader, "u_projection")    
+ ASSERT(u_projection <> -1)
+ 
+ sgl::SetUniformMatrix4x4(u_projection, @projection) 
  
  glEnable_(#GL_BLEND)
  glBlendFunc_(#GL_SRC_ALPHA, #GL_ONE_MINUS_SRC_ALPHA)
  
+ glDisable_(#GL_DEPTH_TEST) 
+ 
  bind_textures() ; bind the cached textures
  
  glDrawElements_(#GL_TRIANGLES, 6 * BATCH\storedQuads, #GL_UNSIGNED_INT, 0) 
-
  glDisable_(#GL_BLEND)
    
  ; update stats  
@@ -501,8 +502,9 @@ EndModule
 
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 30
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 356
+; FirstLine = 342
 ; Folding = ----
 ; EnableXP
 ; EnableUser

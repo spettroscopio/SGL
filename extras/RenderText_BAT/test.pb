@@ -1,4 +1,4 @@
-﻿; Test of the RenderText() for OpenGL 3.30 using the batch renderer
+﻿; Test of the RenderText() for OpenGL 3.30 using the batch renderer (Array Textures)
 
 EnableExplicit
 
@@ -8,7 +8,7 @@ IncludeFile "../../sgl.pb"
 
 IncludeFile "RenderText.pb"
 
-#TITLE$ = "RenderText test 3.30 using Batch Renderer"
+#TITLE$ = "RenderText test 3.30 using Batch Renderer (Array Textures)"
 #WIN_WIDTH = 1024
 #WIN_HEIGHT = 768
 #VSYNC = 0
@@ -121,7 +121,7 @@ Procedure Render()
   
  glViewport_(0, 0, w, h)
  
- BatchRenderer::StartRenderer(gWin) 
+ BatchRenderer::StartRenderer(w, h) 
  BatchRenderer::StartBatch()
 
   For i = 0 To #HowMany - 1
@@ -224,8 +224,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 142
-; FirstLine = 123
+; CursorPosition = 123
+; FirstLine = 119
 ; Folding = --
 ; Optimizer
 ; EnableXP

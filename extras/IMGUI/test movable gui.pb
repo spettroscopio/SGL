@@ -6,8 +6,13 @@ IncludeFile "../../sgl.config.pbi"
 IncludeFile "../../sgl.pbi"
 IncludeFile "../../sgl.pb"
 
-IncludeFile "../Batch_ ArrayTexture/BatchRenderer.pb"
-IncludeFile "../RenderText_Batch _ArrayTexture/RenderText.pb"
+; Batch Renderer (Array Texture version)
+IncludeFile "../Batch_ AT/BatchRenderer.pb"
+
+; Text Renderer (Batch Array Texture version)
+IncludeFile "../RenderText_BAT/RenderText.pb"
+
+; IMGUI (using the above batch renderer)
 IncludeFile "imgui.pb"
 
 #TITLE$ = "IMGUI example"
@@ -72,11 +77,10 @@ Procedure ShutDown()
 EndProcedure
 
 Procedure Render() 
- Protected w, h, x, y
- Protected i, size
+ Protected w, h, x, y, i
  Protected txtColor.vec3::vec3, backColor.vec4::vec4
- Protected fh = RenderText::GetFontHeight(gFon)
  Protected.BatchRenderer::stats info
+ Protected fh = RenderText::GetFontHeight(gFon)
  Protected delta.f, elapsed.f
  Protected text$
   
@@ -107,7 +111,7 @@ Procedure Render()
  
  BatchRenderer::GetStats(@info)
  
- BatchRenderer::StartRenderer(gWin) 
+ BatchRenderer::StartRenderer(w, h) 
  BatchRenderer::StartBatch()
  
  imgui::NewFrame (gWin)
@@ -141,7 +145,7 @@ Procedure Render()
     vec4::Set(qcol(3), 0.0, 0.0, 1.0, 1.0)
     
     imgui::SetPos (5, 5) ; the position will be relative to the movable background
-    imgui::SetBackgroundPos(5, h - 200)
+    imgui::SetBackgroundPos (5, h - 200)
     
     firstRun = 0   
  EndIf
@@ -269,6 +273,8 @@ Procedure MainLoop()
     sgl::SwapBuffers(gWin)
  Wend
  
+ imgui::Shutdown()
+ 
  BatchRenderer::Destroy()
 EndProcedure
 
@@ -280,8 +286,7 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 202
-; FirstLine = 185
+; CursorPosition = 14
 ; Folding = --
 ; Optimizer
 ; EnableXP

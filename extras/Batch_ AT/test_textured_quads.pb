@@ -188,7 +188,7 @@ Procedure Render()
  
  layerTime + delta
  
- BatchRenderer::StartRenderer(gWin)
+ BatchRenderer::StartRenderer(w, h)
   
  BatchRenderer::StartBatch()
  
@@ -335,14 +335,14 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.01 LTS (Linux - x64)
-; CursorPosition = 233
-; FirstLine = 216
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 190
+; FirstLine = 186
 ; Folding = --
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = C:/Users/luis/Desktop/Share/sgl/textured_batch_renderer.exe
+; Executable = C:\Users\luis\Desktop\Share\sgl\textured_batch_renderer.exe
 ; CPU = 1
 ; DisableDebugger
 ; CompileSourceDirectory
