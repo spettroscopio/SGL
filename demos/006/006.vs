@@ -7,7 +7,7 @@ layout (location = 2) in float texUnit;
 
 // output sent to the fragment shader
 out vec2  v_texCoord; // interpolated texture coordinates
-out float v_texUnit; // the texture unit for this quad of the cube
+flat out float v_texUnit; // the texture unit for this quad of the cube
 
 uniform mat4 u_model;
 uniform mat4 u_view;

@@ -1,7 +1,7 @@
 #version 330 core
 
 in vec2  v_texCoord; 
-in float v_texUnit;
+flat in float v_texUnit;
 
 out vec4 fragColor; 
 

@@ -432,7 +432,7 @@ Procedure Render()
  Protected.m4x4::m4x4 model, projection, view
  Protected u_model, u_view, u_projection, u_texUnits, u_old_TV, u_old_TV_settings, u_time
  Protected txtColor.vec3::vec3, backColor.vec4::vec4
- 
+
  ; we enable rendering to texture
  SetRenderTargetToTexture()
  
@@ -657,8 +657,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 96
-; FirstLine = 135
+; CursorPosition = 408
+; FirstLine = 378
 ; Folding = ---
 ; EnableXP
 ; EnableUser

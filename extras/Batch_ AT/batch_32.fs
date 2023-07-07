@@ -2,7 +2,7 @@
 
 in vec3  v_texCoord;
 in vec4  v_color;
-in float v_texUnit;
+flat in float v_texUnit;
 
 out vec4 fragColor;
 

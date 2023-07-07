@@ -8,7 +8,7 @@ layout (location = 3) in float texUnit;
 
 out vec3  v_texCoord;
 out vec4  v_color;
-out float v_texUnit; 
+flat out float v_texUnit; 
 
 // ortho projection
 uniform mat4 u_projection;

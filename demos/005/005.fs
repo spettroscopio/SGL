@@ -1,7 +1,10 @@
 #version 330 core
 
 in vec2  v_texCoord; 
-in float v_texUnit;
+
+// flat is required on some nVidia drivers, else fragments of the wrong textures are sampled
+
+flat in float v_texUnit;
 
 out vec4 fragColor; 
 

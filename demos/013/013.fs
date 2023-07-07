@@ -3,7 +3,7 @@
 // The original "Distorted TV" shader is from https://www.shadertoy.com/view/ldXGW4
 
 in vec2  v_texCoord; 
-in float v_texUnit;
+flat in float v_texUnit;
 
 out vec4 fragColor; 
 
