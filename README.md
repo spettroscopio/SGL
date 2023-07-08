@@ -31,5 +31,5 @@ I would probably keep adding examples and demos to this repository when I need t
 
 Maybe someone else will find this useful or simply instructive so here it is.
 
-Announcements and info [here](https://www.purebasic.fr/english/viewtopic.php?t=81764).
+For announcements, comments, questions please go [here](https://www.purebasic.fr/english/viewtopic.php?t=81764).
 
