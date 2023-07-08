@@ -341,6 +341,7 @@ Procedure StopBatch()
 EndProcedure
 
 Procedure Flush()   
+ Protected stateDepthTest, stateBlend
  Protected u_projection
  Protected projection.m4x4::m4x4
  
@@ -355,15 +356,19 @@ Procedure Flush()
  
  sgl::SetUniformMatrix4x4(u_projection, @projection) 
  
- glEnable_(#GL_BLEND)
- glBlendFunc_(#GL_SRC_ALPHA, #GL_ONE_MINUS_SRC_ALPHA)
- 
- glDisable_(#GL_DEPTH_TEST) 
+ glGetBooleanv_(#GL_DEPTH_TEST, @stateDepthTest)
+ glGetBooleanv_(#GL_BLEND, @stateBlend)
  
  bind_textures() ; bind the cached textures
  
+ glEnable_(#GL_BLEND)
+ glBlendFunc_(#GL_SRC_ALPHA, #GL_ONE_MINUS_SRC_ALPHA)
+ glDisable_(#GL_DEPTH_TEST)  
+ 
  glDrawElements_(#GL_TRIANGLES, 6 * BATCH\storedQuads, #GL_UNSIGNED_INT, 0) 
- glDisable_(#GL_BLEND)
+ 
+ If stateBlend = 0     : glDisable_(#GL_BLEND)      : Else : glEnable_(#GL_BLEND)      : EndIf
+ If stateDepthTest = 0 : glDisable_(#GL_DEPTH_TEST) : Else : glEnable_(#GL_DEPTH_TEST) : EndIf
    
  ; update stats  
  BATCH\totalQuadsDrawn + BATCH\storedQuads
@@ -502,9 +507,9 @@ EndModule
 
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 356
-; FirstLine = 342
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 361
+; FirstLine = 339
 ; Folding = ----
 ; EnableXP
 ; EnableUser
