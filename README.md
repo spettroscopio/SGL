@@ -3,7 +3,7 @@ SGL for PureBasic.<br>
 SGL is a module built on top of GLFW, and it is intended to take care of all the recurring tasks required when writing OpenGL code.<br>
 It works on Windows (32/64 bits) and Linux (64 bits).<br>
 <br>
-You can have a quick idea of the API by looking at the declares [here](https://github.com/spettroscopio/SGL/blob/main/sgl.pbi).
+You can have a quick idea of the API by looking at the declares [here](https://github.com/spettroscopio/SGL/blob/beb7aa3dd6062082b7eab222f0bf4f6c8c50558f/sgl.pbi#L444).
 
 The repository is organized this way:
 
