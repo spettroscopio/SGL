@@ -38,5 +38,5 @@ In the future even a 3D one perhaps, who knows !<br>
 
 Maybe someone else will find this stuff useful or simply instructive so here it is.
 
-For announcements, comments, or if you have any questions please go [here](https://www.purebasic.fr/english/viewtopic.php?t=81764).
+For announcements, comments, questions please go [here](https://www.purebasic.fr/english/viewtopic.php?t=81764).
 
