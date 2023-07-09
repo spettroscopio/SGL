@@ -425,7 +425,7 @@ EndProcedure
 
 Procedure Render() 
  Protected w, h, text$ 
- Protected delta.f, elapsed.f
+ Protected delta.d, elapsed.d
  Protected.m4x4::m4x4 model, projection, view
  Protected u_model, u_view, u_projection, u_texUnits, u_old_TV, u_old_TV_settings, u_time
  Protected txtColor.vec3::vec3, backColor.vec4::vec4
@@ -654,8 +654,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 326
-; FirstLine = 324
+; CursorPosition = 311
+; FirstLine = 307
 ; Folding = ---
 ; EnableXP
 ; EnableUser

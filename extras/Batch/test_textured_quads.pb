@@ -130,7 +130,7 @@ Procedure Render()
  Protected x, y, i, text$, color.vec3::vec3, qc.vec4::vec4
  Protected.BatchRenderer::stats info
  Protected fh = RenderText::GetFontHeight(gFon1)
- Protected delta.f
+ Protected delta.d
   
  sgl::GetWindowFrameBufferSize (gWin, @w, @h)
  
@@ -285,9 +285,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 145
-; FirstLine = 141
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 132
+; FirstLine = 128
 ; Folding = --
 ; Optimizer
 ; EnableXP

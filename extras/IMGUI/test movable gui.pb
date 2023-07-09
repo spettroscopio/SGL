@@ -81,7 +81,7 @@ Procedure Render()
  Protected txtColor.vec3::vec3, backColor.vec4::vec4
  Protected.BatchRenderer::stats info
  Protected fh = RenderText::GetFontHeight(gFon)
- Protected delta.f, elapsed.f
+ Protected delta.d, elapsed.d
  Protected text$
   
  Static firstRun = 1
@@ -286,8 +286,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 257
-; FirstLine = 237
+; CursorPosition = 83
+; FirstLine = 78
 ; Folding = --
 ; Optimizer
 ; EnableXP

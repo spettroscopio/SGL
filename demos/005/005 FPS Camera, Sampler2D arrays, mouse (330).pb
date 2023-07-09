@@ -266,7 +266,7 @@ EndProcedure
 
 Procedure Render()
  Protected w, h, text$ 
- Protected delta.f
+ Protected delta.d
  Protected.vec3::vec3 pos
  Protected.m4x4::m4x4 model, projection, view
  Protected u_model, u_view, u_projection, u_texUnits
@@ -429,8 +429,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 396
-; FirstLine = 356
+; CursorPosition = 273
+; FirstLine = 266
 ; Folding = --
 ; EnableXP
 ; EnableUser

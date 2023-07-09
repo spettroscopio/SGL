@@ -171,7 +171,7 @@ Procedure Render()
  Protected x, y, i, text$, color.vec3::vec3, qc.vec4::vec4
  Protected.BatchRenderer::stats info
  Protected fh = RenderText::GetFontHeight(gFon1)
- Protected delta.f
+ Protected delta.d
  
  Static layer, layerTime.f
   
@@ -335,9 +335,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 190
-; FirstLine = 186
+; IDE Options = PureBasic 6.02 LTS (Windows - x64)
+; CursorPosition = 173
+; FirstLine = 168
 ; Folding = --
 ; Optimizer
 ; EnableXP

@@ -405,7 +405,7 @@ EndProcedure
 
 Procedure Render()
  Protected w, h, text$ 
- Protected delta.f
+ Protected delta.d
  Protected distance.f = 5.0
  Protected u_model, u_view, u_projection
  Protected u_light, u_material, u_lamp, u_eye, u_NormalMapping
@@ -750,8 +750,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 684
-; FirstLine = 640
+; CursorPosition = 350
+; FirstLine = 346
 ; Folding = ---
 ; Optimizer
 ; EnableXP

@@ -171,7 +171,8 @@ EndProcedure
 Procedure Render() 
  Protected w, h, fps$
  Protected color.vec3::vec3
- Protected elapsed.f, rot.f
+ Protected elapsed.d
+ Protected rot.f
  
  vec3::Set(color, 1.0, 1.0, 1.0)
   
@@ -309,8 +310,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 281
-; FirstLine = 254
+; CursorPosition = 174
+; FirstLine = 170
 ; Folding = --
 ; Optimizer
 ; EnableXP

@@ -236,7 +236,8 @@ Procedure Render()
  Protected w, h
  Protected.m4x4::m4x4 modelview, projection
  Protected u_texture, u_modelview, u_projection 
- Protected elapsed.f, rot.f
+ Protected elapsed.d
+ Protected rot.f
  Protected color.vec3::vec3
  
  vec3::Set(color, 1.0, 1.0, 1.0)
@@ -330,8 +331,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 243
-; FirstLine = 226
+; CursorPosition = 213
+; FirstLine = 209
 ; Folding = --
 ; EnableXP
 ; EnableUser

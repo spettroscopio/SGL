@@ -43,7 +43,7 @@ Declare     SetSpeed (*camera.CameraFPS, speed.f)
 Declare     Reset (*camera.CameraFPS)
 Declare     Destroy (*camera.CameraFPS)
 Declare     SetLimits (*camera.CameraFPS, pitchMin.f, pitchMax.f)
-Declare     Update (*camera.CameraFPS, delta.f)
+Declare     Update (*camera.CameraFPS, delta.d)
 Declare.i   GetMatrix(*camera.CameraFPS)
 
 EndDeclareModule
@@ -119,7 +119,7 @@ Procedure SetLimits (*camera.CameraFPS, pitchMin.f, pitchMax.f)
  *camera\pitchMax = pitchMax
 EndProcedure
 
-Procedure Update (*camera.CameraFPS, delta.f)
+Procedure Update (*camera.CameraFPS, delta.d)
  Protected.vec3::vec3 move
  Protected.vec3::vec3 right, left
  Protected rad_yaw.f, rad_pitch.f
@@ -222,8 +222,8 @@ EndModule
 
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 147
-; FirstLine = 105
+; CursorPosition = 121
+; FirstLine = 117
 ; Folding = --
 ; EnableXP
 ; EnableUser

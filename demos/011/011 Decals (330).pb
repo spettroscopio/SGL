@@ -407,7 +407,7 @@ EndProcedure
 
 Procedure Render()
  Protected w, h, text$ 
- Protected delta.f
+ Protected delta.d
  Protected distance.f = 5.0
  Protected u_model, u_view, u_projection
  Protected u_light, u_material, u_lamp, u_eye, u_NormalMapping, u_decal
@@ -826,13 +826,13 @@ Procedure Main()
  MainLoop()    
  ShutDown()
 EndProcedure : Main()
-; IDE Options = PureBasic 6.02 LTS (Linux - x64)
-; CursorPosition = 706
-; FirstLine = 706
-; Folding = --
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 407
+; FirstLine = 407
+; Folding = ---
 ; Optimizer
 ; EnableXP
 ; EnableUser
-; Executable = C:/Users/luis/Desktop/Share/sgl/011/decals.exe
+; Executable = C:\Users\luis\Desktop\Share\sgl\011\decals.exe
 ; CPU = 1
 ; CompileSourceDirectory

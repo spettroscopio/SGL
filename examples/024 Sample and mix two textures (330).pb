@@ -45,7 +45,8 @@ EndProcedure
 
 Procedure Render (win)
  Protected w, h
- Protected elapsed.f, mix.f
+ Protected elapsed.d
+ Protected mix.f
  Protected u_Texture1, u_Texture2, u_Mixing
  
  #MIX_TIME_SECONDS = 3.0
@@ -188,9 +189,9 @@ If sgl::Init()
     sgl::Shutdown()
 EndIf
  
-; IDE Options = PureBasic 6.01 LTS (Windows - x64)
-; CursorPosition = 142
-; FirstLine = 139
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 42
+; FirstLine = 39
 ; Folding = -
 ; EnableXP
 ; EnableUser

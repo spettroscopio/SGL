@@ -128,10 +128,10 @@ EndProcedure
 
 Procedure Render()
  Protected w, h
- Protected timeDelta.f
+ Protected delta.d
  Protected.m4x4::m4x4 modelview, projection
  
- timeDelta = sgl::GetDeltaTime(gTimer)
+ delta = sgl::GetDeltaTime(gTimer)
   
  glClearColor_(0.25,0.25,0.5,1.0)
  glEnable_(#GL_DEPTH_TEST) 
@@ -193,8 +193,8 @@ Procedure Main()
 EndProcedure : Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 62
-; FirstLine = 48
+; CursorPosition = 133
+; FirstLine = 129
 ; Folding = --
 ; EnableXP
 ; EnableUser

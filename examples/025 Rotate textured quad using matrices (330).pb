@@ -47,7 +47,8 @@ Procedure.i BuildTex ()
 EndProcedure
  
 Procedure Render (win)
- Protected w, h, elapsed.f, angle.f
+ Protected elapsed.d
+ Protected w, h, angle.f
  Protected TransformMatrix.m4x4::m4x4
  Protected u_texture, u_transform
 
@@ -194,8 +195,8 @@ If sgl::Init()
 EndIf
  
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 63
-; FirstLine = 59
+; CursorPosition = 49
+; FirstLine = 42
 ; Folding = -
 ; EnableXP
 ; EnableUser

@@ -235,7 +235,8 @@ Procedure Render()
  Protected.vec3::vec3 radius
  Protected.vec3::vec3 color
  Protected u_texture, u_model, u_view, u_projection 
- Protected delta.f, distance.f
+ Protected delta.d
+ Protected distance.f
  
  Static rot.f
  Static orbit.f = 90.0 ; to sync the camera at the start of the orbital motion
@@ -361,8 +362,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 255
-; FirstLine = 214
+; CursorPosition = 238
+; FirstLine = 228
 ; Folding = --
 ; EnableXP
 ; EnableUser

@@ -129,7 +129,8 @@ Procedure Render()
  #ROTATION_TIME = 15.0 ; seconds to rotate 360.0 degrees
  
  Protected w, h
- Protected elapsed.f, rot.f
+ Protected elapsed.d
+ Protected rot.f
   
  glClearColor_(0.25,0.25,0.5,1.0)
  glEnable_(#GL_DEPTH_TEST) 
@@ -236,8 +237,8 @@ EndProcedure
 
 Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 145
-; FirstLine = 141
+; CursorPosition = 132
+; FirstLine = 127
 ; Folding = --
 ; Optimizer
 ; EnableXP

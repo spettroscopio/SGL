@@ -45,7 +45,7 @@ EndStructure
 Declare.i   Create (win, distance.f)
 Declare     Reset (*camera.ArcBall)
 Declare     Destroy (*camera.ArcBall)
-Declare     Update (*camera.ArcBall, delta.f)
+Declare     Update (*camera.ArcBall, delta.d)
 Declare.i   GetMatrix (*camera.ArcBall)
 EndDeclareModule
 
@@ -100,7 +100,7 @@ Procedure.i GetMatrix (*camera.ArcBall)
  ProcedureReturn *camera\view
 EndProcedure
 
-Procedure Update (*camera.ArcBall, delta.f)
+Procedure Update (*camera.ArcBall, delta.d)
  Protected offsetX.d, offsetY.d
  Protected w, h, x, y 
  Protected nx.f, ny.f, nz.f
@@ -215,8 +215,8 @@ EndModule
 
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 135
-; FirstLine = 95
+; CursorPosition = 102
+; FirstLine = 98
 ; Folding = --
 ; EnableXP
 ; EnableUser
