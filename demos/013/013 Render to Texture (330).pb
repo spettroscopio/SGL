@@ -32,7 +32,6 @@ UseModule gl
 
 Global gWin
 Global gTimer, gTimerChild
-Global gTimerFPS
 Global gVao
 Global gFbo
 Global gRbo
@@ -308,8 +307,7 @@ Procedure Startup()
         ranges(0)\lastChar   = 128    
                 
         gFon = RenderText::CreateBitmapFont("Arial", 10, #Null, ranges())
-                  
-        gTimerFPS = sgl::CreateTimer()
+                         
         gTimer = sgl::CreateTimer()
         gTimerChild = sgl::CreateTimer()
         
@@ -327,7 +325,6 @@ Procedure ShutDown()
  RenderText::DestroyBitmapFont(gFon)   
  sgl::DestroyTimer(gTimer)
  sgl::DestroyTimer(gTimerChild)   
- sgl::DestroyTimer(gTimerFPS)   
  sgl::Shutdown()
 EndProcedure
 
@@ -657,8 +654,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 408
-; FirstLine = 378
+; CursorPosition = 326
+; FirstLine = 324
 ; Folding = ---
 ; EnableXP
 ; EnableUser
