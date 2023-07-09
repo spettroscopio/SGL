@@ -31,7 +31,7 @@ The initialization of the library will look there.<br>
 ### That's all !
 This is a work in progress even if it has all the features I seem to require at the moment.<br>
 I will probably keep adding examples and demos to this repository when I need to experiment with some code or idea.<br>
-For example at the moment this also contains simple implementations of font rendering, FPS and ArcBall cameras, a Batch Renderer for quads, a basic IMGUI, etc.<br>
+For example right now this contains simple implementations of font rendering, FPS and ArcBall cameras, a Batch Renderer for quads, a basic IMGUI, etc.<br>
 
 My idea is now to start using this to build a simple 2D game engine, to learn something more about game programming while writing all the base functionalities myself.<br>
 In the future even a 3D one perhaps, who knows !<br>
