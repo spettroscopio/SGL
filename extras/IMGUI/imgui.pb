@@ -612,7 +612,7 @@ Procedure SliderFloat (id, *float.Float, min.f, max.f, w = 0, h = 0)
     ElseIf xClickPosition <= 0
         float = min
     Else
-        float = math::MapToRange5f(xClickPosition, 0, w, min, max)
+        float = math::MapToRange5f(0, w, min, max, xClickPosition)
     EndIf
  Else
     If sgl::GetMouseButton(UIC\win, sgl::#MOUSE_BUTTON_LEFT) = sgl::#PRESSED
@@ -637,7 +637,7 @@ Procedure SliderFloat (id, *float.Float, min.f, max.f, w = 0, h = 0)
  float$ = apply_mask(StrF(float, UIC\decimals))
  float_width = get_text_width(UIC\fon, float$) 
  
- Protected xCenterThumb = math::MapToRange5f(float, min, max, 0 + UIC\thumbWidth / 2, w - UIC\thumbWidth / 2)
+ Protected xCenterThumb = math::MapToRange5f(min, max, 0 + UIC\thumbWidth / 2, w - UIC\thumbWidth / 2, float)
  
  Protected xc, yc 
  xc = x + (w - float_width) / 2
@@ -690,7 +690,7 @@ Procedure SliderInt (id, *int.Integer, min, max, w = 0, h = 0)
     ElseIf xClickPosition <= 0
         int = min
     Else
-        int = math::Nearest(math::MapToRange5f(xClickPosition, 0, w, min, max))
+        int = math::Nearest(math::MapToRange5f(0, w, min, max, xClickPosition))
     EndIf
  Else
     If sgl::GetMouseButton(UIC\win, sgl::#MOUSE_BUTTON_LEFT) = sgl::#PRESSED
@@ -715,7 +715,7 @@ Procedure SliderInt (id, *int.Integer, min, max, w = 0, h = 0)
  int$ = apply_mask(Str(int))
  int_width = get_text_width(UIC\fon, int$)
  
- Protected xCenterThumb = math::MapToRange5i(int, min, max, 0 + UIC\thumbWidth / 2, w - UIC\thumbWidth / 2)
+ Protected xCenterThumb = math::MapToRange5i(min, max, 0 + UIC\thumbWidth / 2, w - UIC\thumbWidth / 2, int)
  
  Protected xc, yc 
  xc = x + (w - int_width) / 2
@@ -778,7 +778,7 @@ Procedure.s SliderEnum (id, *item.Integer, enum$, w = 0, h = 0)
     ElseIf xClickPosition <= 0
         item = 0
     Else
-        item = math::Nearest(math::MapToRange5f(xClickPosition, 0, w, 0, items - 1))        
+        item = math::Nearest(math::MapToRange5f(0, w, 0, items - 1, xClickPosition))
     EndIf
  Else
     If sgl::GetMouseButton(UIC\win, sgl::#MOUSE_BUTTON_LEFT) = sgl::#PRESSED
@@ -803,7 +803,7 @@ Procedure.s SliderEnum (id, *item.Integer, enum$, w = 0, h = 0)
  item$ = items$(item)
  item_width = get_text_width(UIC\fon, item$)
   
- Protected xCenterThumb = math::MapToRange5i(item, 0, items - 1, 0 + UIC\thumbWidth / 2, w - UIC\thumbWidth / 2)
+ Protected xCenterThumb = math::MapToRange5i(0, items - 1, 0 + UIC\thumbWidth / 2, w - UIC\thumbWidth / 2, item)
   
  Protected xc, yc 
  xc = x + (w - item_width) / 2
@@ -974,8 +974,9 @@ EndProcedure
 
 EndModule
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 40
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 805
+; FirstLine = 801
 ; Folding = --------
 ; Markers = 54,315
 ; EnableXP

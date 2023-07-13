@@ -312,7 +312,7 @@ Procedure Startup()
         gTimerChild = sgl::CreateTimer()
         
         sgl::EnableVSYNC(#VSYNC)
-        
+               
         ProcedureReturn 
     EndIf
  EndIf
@@ -362,7 +362,7 @@ Procedure RenderChild()
 
  ; map this particular instant between 0 and #ROTATION_TIME seconds to a rotation from 0 to 360 degrees
  ; the resulting number is the angle the cube must be rotated at this point in time
- rot = Math::MapToRange5f(elapsed, 0.0, RotTime, 0.0, 360.0)
+ rot = Math::MapToRange5f(0.0, RotTime, 0.0, 360.0, elapsed)
 
  ; model
  m4x4::Identity(model)
@@ -454,7 +454,7 @@ Procedure Render()
   Data.l 0, 1
  sgl::StopData()
  
- glClearColor_(0.15,0.20,0.30,1.0)
+ glClearColor_(0.20,0.25,0.35,1.0)
  glEnable_(#GL_DEPTH_TEST) 
  glClear_(#GL_COLOR_BUFFER_BIT | #GL_DEPTH_BUFFER_BIT)
  
@@ -654,8 +654,8 @@ EndProcedure
 Main()
 
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 311
-; FirstLine = 307
+; CursorPosition = 364
+; FirstLine = 360
 ; Folding = ---
 ; EnableXP
 ; EnableUser

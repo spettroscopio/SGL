@@ -200,7 +200,7 @@ Procedure Render()
     imgui::Text(imgui::ID(), text$)
     imgui::NewLine()
 
-    text$ = str::Sprintf("Elapsed time: %.3f", @elapsed)
+    text$ = str::Sprintf("Elapsed time: %.3d", @elapsed)
     imgui::Text(imgui::ID(), text$)
     imgui::NewLine(15)
         
@@ -285,9 +285,9 @@ Procedure Main()
 EndProcedure
 
 Main()
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 83
-; FirstLine = 78
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 202
+; FirstLine = 159
 ; Folding = --
 ; Optimizer
 ; EnableXP

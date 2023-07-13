@@ -1,4 +1,4 @@
-﻿; An example of how a shader can replace the sampling from a texture by dynamicall calculating the color of every pixels in real time
+﻿; An example of how a shader can replace the sampling from a texture by dynamically calculating the color of every pixels in real time
 
 EnableExplicit
 
@@ -321,8 +321,8 @@ Procedure Main()
  ShutDown()
 EndProcedure : Main()
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 140
-; FirstLine = 136
+; CursorPosition = 52
+; FirstLine = 272
 ; Folding = --
 ; EnableXP
 ; EnableUser

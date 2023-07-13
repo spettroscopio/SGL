@@ -137,8 +137,8 @@ Procedure Update (*camera.ArcBall, delta.d)
  offsetY = y - *camera\lastMouseY 
 
  ; map the coordinate system so it's going from (-1,1) (bottom left) to (1,1) (top right) and (0.0) is at the center
- nx = math::MapToRange5f(x, 0, w, -1.0,  1.0)
- ny = math::MapToRange5f(y, 0, h,  1.0, -1.0)
+ nx = math::MapToRange5f(0, w, -1.0,  1.0, x)
+ ny = math::MapToRange5f(0, h,  1.0, -1.0, y)
 
  Protected.vec3::vec3 vCenter, vClickPoint
  
@@ -214,9 +214,9 @@ EndModule
 
 
 
-; IDE Options = PureBasic 6.02 LTS (Windows - x64)
-; CursorPosition = 102
-; FirstLine = 98
+; IDE Options = PureBasic 6.02 LTS (Windows - x86)
+; CursorPosition = 140
+; FirstLine = 136
 ; Folding = --
 ; EnableXP
 ; EnableUser

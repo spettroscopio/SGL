@@ -31,8 +31,9 @@ Declare.i   Nearest (value.f) ; Returns the integer number nearest to value (0.5
 Declare.i   Ceiling (value.f) ; Returns the integer number just above or equal to value.
 Declare.i   Floor (value.f) ; Returns the integer number just below or equal to value.
 Declare.f   Lerp3f (a.f, b.f, factor.f) ; Interpolate a and b accordingly to the value of factor (0.0-1.0) acting like a mixing slider from left to right.
-Declare.i   MapToRange5i (val, low, high, new_low, new_high) ; Maps val in the range low ... high to the new range new_low ... new_high.
-Declare.f   MapToRange5f (val.f, low.f, high.f, new_low.f, new_high.f) ; Maps val in the range low ... high to the new range new_low ... new_high.
+Declare.f   MapToZeroOne (value.f, low.f, high.f) ; Maps val in the range low ... high to the new range 0.0 ... 1.0
+Declare.i   MapToRange5i (low, high, new_low, new_high, val) ; Maps val in the range low ... high to the new range new_low ... new_high.
+Declare.f   MapToRange5f (low.f, high.f, new_low.f, new_high.f, val.f) ; Maps val in the range low ... high to the new range new_low ... new_high.
 Declare.i   CloseEnough3f (a.f, b.f, epsilon.f) ; Compares two floats using the specified absolute tolerance, returns 1 if "equal" else 0.
 EndDeclareModule
 
@@ -227,7 +228,13 @@ Procedure.f Lerp3f (a.f, b.f, factor.f)
  ProcedureReturn (a * (1.0 - factor)) + (b * factor);
 EndProcedure
 
-Procedure.i MapToRange5i (val, low, high, new_low, new_high)
+Procedure.f MapToZeroOne (value.f, low.f, high.f)
+;> Maps val in the range low ... high to the new range 0.0 ... 1.0
+
+   ProcedureReturn (value - low) / (high - low)
+EndProcedure
+
+Procedure.i MapToRange5i (low, high, new_low, new_high, val)
 ;> Maps val in the range low ... high to the new range new_low ... new_high.
 
 ; MapToRange (10, 0, 100, 0, 255) = 25
@@ -235,7 +242,7 @@ Procedure.i MapToRange5i (val, low, high, new_low, new_high)
  ProcedureReturn new_low + (val - low) * (new_high - new_low) / (high - low)
 EndProcedure
 
-Procedure.f MapToRange5f (val.f, low.f, high.f, new_low.f, new_high.f)
+Procedure.f MapToRange5f (low.f, high.f, new_low.f, new_high.f, val.f)
 ;> Maps val in the range low ... high to the new range new_low ... new_high.
 
 ; MapToRangef (25.0, 0, 100.0, 0, 1.0) = 0.25
@@ -254,7 +261,7 @@ EndProcedure
 
 EndModule
 ; IDE Options = PureBasic 6.02 LTS (Windows - x86)
-; CursorPosition = 36
+; CursorPosition = 37
 ; Folding = -----
 ; EnableXP
 ; EnableUser
